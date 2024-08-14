@@ -26,23 +26,7 @@
       
       <div class="flex flex-1">
         <!-- Sidebar -->
-        <aside class="bg-purple-700 w-40 p-6">
-          <ul class="space-y-6">
-            <li class="text-white flex items-center space-x-2">
-              <div class="w-8 h-8 bg-purple-500 rounded-lg"></div>
-              <span>Overview</span>
-            </li>
-            <li class="text-white flex items-center space-x-2">
-              <div class="w-8 h-8 bg-purple-500 rounded-lg"></div>
-              <span>Daily Jogging</span>
-            </li>
-            <li class="text-white flex items-center space-x-2">
-              <div class="w-8 h-8 bg-purple-500 rounded-lg"></div>
-              <span>My Jogging</span>
-            </li>
-            <!-- Ajouter d'autres éléments de la barre latérale -->
-          </ul>
-        </aside>
+       
   
         <!-- Main Content -->
         <NuxtPage />
