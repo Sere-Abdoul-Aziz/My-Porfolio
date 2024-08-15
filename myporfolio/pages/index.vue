@@ -110,7 +110,81 @@
 
       </div>
 
+       <!-- Section des technologies placée en bas des fenêtres -->
+       <div id="technologies-section" class="mt-20 text-center">
+  <h2 class="text-5xl font-bold text-gray-200 mb-10">Technologies que j'utilise</h2>
+  <div id="cubes-container" class="cubes-container"></div>
+</div>
+
+<div id="certifications-section" class="certifications-section">
+    <h2 class="text-5xl font-bold text-gray-200 mb-10">Diplômes et Certifications Professionnelles</h2>
+
+    <!-- Sous-titre Diplômes -->
+    <h3 class="text-4xl font-bold text-gold mb-6">Diplômes</h3>
+    <div class="certificates-container">
+      <div v-for="(diplome, index) in diplomes" :key="index" class="certificate-card">
+        <img :src="diplome.image" alt="Diplôme Image" class="certificate-background" />
+        <div class="certificate-content">
+          <h4 class="certificate-title">{{ diplome.title }}</h4>
+          <p class="certificate-date">{{ diplome.date }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sous-titre Certifications -->
+    <h3 class="text-4xl font-bold text-gold mb-6 mt-10">Certifications</h3>
+    <div class="certificates-container">
+      <div v-for="(certification, index) in certifications" :key="index" class="certificate-card">
+        <img :src="certification.image" alt="Certification Image" class="certificate-background" />
+        <div class="certificate-content">
+          <h4 class="certificate-title">{{ certification.title }}</h4>
+          <p class="certificate-date">{{ certification.date }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
       
+  <div id="experience-section" class="experience-section">
+  <h2 class="experience-header">EXPÉRIENCE PROFESSIONNELLE</h2>
+  
+  <div class="experience-card">
+    <div class="experience-content">
+      <h3 class="experience-title">Développement Web, Applications Web et mobile | Webmaster</h3>
+      <p class="experience-company">2022-2024 | Jo'Fé Digital | 2 ans </p>
+    </div>
+  </div>
+</div>
+
+<div id="languages-section" class="languages-section">
+  <h2 class="text-5xl font-bold text-gray-200 mb-10">Langues</h2>
+
+  <div class="language-card">
+    <div class="language-header">
+      <img src="@/assets/images/france_flag.jpeg" alt="French Flag" class="flag-icon">
+      <h3 class="language-title">Français</h3>
+    </div>
+    <div class="progress-bar-container">
+      <div class="progress-bar" style="width: 100%;"></div>
+    </div>
+    <p class="progress-percentage">100%</p>
+  </div>
+
+  <div class="language-card">
+    <div class="language-header">
+      <img src="@/assets/images/uk_flag.jpeg" alt="English Flag" class="flag-icon">
+      <h3 class="language-title">Anglais</h3>
+    </div>
+    <div class="progress-bar-container">
+      <div class="progress-bar" style="width: 75%;"></div>
+    </div>
+    <p class="progress-percentage">75%</p>
+  </div>
+</div>
+
+
+
+
+
       
     </main>
   </div>
@@ -121,11 +195,49 @@
 import { onMounted, ref } from 'vue';
 import { gsap } from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js';
+
+
 import projet1Image from '@/assets/images/projet1.jpg';
 import projet2Image from '@/assets/images/projet2.jpeg';
 
+import vueLogo from '@/assets/images/vue.jpeg';
+import nuxtLogo from '@/assets/images/nuxt.jpeg';
+import flutterLogo from '@/assets/images/flutter.jpeg';
+import reactLogo from '@/assets/images/react.jpeg';
+import expressLogo from '@/assets/images/Express JS.jpeg';
+import nodejsLogo from '@/assets/images/nodejs.jpeg';
+import dockerLogo from '@/assets/images/docker.jpeg';
+import nextLogo from '@/assets/images/next.jpeg';
+import angularLogo from '@/assets/images/angular.jpeg';
+import adonisLogo from '@/assets/images/adonis.jpeg';
+
+import baccalaureatImage from '@/assets/images/Baccalauréat.jpeg';
+import cyclePreparatoireImage from '@/assets/images/prepa.png';
+import ingenieurImage from '@/assets/images/Ingenieur.png';
+import esbCertificationImage from '@/assets/images/ESB_logo.png';
+import azureCertificationImage from '@/assets/images/microsoft_logo.jpeg';
+import ccnaCertificationImage from '@/assets/images/cisco_logo.jpeg';
+import goldimage from '@/assets/images/gold.png';
+
 
 gsap.registerPlugin(ScrollTrigger);
+
+const technologies = ref([
+  { name: 'Vue.js', logo: vueLogo },
+  { name: 'Nuxt.js', logo: nuxtLogo },
+  { name: 'Flutter', logo: flutterLogo },
+  { name: 'React.js', logo: reactLogo },
+  { name: 'Express.js', logo: expressLogo },
+  { name: 'Node.js', logo: nodejsLogo },
+  { name: 'Docker', logo: dockerLogo },
+  { name: 'Next.js', logo: nextLogo },
+  { name: 'Angular', logo: angularLogo },
+  { name: 'Adonis.js', logo: adonisLogo },
+]);
 
 const projects = [
   {
@@ -143,6 +255,18 @@ const projects = [
   // Ajoutez plus de projets ici
 ];
 
+const diplomes = [
+  { title: "Baccalauréat Scientifique (D)", date: "2019", image: baccalaureatImage },
+  { title: "Diplôme D'Etudes Universitaires Du Premier Cycle Préparatoire en MATH-Physique Aux Etudes D'Ingénieurs", date: "2021", image: cyclePreparatoireImage },
+  { title: "Diplômes d'ingénieur Genie Logiciel", date: "2023", image: ingenieurImage },
+];
+
+const certifications = [
+  { title: "Entrepreneurship and Small Business (ESB)", date: "Jan 2024", image: esbCertificationImage },
+  { title: "Microsoft Certified: Azure Fundamentals", date: "Janv. 2023", image: azureCertificationImage },
+  { title: "CCNA: Switching, Routing, and Wireless Essentials", date: "Avril 2022", image: ccnaCertificationImage },
+];
+
 
 
 const heading1 = ref(null);
@@ -151,39 +275,81 @@ const glassBox = ref(null);
 const projectCards = ref([]);
 
 onMounted(() => {
-  gsap.from(heading1.value, { opacity: 0, y: -50, duration: 1, ease: 'power3.out' });
-  gsap.from(heading2.value, { opacity: 0, y: -50, duration: 1, delay: 0.3, ease: 'power3.out' });
-  gsap.from(glassBox.value, { opacity: 0, y: 50, duration: 1, delay: 0.6, ease: 'power3.out' });
-
-  projectCards.value.forEach((card, index) => {
-    gsap.from(card, {
-      opacity: 0,
-      y: 50,
-      duration: 1,
-      delay: 0.3 * index,
-      ease: 'power3.out',
-      scrollTrigger: {
-        trigger: card,
-        start: 'top 80%',
-        end: 'bottom 60%',
-        toggleActions: 'play none none reverse',
-      },
-    });
-  });
-  gsap.fromTo('.parallax-container', 
-  { background: 'linear-gradient(135deg, #145DA0, #145DA0)' }, 
-    { 
-      background: 'linear-gradient(135deg, #0C2D48, #0C2D48)',
-      ease: 'none',
-      scrollTrigger: {
-        trigger: '.parallax-container',
-        start: 'top top',
-        end: 'bottom bottom',
-        scrub: true,
-      }
-    }
-  );
+  const scene = new THREE.Scene();
   
+  const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  const controls = new OrbitControls(camera, renderer.domElement);
+  controls.enableZoom = false;
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  document.getElementById('cubes-container').appendChild(renderer.domElement);
+
+  const geometry = new RoundedBoxGeometry(1.5, 1.5, 1.5, 10, 0.4); 
+
+  const textureLoader = new THREE.TextureLoader();
+
+  const textures = [
+    textureLoader.load(vueLogo),
+    textureLoader.load(nuxtLogo),
+    textureLoader.load(flutterLogo),
+    textureLoader.load(reactLogo),
+    textureLoader.load(expressLogo),
+    textureLoader.load(nodejsLogo),
+    textureLoader.load(dockerLogo),
+    textureLoader.load(nextLogo),
+    textureLoader.load(angularLogo),
+    textureLoader.load(adonisLogo),
+  ];
+
+  const cubes = textures.map(texture => {
+    const material = new THREE.MeshBasicMaterial({ map: texture, transparent: true, opacity: 0.8 });
+    const cube = new THREE.Mesh(geometry, material);
+    scene.add(cube);
+    return cube;
+  });
+
+  cubes.forEach((cube, i) => {
+    cube.position.x = (i % 4) * 3 - 4.5;
+    cube.position.y = Math.floor(i / 4) * 3 - 1.5;
+    cube.position.z = Math.random() * 4 - 2;
+
+    const rotationDuration = Math.random() * 5 + 5;  // Durée de rotation aléatoire entre 3 et 8 secondes
+  const floatDuration = Math.random() * 2 + 5;  // Durée de flottement aléatoire entre 2 et 4 secondes
+  const floatAmount = Math.random() * 1 + 0.5;  // Amplitude de flottement aléatoire
+
+  gsap.to(cube.rotation, {
+    y: Math.PI * 2,
+    duration: rotationDuration,
+    repeat: -1,
+    ease: "none"
+  });
+
+  gsap.to(cube.position, {
+    y: cube.position.y + floatAmount,
+    duration: floatDuration,
+    yoyo: true,
+    repeat: -1,
+    ease: "sine.inOut"
+  });
+  });
+
+  camera.position.z = 10;
+
+  function animate() {
+    requestAnimationFrame(animate);
+    controls.update();
+    renderer.render(scene, camera);
+  }
+
+  animate();
+
+  window.addEventListener('resize', () => {
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+    renderer.setSize(width, height);
+    camera.aspect = width / height;
+    camera.updateProjectionMatrix();
+  });
 });
 </script>
 
@@ -193,7 +359,7 @@ onMounted(() => {
   position: relative;
   overflow: hidden;
   background: linear-gradient(135deg, rgba(10, 25, 45, 0.9), rgba(15, 30, 50, 0.7));
-  height: 1000vh;
+  height: auto;
   width: 100vw;
   display: flex;
   flex-direction: column;
@@ -336,7 +502,7 @@ onMounted(() => {
               radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.05), transparent);
   mix-blend-mode: overlay;
   pointer-events: none;
-  z-index: 1; /* Mettre les effets de lumière en dessous de l'image de l'iceberg */
+  z-index: 1; 
 }
 .see-more-button {
   margin-top: 2rem;
@@ -366,7 +532,7 @@ onMounted(() => {
 /* @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap'); */
 
 .window-card {
-  position: absolute;
+  position: relative;
   width: 400px;
   background-color: #1e1e1e;
   border: 1px solid #3c3c3c;
@@ -377,6 +543,7 @@ onMounted(() => {
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  margin-bottom: 40px; 
 }
 
 .window-header {
@@ -455,66 +622,228 @@ onMounted(() => {
 }
 
 .portrait-card {
-  top: 120px;
-  right: -200px;
+  bottom: 100px;
+  right: -500px;
 }
 
 .collaboration-card {
-  top: 480px;
-  right: 550px;
+  bottom: 300px;
+  right: 100px;
 }
 
 .online-card {
-  top: 300px;
-  right: 300px;
+  top: -650px;
+  left: 150px;
 }
 
 .hobbies-card {
-  top: 450px;
+  bottom: 600px;
   left: 300px;
+}
+
+#interactive-developer-wrapper {
+  /* margin-bottom: 80px;  */
+  height: 30%; /* Définir une hauteur fixe */
 }
 
 .technologies-section {
   text-align: center;
+ 
+}
+#technologies-section {
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  /* background: linear-gradient(135deg, rgba(10, 25, 45, 0.9), rgba(15, 30, 50, 0.7)); */
 }
 
-.tech-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(2, 1fr);
-  gap: 2rem;
-  justify-content: center;
-  align-items: center;
+.cubes-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
 }
 
-.tech-bubble {
-  width: 150px;
-  height: 150px;
-  background: linear-gradient(145deg, #2e2e2e, #1c1c1c);
-  border-radius: 50%;
+.certifications-section {
+  padding: 2rem;
+ 
+  text-align: center;
+  position: relative; /* Pour le positionnement z-index des cartes */
+ 
+  
+}
+
+.certificate-card {
+  position: relative;
+  z-index: 2; /* S'assurer que les cartes sont au-dessus du fond */
+  width: 300px;
+  margin: 1rem;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); /* Augmentation de l'ombre pour plus de profondeur */
+  backdrop-filter: blur(5px);
+}
+
+
+.text-gold {
+  color: #d4af37;
+}
+
+.certificates-container {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  box-shadow: 5px 5px 15px #000000, -5px -5px 15px #3c3c3c;
-  transition: transform 0.3s ease-in-out;
+  flex-wrap: wrap;
+  justify-content: space-around;
 }
 
-.tech-bubble:hover {
-  transform: scale(1.1);
+
+
+.certificate-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.5;
+  z-index: 1;
+  border-radius: 15px;
+  
 }
 
-.tech-logo {
-  width: 70px;
-  height: 70px;
-  object-fit: contain;
+.certificate-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
 }
 
-.tech-name {
-  margin-top: 0.5rem;
-  color: #d4d4d4;
+.certificate-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  color: #fff;
+}
+
+.certificate-date {
   font-size: 1rem;
+  color: #d4af37;
 }
+
+.experience-section {
+  padding: 2rem;
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+  border-radius: 15px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  margin-top: 4rem;
+}
+
+.experience-header {
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: #343a40;
+  margin-bottom: 2rem;
+  border-bottom: 2px solid #6c757d;
+  display: inline-block;
+  padding-bottom: 0.5rem;
+}
+
+.experience-card {
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  padding: 1.5rem;
+  margin: 1rem auto;
+  max-width: 600px;
+  text-align: left;
+}
+
+.experience-title {
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: #495057;
+}
+
+.experience-company {
+  font-size: 1.1rem;
+  color: #6c757d;
+}
+
+.experience-content {
+  position: relative;
+  z-index: 2;
+}
+.languages-section {
+  padding: 2rem;
+  text-align: center;
+  margin-top: 4rem;
+  background: url('@/assets/images/map_background.jpg') no-repeat center center;
+  background-size: cover;
+  border-radius: 15px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.language-card {
+  background: rgba(255, 255, 255, 0.2); /* Transparent white with a hint of color */
+  border-radius: 15px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 1.5rem;
+  margin: 1rem auto;
+  max-width: 600px;
+  text-align: left;
+  position: relative;
+}
+
+.language-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.flag-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.language-title {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: #34495e;
+}
+
+.progress-bar-container {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+  overflow: hidden;
+  height: 20px;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(135deg, #ff7675, #f5f5f5);
+  border-radius: 10px;
+  transition: width 1s ease-in-out;
+}
+
+.progress-percentage {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.2rem;
+  color: #34495e;
+  font-weight: 600;
+}
+
+
 
 
 </style>
