@@ -112,15 +112,20 @@
 
        <!-- Section des technologies placée en bas des fenêtres -->
        <div id="technologies-section" class="mt-20 text-center">
-  <h2 class="text-5xl font-bold text-gray-200 mb-10">Technologies que j'utilise</h2>
+        <h1 ref="heading1" class="text-gray-200 text-3xl md:text-6xl font-bold leading-tight">
+         Mes <span class="text-primary text-blue-400">Technologies</span> Favorites
+        </h1>
+  
   <div id="cubes-container" class="cubes-container"></div>
 </div>
 
 <div id="certifications-section" class="certifications-section">
-    <h2 class="text-5xl font-bold text-gray-200 mb-10">Diplômes et Certifications Professionnelles</h2>
-
+    
+    <h1 ref="heading1" class="text-gray-200 text-3xl md:text-6xl font-bold leading-tight">
+      Diplômes et Certifications <span class="text-primary text-blue-400">Professionnelles</span> 
+        </h1>
     <!-- Sous-titre Diplômes -->
-    <h3 class="text-4xl font-bold text-gold mb-6">Diplômes</h3>
+    <h3 class="text-4xl font-bold text-gold mt-8 mb-8">Diplômes</h3>
     <div class="certificates-container">
       <div v-for="(diplome, index) in diplomes" :key="index" class="certificate-card">
         <img :src="diplome.image" alt="Diplôme Image" class="certificate-background" />
@@ -156,37 +161,54 @@
 </div>
 
 <div id="languages-section" class="languages-section">
-  <h2 class="text-5xl font-bold text-gray-200 mb-10">Langues</h2>
 
-  <div class="language-card">
-    <div class="language-header">
-      <img src="@/assets/images/france_flag.jpeg" alt="French Flag" class="flag-icon">
+  
+  <h1 ref="heading1" class="text-red-500 text-3xl mb-6 md:text-6xl font-bold leading-tight text-center">
+    Langues <span class="text-primary text-blue-400">Parlées</span> 
+</h1>
+
+
+  <div class="language-item">
+    <img src="@/assets/images/france_flag.jpeg" alt="French Flag" class="flag-icon">
+    <div class="language-details">
       <h3 class="language-title">Français</h3>
+      <div class="progress-bar-container">
+        <div class="progress-bar" style="width: 100%;"></div>
+      </div>
     </div>
-    <div class="progress-bar-container">
-      <div class="progress-bar" style="width: 100%;"></div>
-    </div>
-    <p class="progress-percentage">100%</p>
   </div>
 
-  <div class="language-card">
-    <div class="language-header">
-      <img src="@/assets/images/uk_flag.jpeg" alt="English Flag" class="flag-icon">
+  <div class="language-item">
+    <img src="@/assets/images/uk_flag.jpeg" alt="English Flag" class="flag-icon">
+    <div class="language-details">
       <h3 class="language-title">Anglais</h3>
+      <div class="progress-bar-container">
+        <div class="progress-bar" style="width: 75%;"></div>
+      </div>
     </div>
-    <div class="progress-bar-container">
-      <div class="progress-bar" style="width: 75%;"></div>
-    </div>
-    <p class="progress-percentage">75%</p>
   </div>
 </div>
 
-
-
-
+<!-- Section d'appel à l'action -->
+<div id="cta-section" class="cta-section glassmorphism-box flex flex-col items-center mt-20 p-8 rounded-lg">
+  <div class="cta-header bg-dark-800 text-white p-2 rounded-t-lg w-full text-center">Collaboration</div>
+  
+  <div class="cta-content p-6 flex flex-col md:flex-row items-center">
+    <img src="@/assets/images/profil.jpeg" alt="Mon Portrait" class="cta-image w-32 h-32 md:w-48 md:h-48 rounded-full shadow-lg mr-0 md:mr-8 mb-4 md:mb-0">
+    
+    <div class="cta-text flex-grow">
+      <p class="text-white text-lg mb-4">Je suis toujours ouvert à de nouvelles collaborations. Que ce soit pour un projet de développement web, une idée innovante, ou simplement pour discuter des technologies, n'hésitez pas à me contacter. Ensemble, nous pouvons transformer vos idées en réalité.</p>
+      <button class="cta-button bg-blue-500 text-white py-2 px-4 rounded-lg shadow-lg hover:bg-blue-600 transition-all">Prenons contact</button>
+    </div>
+  </div>
+</div>
 
       
     </main>
+
+    <div class="bottom-image-container">
+      <img src="@/assets/images/epave.png" alt="Bottom Image" class="bottom-image" />
+    </div>
   </div>
 </template>
 
@@ -333,6 +355,30 @@ onMounted(() => {
   });
   });
 
+  const parallaxContainer = document.querySelector('.parallax-container');
+
+  window.addEventListener('scroll', () => {
+    const scrollPosition = window.scrollY;
+    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+    const scrollRatio = Math.min(scrollPosition / maxScroll, 1); // Ratio between 0 and 1
+
+    // Calculer les nouvelles valeurs des couleurs
+    const startColor1 = [10, 25, 45];
+    const startColor2 = [15, 30, 50];
+    const endColor1 = [0, 10, 20];
+    const endColor2 = [5, 15, 30];
+
+    const newColor1 = startColor1.map((start, index) => 
+      Math.round(start + (endColor1[index] - start) * scrollRatio)
+    );
+    const newColor2 = startColor2.map((start, index) => 
+      Math.round(start + (endColor2[index] - start) * scrollRatio)
+    );
+
+    // Appliquer la nouvelle couleur de fond
+    parallaxContainer.style.background = `linear-gradient(135deg, rgba(${newColor1.join(',')}, ${0.9 + scrollRatio * 0.1}), rgba(${newColor2.join(',')}, ${0.7 + scrollRatio * 0.3}))`;
+  });
+
   camera.position.z = 10;
 
   function animate() {
@@ -350,6 +396,92 @@ onMounted(() => {
     camera.aspect = width / height;
     camera.updateProjectionMatrix();
   });
+
+   // GSAP ScrollTrigger animations
+   gsap.from(".iceberg-image", {
+    opacity: 0,
+    y: -100,
+    duration: 1.5,
+    ease: "power2.out",
+    scrollTrigger: {
+      trigger: ".iceberg-image",
+      start: "top 80%",
+    }
+  });
+
+  gsap.from(".content h1", {
+    opacity: 0,
+    scale: 0.9,
+    duration: 1.5,
+    ease: "elastic.out(1, 0.3)",
+    stagger: 0.2,
+    scrollTrigger: {
+      trigger: ".content",
+      start: "top 80%",
+    }
+  });
+
+  gsap.from(".glassmorphism-box", {
+    opacity: 0,
+    y: 50,
+    duration: 1,
+    delay: 0.5,
+    ease: "power2.out",
+    scrollTrigger: {
+      trigger: ".glassmorphism-box",
+      start: "top 80%",
+    }
+  });
+
+  gsap.from(".project-card", {
+    opacity: 0,
+    y: 100,
+    duration: 1,
+    ease: "power2.out",
+    stagger: 0.3,
+    scrollTrigger: {
+      trigger: "#projects-section",
+      start: "top 80%",
+    }
+  });
+
+  gsap.from(".window-card", {
+    opacity: 0,
+    x: 100,
+    duration: 1,
+    ease: "power2.out",
+    stagger: 0.3,
+    scrollTrigger: {
+      trigger: "#interactive-developer-wrapper",
+      start: "top 80%",
+    }
+  });
+  
+
+  gsap.from(".cta-section", {
+    
+    scale: 0.8,
+    duration: 1.5,
+    ease: "elastic.out(1, 0.3)",
+    scrollTrigger: {
+      trigger: "#cta-section",
+      start: "top 80%",
+      toggleActions: "play none none none",
+    }
+  });
+
+  gsap.from(".bottom-image-container", {
+    opacity: 0,
+    y: 100,
+    duration: 1.5,
+    ease: "power2.out",
+    scrollTrigger: {
+      trigger: ".bottom-image-container",
+      start: "top 80%",
+    }
+  });
+
+  
 });
 </script>
 
@@ -366,7 +498,9 @@ onMounted(() => {
   align-items: center;
   justify-content: flex-start;
   padding-top: 50px;
+  transition: background 0.3s ease;
 }
+
 
 .iceberg-container {
 
@@ -643,7 +777,7 @@ onMounted(() => {
 
 #interactive-developer-wrapper {
   /* margin-bottom: 80px;  */
-  height: 30%; /* Définir une hauteur fixe */
+  height: 15%; /* Définir une hauteur fixe */
 }
 
 .technologies-section {
@@ -715,6 +849,9 @@ onMounted(() => {
   position: relative;
   z-index: 2;
   text-align: center;
+  color: #d4d4d4;
+  font-family: 'Fira Code', monospace;
+  text-align: justify;
 }
 
 .certificate-title {
@@ -768,39 +905,51 @@ onMounted(() => {
 .experience-company {
   font-size: 1.1rem;
   color: #6c757d;
+  
 }
 
 .experience-content {
   position: relative;
   z-index: 2;
-}
-.languages-section {
-  padding: 2rem;
-  text-align: center;
-  margin-top: 4rem;
-  background: url('@/assets/images/map_background.jpg') no-repeat center center;
-  background-size: cover;
-  border-radius: 15px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  
 }
 
-.language-card {
-  background: rgba(255, 255, 255, 0.2); /* Transparent white with a hint of color */
-  border-radius: 15px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  padding: 1.5rem;
-  margin: 1rem auto;
-  max-width: 600px;
+.languages-section {
+  padding: 2rem;
+  margin-top: 4rem;
+  background: url('@/assets/images/cartepostal.png') no-repeat center center;
+  background-size: cover;
+  position: relative;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  height: 10%;
+  width: 100%;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
   text-align: left;
+  font-family: 'Georgia', serif;
+  color: #333;
+}
+
+.language-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-left: 1rem;
   position: relative;
 }
 
-.language-header {
-  display: flex;
-  align-items: center;
-  margin-bottom: 1rem;
+.language-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 8px;
+  height: 8px;
+  background-color: #333;
+  border-radius: 50%;
 }
 
 .flag-icon {
@@ -808,39 +957,147 @@ onMounted(() => {
   height: 40px;
   border-radius: 50%;
   margin-right: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  border: 2px solid #333; /* Pour imiter l'apparence d'un timbre */
+}
+
+.language-details {
+  flex-grow: 1;
+  padding-left: 10px;
+  /* color: #d4d4d4; */
+  font-family: 'Fira Code', monospace;
+  text-align: justify;
 }
 
 .language-title {
-  font-size: 1.75rem;
-  font-weight: 600;
-  color: #34495e;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
 }
 
 .progress-bar-container {
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(240, 240, 240, 0.8);
   border-radius: 10px;
   overflow: hidden;
-  height: 20px;
+  height: 15px;
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  margin-top: 5px;
 }
 
 .progress-bar {
   height: 100%;
-  background: linear-gradient(135deg, #ff7675, #f5f5f5);
+  background-color: #333;
   border-radius: 10px;
   transition: width 1s ease-in-out;
 }
 
-.progress-percentage {
+.cta-section {
+  opacity: 1; /* Assurez-vous que c'est 1 */
+  display: block; /* Assurez-vous que display est block */
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative; /* Assurez-vous que c'est en place */
+  z-index: 10; /* Assurez-vous qu'elle est au-dessus d'autres éléments */
+  opacity: 1; /* Assurez-vous que l'opacité est définie sur 1 */
+  transform: translateY(0); /* Pour assurer qu'elle n'est pas hors de l'écran */
+  
+}
+
+.cta-header {
+  background-color: #1e1e1e;
+  font-family: 'Fira Code', monospace;
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.cta-content {
+  display: flex;
+  align-items: center;
+  text-align: left;
+}
+
+.cta-image {
+  border: 3px solid rgba(255, 255, 255, 0.5);
+}
+
+.cta-text {
+  color: #d4d4d4;
+  font-family: 'Fira Code', monospace;
+  text-align: justify;
+}
+
+.cta-button {
+  background-color: #007acc;
+  color: white;
+  font-family: 'Fira Code', monospace;
+  font-size: 1rem;
+  padding: 10px 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 122, 204, 0.5);
+  transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease, rotate 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-button:hover {
+  background-color: #005f99;
+  transform: scale(1.1) rotate(-3deg);
+  box-shadow: 0 8px 30px rgba(0, 122, 204, 0.7);
+}
+
+.cta-button::before {
+  content: '';
   position: absolute;
-  right: 20px;
   top: 50%;
-  transform: translateY(-50%);
-  font-size: 1.2rem;
-  color: #34495e;
-  font-weight: 600;
+  left: 50%;
+  width: 300%;
+  height: 300%;
+  background: rgba(255, 255, 255, 0.1);
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform 0.5s ease;
+  border-radius: 50%;
+}
+
+.cta-button:hover::before {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+/* Style pour l'image en bas de la page */
+.bottom-image-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.bottom-image {
+  width: 100%;
+  object-fit: cover;
+  z-index: 5;
+  position: relative;
+}
+
+/* Superposition pour assombrir l'image du haut vers le bas */
+.bottom-image-container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, rgb(30, 32, 46), rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0));
+  z-index: 6;
 }
 
 
