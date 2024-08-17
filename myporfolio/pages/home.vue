@@ -1,0 +1,63 @@
+<template>
+  <div id="parallax-container" class="parallax-container">
+    <IcebergImage />
+    <main class="content flex-grow flex flex-col justify-center items-center text-center px-4 ">
+      <h1 class="text-gray-200 text-8xl md:text-7xl font-bold leading-tight ">
+        Bonjour, je suis <span class="text-primary text-blue-400">SERE</span>,
+      </h1>
+      <h1 class="text-behind text-gray-200 text-8xl md:text-7xl font-bold leading-tight devant">
+        <span class="text-primary">Ingénieur en Génie Logiciel</span> <span class="text-primary text-blue-400">Fullstack</span>
+      </h1>
+      <GlassBox />
+      <h1 class="text-gray-200 text-3xl md:text-6xl  font-bold leading-tight devant mt-20">
+        PROJETS <span class="text-primary text-blue-400">VEDETTES</span>
+      </h1>
+      <ProjectsSection />
+      <InteractiveDeveloperSection />
+      <TechnologiesSection />
+      <CertificationsSection />
+      <ExperienceSection />
+      <LanguagesSection />
+      <CtaSection /> 
+    </main>
+    <BottomImage />
+  </div>
+</template>
+
+<script setup>
+import IcebergImage from '@/components/IcebergImage.vue';
+import GlassBox from '@/components/GlassBox.vue';
+import ProjectsSection from '@/components/ProjectsSection.vue';
+import InteractiveDeveloperSection from '@/components/InteractiveDeveloperSection.vue';
+import TechnologiesSection from '@/components/TechnologiesSection.vue';
+import CertificationsSection from '@/components/CertificationsSection.vue';
+import ExperienceSection from '@/components/ExperienceSection.vue';
+import LanguagesSection from '@/components/LanguagesSection.vue';
+import CtaSection from '@/components/CtaSection.vue';
+import BottomImage from '@/components/BottomImage.vue';
+
+
+</script>
+
+<style scoped>
+.devant {
+  z-index: 1;
+}
+.parallax-container {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(to bottom, rgba(10, 25, 45, 0.9), rgb(19, 19, 19));
+  height: auto;
+  width: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 50px;
+  transition: background 0.3s ease;
+}
+
+
+
+
+</style>

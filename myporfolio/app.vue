@@ -1,14 +1,28 @@
 <template>
-  <NuxtLayout>
-    <NuxtPage />
-  </NuxtLayout>
+  <div id="app">
+    <Header />
+    <router-view />
+  </div>
 </template>
 
+<script>
+import Header from './components/Header.vue';
 
-<script setup>
-// Vous pouvez ajouter du code global ici si nécessaire
+export default {
+  name: 'App',
+  components: {
+    Header,
+  },
+};
 </script>
 
-<style scoped>
-/* Vous pouvez ajouter des styles globaux ici */
+<style>
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* Masquer le défilement horizontal */
+  overflow-y: scroll;
+  /* overflow-y: hidden; */
+}
+
 </style>
