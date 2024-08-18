@@ -28,6 +28,40 @@
 </div>
 </div>
   </template>
+
+<script setup>
+import { onMounted } from 'vue';
+import gsap from 'gsap';
+import ScrollTrigger from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
+
+onMounted(() => {
+  gsap.from('.language-item', {
+    opacity: 0,
+    x: -100,
+    duration: 1.2,
+    ease: 'power2.out',
+    stagger: 0.3,
+    scrollTrigger: {
+      trigger: '#languages-section',
+      start: 'top 80%',
+      toggleActions: 'play none none none',
+    },
+  });
+
+  gsap.from('.progress-bar', {
+    width: 0,
+    duration: 1.5,
+    ease: 'power2.out',
+    scrollTrigger: {
+      trigger: '#languages-section',
+      start: 'top 80%',
+      toggleActions: 'play none none none',
+    },
+  });
+});
+</script>
   
   <style scoped>
   .languages-section {

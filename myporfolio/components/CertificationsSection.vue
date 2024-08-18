@@ -36,6 +36,7 @@
     import azureCertificationImage from '@/assets/images/microsoft_logo.jpeg';
     import ccnaCertificationImage from '@/assets/images/cisco_logo.jpeg';
     import goldimage from '@/assets/images/gold.png';
+    import gsap from 'gsap';
 
     const diplomes = [
   { title: "Baccalauréat Scientifique (D)", date: "2019", image: baccalaureatImage },
@@ -48,6 +49,21 @@ const certifications = [
   { title: "Microsoft Certified: Azure Fundamentals", date: "Janv. 2023", image: azureCertificationImage },
   { title: "CCNA: Switching, Routing, and Wireless Essentials", date: "Avril 2022", image: ccnaCertificationImage },
 ];
+
+onMounted(() => {
+  gsap.from('.certificate-card', {
+    y: 100,
+    opacity: 0,
+    duration: 1.5,
+    stagger: 0.3,
+    ease: 'power4.out',
+    scrollTrigger: {
+      trigger: '#certifications-section',
+      start: 'top 100%',
+      toggleActions: 'play none none none', // L'animation se joue une fois lorsque l'élément devient visible
+    }
+  });
+});
   </script>
   
   <style scoped>

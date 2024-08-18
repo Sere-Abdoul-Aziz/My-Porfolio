@@ -62,6 +62,39 @@
   
   <script setup>
 
+import { onMounted } from 'vue';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
+
+onMounted(() => {
+  const cards = document.querySelectorAll('.window-card');
+
+  cards.forEach((card, index) => {
+    gsap.fromTo(card, 
+      {
+        opacity: 0,
+        y: 50,
+        rotate: 10,
+      },
+      {
+        opacity: 1,
+        y: 0,
+        rotate: 0,
+        duration: 1,
+        delay: index * 0.3,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: card,
+          start: 'top 80%', 
+          toggleActions: 'play none none none', 
+        },
+      }
+    );
+  });
+});
+
   </script>
   
   <style scoped>

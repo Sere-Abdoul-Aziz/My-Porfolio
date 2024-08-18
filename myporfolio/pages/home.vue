@@ -36,7 +36,52 @@ import LanguagesSection from '@/components/LanguagesSection.vue';
 import CtaSection from '@/components/CtaSection.vue';
 import BottomImage from '@/components/BottomImage.vue';
 
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
+gsap.registerPlugin(ScrollTrigger);
+
+onMounted(() => {
+  // Animation pour les titres
+  gsap.from("h1", {
+    opacity: 0,
+    y: -50,
+    duration: 1.5,
+    ease: "power3.out",
+    stagger: 0.3,
+    scrollTrigger: {
+      trigger: "h1",
+      start: "top 80%",
+    }
+  });
+
+  // Animation pour GlassBox
+  gsap.from(".glassmorphism-box", {
+    opacity: 0,
+    y: 50,
+    duration: 1.2,
+    delay: 0.5,
+    ease: "power2.out",
+    scrollTrigger: {
+      trigger: ".glassmorphism-box",
+      start: "top 80%",
+    }
+  });
+
+  // Animation pour les sections des projets
+ 
+  // Animation pour l'image du bas
+  gsap.from(".bottom-image-container", {
+    opacity: 0,
+    y: 100,
+    duration: 1.5,
+    ease: "power2.out",
+    scrollTrigger: {
+      trigger: ".bottom-image-container",
+      start: "top 80%",
+    }
+  });
+});
 </script>
 
 <style scoped>
@@ -56,8 +101,4 @@ import BottomImage from '@/components/BottomImage.vue';
   padding-top: 50px;
   transition: background 0.3s ease;
 }
-
-
-
-
 </style>

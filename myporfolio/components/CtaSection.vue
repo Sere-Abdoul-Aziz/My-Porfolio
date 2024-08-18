@@ -6,12 +6,88 @@
       <img src="@/assets/images/profil.jpeg" alt="Mon Portrait" class="cta-image w-32 h-32 md:w-48 md:h-48 rounded-full shadow-lg mr-0 md:mr-8 mb-4 md:mb-0">
       
       <div class="cta-text flex-grow">
-        <p class="text-white text-lg mb-4">Je suis toujours ouvert à de nouvelles collaborations. Que ce soit pour un projet de développement web, une idée innovante, ou simplement pour discuter des technologies, n'hésitez pas à me contacter. Ensemble, nous pouvons transformer vos idées en réalité.</p>
+        <p ref="typewriterText" class="text-white text-lg mb-4">
+          <!-- Le texte initial peut être vide -->
+        </p>
         <button class="cta-button bg-blue-500 text-white py-2 px-4 rounded-lg shadow-lg hover:bg-blue-600 transition-all">Prenons contact</button>
       </div>
     </div>
   </div>
 </template>
+
+<script setup>
+import { onMounted, ref } from 'vue';
+import gsap from 'gsap';
+import ScrollTrigger from 'gsap/ScrollTrigger';
+import { TextPlugin } from 'gsap/TextPlugin';
+
+gsap.registerPlugin(ScrollTrigger, TextPlugin);
+
+const typewriterText = ref(null);
+
+onMounted(() => {
+  const textContent = "Je suis toujours ouvert à de nouvelles collaborations. Que ce soit pour un projet de développement web, une idée innovante, ou simplement pour discuter des technologies, n'hésitez pas à me contacter. Ensemble, nous pouvons transformer vos idées en réalité.";
+
+  gsap.from('#cta-section', {
+    opacity: 0,
+    y: 50,
+    duration: 1.5,
+    ease: 'power2.out',
+    scrollTrigger: {
+      trigger: '#cta-section',
+      start: 'top 80%',
+      toggleActions: 'play none none none',
+    },
+  });
+
+  gsap.from('.cta-image', {
+    scale: 0.8,
+    rotation: 15,
+    duration: 1.2,
+    ease: 'elastic.out(1, 0.3)',
+    scrollTrigger: {
+      trigger: '#cta-section',
+      start: 'top 80%',
+      toggleActions: 'play none none none',
+    },
+  });
+
+  gsap.from('.cta-text', {
+    opacity: 0,
+    x: -50,
+    duration: 1.2,
+    ease: 'power2.out',
+    scrollTrigger: {
+      trigger: '#cta-section',
+      start: 'top 80%',
+      toggleActions: 'play none none none',
+    },
+  });
+
+  gsap.to(typewriterText.value, {
+    text: textContent,
+    duration: 5,
+    ease: "none",
+    scrollTrigger: {
+      trigger: '#cta-section',
+      start: 'top 80%',
+      toggleActions: 'play none none none',
+    }
+  });
+
+  gsap.from('.cta-button', {
+    opacity: 0,
+    scale: 0.5,
+    duration: 1.2,
+    ease: 'back.out(1.7)',
+    scrollTrigger: {
+      trigger: '#cta-section',
+      start: 'top 80%',
+      toggleActions: 'play none none none',
+    },
+  });
+});
+</script>
 
 <style scoped>
 .cta-section {
@@ -29,7 +105,7 @@
   position: relative;
   z-index: 10;
   transform: translateY(0);
-  margin-top: 200px; /* Ajuster la marge supérieure ici */
+  margin-top: 200px;
   margin-bottom: 200px;
 }
 

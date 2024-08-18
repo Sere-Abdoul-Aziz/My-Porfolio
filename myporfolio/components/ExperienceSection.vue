@@ -10,6 +10,40 @@
       </div>
     </div>
   </template>
+
+<script setup>
+import { onMounted } from 'vue';
+import gsap from 'gsap';
+import ScrollTrigger from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
+
+onMounted(() => {
+  gsap.from('.experience-card', {
+    opacity: 0,
+    y: 50,
+    duration: 1.5,
+    ease: 'power2.out',
+    scrollTrigger: {
+      trigger: '.experience-section',
+      start: 'top 80%',
+      toggleActions: 'play none none none',
+    },
+  });
+
+  gsap.from('.experience-header', {
+    opacity: 0,
+    scale: 0.8,
+    duration: 1,
+    ease: 'elastic.out(1, 0.5)',
+    scrollTrigger: {
+      trigger: '.experience-section',
+      start: 'top 100%',
+      toggleActions: 'play none none none',
+    },
+  });
+});
+</script>
   
   <style scoped>
   .experience-section {
