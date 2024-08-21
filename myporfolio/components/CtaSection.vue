@@ -3,15 +3,20 @@
     <div class="cta-header bg-dark-800 text-white p-2 rounded-t-lg w-full text-center">Collaboration</div>
     
     <div class="cta-content p-6 flex flex-col md:flex-row items-center">
-      <img src="@/assets/images/profil.jpeg" alt="Mon Portrait" class="cta-image w-32 h-32 md:w-48 md:h-48 rounded-full shadow-lg mr-0 md:mr-8 mb-4 md:mb-0">
+      <img src="@/assets/images/profil.png" alt="Mon Portrait" class="cta-image w-32 h-32 md:w-48 md:h-48 rounded-full shadow-lg mr-0 md:mr-8 mb-4 md:mb-0">
       
       <div class="cta-text flex-grow">
         <p ref="typewriterText" class="text-white text-lg mb-4">
           <!-- Le texte initial peut être vide -->
         </p>
-        <button class="cta-button bg-blue-500 text-white py-2 px-4 rounded-lg shadow-lg hover:bg-blue-600 transition-all">Prenons contact</button>
+        <button @click="openContactModal" class="cta-button bg-blue-500 text-white py-2 px-4 rounded-lg shadow-lg hover:bg-blue-600 transition-all">Prenons contact</button>
+      
+      
       </div>
     </div>
+  </div>
+  <div>
+    <ContactModal v-if="isContactModalOpen" :isOpen="isContactModalOpen" @close="closeContactModal" @submit="handleFormSubmit" />
   </div>
 </template>
 
@@ -20,13 +25,14 @@ import { onMounted, ref } from 'vue';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import { TextPlugin } from 'gsap/TextPlugin';
+import ContactModal from './ContactModal.vue';
 
 gsap.registerPlugin(ScrollTrigger, TextPlugin);
 
 const typewriterText = ref(null);
 
 onMounted(() => {
-  const textContent = "Je suis toujours ouvert à de nouvelles collaborations. Que ce soit pour un projet de développement web, une idée innovante, ou simplement pour discuter des technologies, n'hésitez pas à me contacter. Ensemble, nous pouvons transformer vos idées en réalité.";
+  const textContent = "Je suis toujours ouvert à de nouvelles collaborations. Que ce soit pour un projet web, une application mobile, un logiciel, ou simplement pour discuter des technologies, n'hésitez pas à me contacter. Ensemble, nous pouvons transformer vos idées en réalité.";
 
   gsap.from('#cta-section', {
     opacity: 0,
@@ -86,7 +92,47 @@ onMounted(() => {
       toggleActions: 'play none none none',
     },
   });
+
+  // Animation au survol du bouton
+  const button = document.querySelector('.cta-button');
+  button.addEventListener('mouseenter', () => {
+    gsap.to(button, {
+      scale: 1.1,
+      rotate: -5,
+      backgroundColor: '#005f99',
+      boxShadow: '0 8px 30px rgba(0, 122, 204, 0.7)',
+      duration: 0.1,
+      ease: 'back.out(1.7)',
+    });
+  });
+
+  button.addEventListener('mouseleave', () => {
+    gsap.to(button, {
+      scale: 1,
+      rotate: 0,
+      backgroundColor: '#007acc',
+      boxShadow: '0 4px 15px rgba(0, 122, 204, 0.5)',
+      duration: 0.1,
+      ease: 'power2.out',
+    });
+  });
 });
+
+const isContactModalOpen = ref(false);
+
+const openContactModal = () => {
+  isContactModalOpen.value = true;
+};
+
+const closeContactModal = () => {
+  isContactModalOpen.value = false;
+};
+
+const handleFormSubmit = (formData) => {
+  console.log('Form Submitted:', formData);
+  
+  alert(`Merci, ${formData.firstName}! Votre message a été envoyé.`);
+};
 </script>
 
 <style scoped>
@@ -140,31 +186,8 @@ onMounted(() => {
   padding: 10px 20px;
   border-radius: 8px;
   box-shadow: 0 4px 15px rgba(0, 122, 204, 0.5);
-  transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease, rotate 0.3s ease;
   position: relative;
   overflow: hidden;
-}
-
-.cta-button:hover {
-  background-color: #005f99;
-  transform: scale(1.1) rotate(-3deg);
-  box-shadow: 0 8px 30px rgba(0, 122, 204, 0.7);
-}
-
-.cta-button::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 300%;
-  height: 300%;
-  background: rgba(255, 255, 255, 0.1);
-  transform: translate(-50%, -50%) scale(0);
-  transition: transform 0.5s ease;
-  border-radius: 50%;
-}
-
-.cta-button:hover::before {
-  transform: translate(-50%, -50%) scale(1);
+  cursor: pointer;
 }
 </style>

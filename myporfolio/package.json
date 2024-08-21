@@ -12,6 +12,8 @@
   "dependencies": {
     "@nuxtjs/tailwindcss": "^6.12.1",
     "animejs": "^3.2.2",
+    "canvas-confetti": "^1.9.3",
+    "firebase": "^10.13.0",
     "gsap": "^3.12.5",
     "gsap-trial": "^3.12.5",
     "lottie-web": "^5.12.2",

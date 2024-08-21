@@ -2,14 +2,14 @@
   <div id="parallax-container" class="parallax-container">
     <IcebergImage />
     <main class="content flex-grow flex flex-col justify-center items-center text-center px-4 ">
-      <h1 class="text-gray-200 text-8xl md:text-7xl font-bold leading-tight ">
+      <h1 class="text-gray-200 text-4xl md:text-6xl lg:text-8xl font-bold leading-tight ">
         Bonjour, je suis <span class="text-primary text-blue-400">SERE</span>,
       </h1>
-      <h1 class="text-behind text-gray-200 text-8xl md:text-7xl font-bold leading-tight devant">
+      <h1 class="text-gray-200 text-4xl md:text-6xl lg:text-8xl font-bold leading-tight devant">
         <span class="text-primary">Ingénieur en Génie Logiciel</span> <span class="text-primary text-blue-400">Fullstack</span>
       </h1>
       <GlassBox />
-      <h1 class="text-gray-200 text-3xl md:text-6xl  font-bold leading-tight devant mt-20">
+      <h1 class="text-gray-200 text-2xl md:text-4xl lg:text-6xl font-bold leading-tight devant mt-10 lg:mt-20">
         PROJETS <span class="text-primary text-blue-400">VEDETTES</span>
       </h1>
       <ProjectsSection />
@@ -68,8 +68,6 @@ onMounted(() => {
     }
   });
 
-  // Animation pour les sections des projets
- 
   // Animation pour l'image du bas
   gsap.from(".bottom-image-container", {
     opacity: 0,
@@ -92,8 +90,8 @@ onMounted(() => {
   position: relative;
   overflow: hidden;
   background: linear-gradient(to bottom, rgba(10, 25, 45, 0.9), rgb(19, 19, 19));
-  height: auto;
-  width: auto;
+  min-height: 100vh;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
