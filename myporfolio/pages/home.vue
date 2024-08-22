@@ -1,4 +1,6 @@
 <template>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
   <div id="parallax-container" class="parallax-container">
     <IcebergImage />
     <main class="content flex-grow flex flex-col justify-center items-center text-center px-4 ">
@@ -19,6 +21,7 @@
       <ExperienceSection />
       <LanguagesSection />
       <CtaSection /> 
+      <Footer />
     </main>
     <BottomImage />
   </div>
@@ -35,6 +38,8 @@ import ExperienceSection from '@/components/ExperienceSection.vue';
 import LanguagesSection from '@/components/LanguagesSection.vue';
 import CtaSection from '@/components/CtaSection.vue';
 import BottomImage from '@/components/BottomImage.vue';
+import Footer from '@/components/Footer.vue';
+
 
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -99,4 +104,8 @@ onMounted(() => {
   padding-top: 50px;
   transition: background 0.3s ease;
 }
+.font-fira-code {
+  font-family: 'Fira Code', monospace;
+}
+
 </style>

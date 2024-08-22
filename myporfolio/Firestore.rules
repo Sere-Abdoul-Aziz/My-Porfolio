@@ -1,0 +1,15 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+   
+    // Autorise uniquement l'écriture dans la collection 'messages'
+    match /messages/{messageId} {
+      allow create: if true;  // Autorise la création de documents (écriture) uniquement
+      allow read: if false;   // Empêche la lecture des documents
+      allow update: if false; // Empêche la mise à jour des documents
+      allow delete: if false; // Empêche la suppression des documents
+    }
+   
+  }
+}

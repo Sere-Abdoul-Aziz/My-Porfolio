@@ -1,14 +1,16 @@
 <template>
   <div id="interactive-developer-wrapper" class="relative py-12">
     <h1 ref="heading1" class="text-gray-200 text-3xl md:text-5xl lg:text-6xl font-bold leading-tight text-center mb-12">
-      Ton Développeur <span class="text-primary text-blue-400">Dynamique</span>
+      Ton Développeur <span class="text-primary text-blue-400">Proactif</span>
     </h1>
 
     <!-- Fenêtre "About Me" -->
     <div class="window-card about-me-card">
       <div class="window-header bg-blue-400 text-white p-2 rounded-t-lg">About Me</div>
       <div class="window-body p-4 bg-gray-100 rounded-b-lg">
-        <p>Je suis SERE, un ingénieur en génie logiciel passionné par le développement Fullstack. J'adore créer des solutions innovantes et esthétiques.</p>
+        <p>Je suis SERE, ingénieur en génie logiciel spécialisé dans le développement Fullstack, avec une expertise particulière dans la création de solutions SaaS, d'applications mobiles et web, ainsi que de solutions numériques innovantes. 
+          Ma passion réside dans l'art de concevoir des solutions robustes et évolutives, qui apportent une réelle valeur ajoutée aux entreprises et aux utilisateurs finaux.</p>
+
       </div>
     </div>
 
@@ -24,7 +26,7 @@
     <div class="window-card collaboration-card">
       <div class="window-header bg-blue-400 text-white p-2 rounded-t-lg">Collaboration</div>
       <div class="window-body p-4 bg-gray-100 rounded-b-lg">
-        <p>J'aime collaborer en équipe, en utilisant des méthodes agiles pour garantir la réussite des projets.</p>
+        <p> J'aime collaborer de manière proactive au sein d'équipes dynamiques, en utilisant des méthodes agiles pour garantir la réussite des projets. Mon esprit d'équipe et mon dynamisme sont au cœur de mon approche, assurant des résultats de haute qualité à chaque étape du développement.</p>
       </div>
     </div>
 
@@ -34,25 +36,47 @@
       <div class="window-body p-4 bg-gray-100 rounded-b-lg">
         <p>Retrouvez-moi sur:</p>
         <ul>
-          <li><a href="#" class="text-blue-500">LinkedIn</a></li>
-          <li><a href="#" class="text-blue-500">GitHub</a></li>
-          <li><a href="#" class="text-blue-500">Twitter</a></li>
+          <li>
+        <a href="https://www.linkedin.com/in/aziz-sere/" class="text-blue-500 flex items-center">
+          <i class="fab fa-linkedin fa-lg mr-2"></i> LinkedIn
+        </a>
+      </li>
+      <li>
+        <a href="https://github.com/Sere-Abdoul-Aziz/" class="text-blue-500 flex items-center">
+          <i class="fab fa-github fa-lg mr-2"></i> GitHub
+        </a>
+      </li>
+      <li>
+        <a href="https://discord.com/users/711138503316078595" class="text-blue-500 flex items-center">
+          <i class="fab fa-discord fa-lg mr-2"></i> Discord
+        </a>
+      </li>
         </ul>
       </div>
     </div>
 
     <!-- Fenêtre "Hobbies" -->
-    <div class="window-card hobbies-card">
-      <div class="window-header bg-blue-400 text-white p-2 rounded-t-lg">Hobbies</div>
-      <div class="window-body p-4 bg-gray-100 rounded-b-lg">
-        <ul>
-          <li>Codage</li>
-          <li>Lecture</li>
-          <li>Voyage</li>
-          <li>Jeux vidéo</li>
-        </ul>
-      </div>
-    </div>
+<!-- Fenêtre "Hobbies" -->
+<div class="window-card hobbies-card">
+  <div class="window-header bg-blue-400 text-white p-2 rounded-t-lg">Hobbies</div>
+  <div class="window-body p-4 bg-gray-100 rounded-b-lg">
+    <ul class="space-y-2">
+      <li class="flex items-center">
+        <i class="fas fa-book mr-2"></i> Lecture
+      </li>
+      <li class="flex items-center">
+        <i class="fas fa-plane mr-2"></i> Voyage
+      </li>
+      <li class="flex items-center">
+        <i class="fas fa-dumbbell mr-2"></i> Sport
+      </li>
+      <li class="flex items-center">
+        <i class="fas fa-user-graduate mr-2"></i> Développement personnel
+      </li>
+    </ul>
+  </div>
+</div>
+
   </div>
 </template>
   
@@ -175,7 +199,7 @@ onMounted(() => {
 #interactive-developer-section {
   position: absolute;
   justify-content: center;
-  height: 1%;
+  height: 100%;
   width: 100%;
   padding: 2rem;
   z-index: 10; /* Assurez-vous que cette section apparaît au-dessus des autres si nécessaire */
@@ -203,6 +227,9 @@ onMounted(() => {
 
 @media (min-width: 640px) {
 
+.window-card {
+    width: 80%; 
+  }
 
 .about-me-card {
   top: 100px;
@@ -220,7 +247,7 @@ onMounted(() => {
 }
 
 .online-card {
-  top: -650px;
+  top: -740px;
   left: 150px;
 }
 
@@ -238,19 +265,20 @@ onMounted(() => {
 #interactive-developer-wrapper {
   flex-direction: column;
   margin-bottom: 40px; /* Réduire la marge sur les grands écrans */
-  padding-bottom: 20px; /* Ajoutez un padding en bas pour plus d'espace */
+  padding-bottom: 0px;
 }
 
 @media (max-width: 640px) {
   #interactive-developer-wrapper {
     min-height: 100%; /* Assurez-vous que la section occupe au moins la hauteur de l'écran sur les petits écrans */
-    margin-bottom: 80px; /* Augmenter la marge pour les petits écrans si nécessaire */
+    margin-bottom: 40px; /* Augmenter la marge pour les petits écrans si nécessaire */
   }
 }
 
 @media (min-width: 1024px) {
   #interactive-developer-wrapper {
-    margin-bottom: 40px; /* Réduire la marge sur les grands écrans */
+    margin-bottom: 20px; /* Réduire la marge sur les grands écrans */
+    height: 180vh;
   }
 }
 

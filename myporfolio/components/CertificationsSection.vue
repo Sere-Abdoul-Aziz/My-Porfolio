@@ -5,7 +5,7 @@
       </h1>
       
       <h3 class="text-4xl font-bold text-gold mt-8 mb-8">Diplômes</h3>
-      <div class="certificates-container">
+      <div class="certificates-container font-fira-code">
         <div v-for="(diplome, index) in diplomes" :key="index" class="certificate-card">
           <img :src="diplome.image" alt="Diplôme Image" class="certificate-background" />
           <div class="certificate-content">
@@ -41,7 +41,7 @@
     const diplomes = [
   { title: "Baccalauréat Scientifique (D)", date: "2019", image: baccalaureatImage },
   { title: "Diplôme D'Etudes Universitaires Du Premier Cycle Préparatoire en MATH-Physique Aux Etudes D'Ingénieurs", date: "2021", image: cyclePreparatoireImage },
-  { title: "Diplômes d'ingénieur Genie Logiciel", date: "2023", image: ingenieurImage },
+  { title: "Diplômes d'ingénieur Genie Logiciel", date: "2024", image: ingenieurImage },
 ];
 
 const certifications = [
@@ -72,6 +72,12 @@ onMounted(() => {
     text-align: center;
     position: relative;
   }
+
+  .font-fira-code {
+  font-family: 'Fira Code', monospace;
+  text-align: justify
+}
+
   
   .certificate-card {
     position: relative;

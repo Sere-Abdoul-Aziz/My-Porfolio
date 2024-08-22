@@ -131,10 +131,11 @@ const submitForm = async () => {
   align-items: center;
   justify-content: center;
   z-index: 1000;
+  padding: 10px; /* Ajout de padding pour petits écrans */
 }
 
 .modal-content {
-  width: 90%;
+  width: 100%;
   max-width: 500px;
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
@@ -148,17 +149,17 @@ const submitForm = async () => {
 
 .close-button {
   position: absolute;
-  top: 20px;
-  right: 20px;
+  top: 10px;
+  right: 10px;
   background: none;
   border: none;
-  font-size: 2rem;
+  font-size: 1.5rem; /* Taille réduite pour petits écrans */
   color: white;
   cursor: pointer;
 }
 
 .modal-title {
-  font-size: 2rem;
+  font-size: 1.5rem;
   text-align: center;
   margin-bottom: 20px;
 }
@@ -166,7 +167,7 @@ const submitForm = async () => {
 .contact-form {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 10px; /* Réduction de l'espacement pour petits écrans */
 }
 
 .form-group {
@@ -231,11 +232,13 @@ const submitForm = async () => {
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border-radius: 15px;
-  padding: 30px;
+  padding: 20px; /* Ajustement du padding */
   box-shadow: 0 4px 50px rgba(11, 180, 214, 0.3);
   color: white;
   z-index: 1100;
   text-align: center;
+  width: 90%;
+  max-width: 400px;
 }
 
 .success-card p {

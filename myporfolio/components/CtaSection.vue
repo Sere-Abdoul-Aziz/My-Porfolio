@@ -32,7 +32,7 @@ gsap.registerPlugin(ScrollTrigger, TextPlugin);
 const typewriterText = ref(null);
 
 onMounted(() => {
-  const textContent = "Je suis toujours ouvert à de nouvelles collaborations. Que ce soit pour un projet web, une application mobile, un logiciel, ou simplement pour discuter des technologies, n'hésitez pas à me contacter. Ensemble, nous pouvons transformer vos idées en réalité.";
+  const textContent = "Je suis toujours ouvert à de nouvelles collaborations. Que ce soit pour un projet web, une application mobile, un logiciel, ou simplement pour discuter des technologies, n'hésitez pas à me contacter. Je suis disposé à travailler en entreprise, que ce soit en local ou à distance. Ensemble, nous pouvons transformer vos idées en réalité.";
 
   gsap.from('#cta-section', {
     opacity: 0,
