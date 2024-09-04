@@ -26,7 +26,7 @@
     <div class="window-card collaboration-card">
       <div class="window-header bg-blue-400 text-white p-2 rounded-t-lg">Collaboration</div>
       <div class="window-body p-4 bg-gray-100 rounded-b-lg">
-        <p> J'aime collaborer de manière proactive au sein d'équipes dynamiques, en utilisant des méthodes agiles pour garantir la réussite des projets. Mon esprit d'équipe et mon dynamisme sont au cœur de mon approche, assurant des résultats de haute qualité à chaque étape du développement.</p>
+        <p > J'aime collaborer de manière proactive au sein d'équipes dynamiques, en utilisant des méthodes agiles pour garantir la réussite des projets. Mon esprit d'équipe et mon dynamisme sont au cœur de mon approche, assurant des résultats de haute qualité à chaque étape du développement.</p>
       </div>
     </div>
 
@@ -168,6 +168,7 @@ onMounted(() => {
   overflow-y: auto;
   flex-grow: 1;
   text-align: justify;
+  color: #858585
 }
 
 .window-body a {

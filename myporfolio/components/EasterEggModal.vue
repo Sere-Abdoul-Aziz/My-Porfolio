@@ -76,4 +76,35 @@ height: 100%;
 border-radius: 10px;
 border: none;
 }
+
+@media (max-width: 768px) {
+  .modal-content {
+    width: 95%;
+    height: 70%;
+    padding: 15px;
+  }
+  
+  .close-button {
+    font-size: 1.5rem;
+    top: 5px;
+    right: 5px;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal-content {
+    width: 100%;
+    height: 60%;
+    padding: 10px;
+  }
+  
+  .close-button {
+    font-size: 1.2rem;
+  }
+  
+  .game-frame {
+    border-radius: 5px;
+  }
+}
+
 </style>

@@ -32,7 +32,7 @@ export default {
     console.log("%c| tu devrais peut-être chercher un petit Easter Egg   |", "color: #f39c12; font-size: 16px; background: #fff3cd; padding: 4px 0;");
     console.log("%c| caché dans ce site...                               |", "color: #f39c12; font-size: 16px; background: #fff3cd; padding: 4px 0;");
     
-    console.log("%c| Astuce : Tout n'est pas que decor. Amuse-toi bien ! 🎉 |", "color: #3498db; font-size: 16px; font-style: italic; background: #dff9fb; padding: 4px 0;");
+    console.log("%c| Astuce : Tout n'est pas que decor. Amuse-toi bien ! 🔵 |", "color: #3498db; font-size: 16px; font-style: italic; background: #dff9fb; padding: 4px 0;");
     
     console.log("%c| SERE Abdoul Aziz - Fullstack Developer              |", "color: #2ecc71; font-size: 14px; font-style: italic; background: #eafaf1; padding: 4px 0;");
     console.log("%c─────────────────────────────────────────────", "color: #ff6347; font-size: 20px; font-weight: bold;");

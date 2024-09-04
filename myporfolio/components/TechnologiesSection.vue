@@ -48,6 +48,13 @@ onMounted(() => {
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
   const controls = new OrbitControls(camera, renderer.domElement);
   controls.enableZoom = false;
+
+   // Désactiver les interactions sur les appareils mobiles
+   const isMobile = window.innerWidth < 768;
+  controls.enableZoom = !isMobile; // Désactiver le zoom sur mobile
+  controls.enableRotate = !isMobile; // Désactiver la rotation sur mobile
+  controls.enablePan = !isMobile; // Désactiver le déplacement sur mobile
+  
   renderer.setSize(window.innerWidth, window.innerHeight);
   document.getElementById('cubes-container').appendChild(renderer.domElement);
 
