@@ -2,6 +2,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
   <div id="parallax-container" class="parallax-container">
+    <AnimatedBackground />
     <IcebergImage />
     <main class="content flex-grow flex flex-col justify-center items-center text-center px-4 ">
       <h1 class="text-gray-200 text-4xl md:text-6xl lg:text-8xl font-bold leading-tight ">
@@ -11,6 +12,7 @@
         <span class="text-primary">Ingénieur en Génie Logiciel</span> <span class="text-primary text-blue-400">Fullstack</span>
       </h1>
       <GlassBox />
+      
       <h1 class="text-gray-200 text-2xl md:text-4xl lg:text-6xl font-bold leading-tight devant mt-10 lg:mt-20">
         PROJETS <span class="text-primary text-blue-400">VEDETTES</span>
       </h1>
@@ -28,6 +30,7 @@
 </template>
 
 <script setup>
+import AnimatedBackground from '@/components/AnimatedBackground.vue';
 import IcebergImage from '@/components/IcebergImage.vue';
 import GlassBox from '@/components/GlassBox.vue';
 import ProjectsSection from '@/components/ProjectsSection.vue';
@@ -39,7 +42,6 @@ import LanguagesSection from '@/components/LanguagesSection.vue';
 import CtaSection from '@/components/CtaSection.vue';
 import BottomImage from '@/components/BottomImage.vue';
 import Footer from '@/components/Footer.vue';
-
 
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -91,10 +93,15 @@ onMounted(() => {
 .devant {
   z-index: 1;
 }
+
 .parallax-container {
   position: relative;
   overflow: hidden;
-  background: linear-gradient(to bottom, rgba(10, 25, 45, 0.9), rgb(19, 19, 19));
+  /* CORRECTION : Gradient uniquement en nuances de bleu */
+  background: linear-gradient(135deg, 
+    #0a192f 0%, 
+    #1e3a8a 50%, 
+    #0f172a 100%);
   min-height: 100vh;
   width: 100%;
   display: flex;
@@ -102,10 +109,35 @@ onMounted(() => {
   align-items: center;
   justify-content: flex-start;
   padding-top: 50px;
-  transition: background 0.3s ease;
+  
+  /* Optimisations pour éviter le gris */
+  isolation: isolate;
+  transform: translateZ(0);
 }
+
+/* Assurer que le contenu reste au-dessus de l'arrière-plan */
+.content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+}
+
 .font-fira-code {
   font-family: 'Fira Code', monospace;
 }
 
+/* Fallback pour éviter tout problème de rendu */
+.parallax-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, 
+    #0a192f 0%, 
+    #1e3a8a 50%, 
+    #0f172a 100%);
+  z-index: -2;
+}
 </style>
