@@ -18,6 +18,7 @@
       </h1>
       <ProjectsSection />
       <InteractiveDeveloperSection />
+      <ServiceSection />
       <TechnologiesSection />
       <CertificationsSection />
       <ExperienceSection />
@@ -30,6 +31,7 @@
 </template>
 
 <script setup>
+import { onMounted } from 'vue';
 import AnimatedBackground from '@/components/AnimatedBackground.vue';
 import IcebergImage from '@/components/IcebergImage.vue';
 import GlassBox from '@/components/GlassBox.vue';

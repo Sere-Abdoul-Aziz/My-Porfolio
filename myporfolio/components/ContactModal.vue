@@ -4,6 +4,7 @@
       <button class="close-button" @click="closeModal">&times;</button>
       <h2 class="modal-title">Contacte-moi</h2>
       <form @submit.prevent="submitForm" class="contact-form">
+        <!-- Votre formulaire existant -->
         <div class="form-group">
           <label for="lastName">Nom</label>
           <input type="text" id="lastName" v-model="lastName" required />
@@ -39,7 +40,8 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+// Votre script existant...
+import { ref, watch } from 'vue';
 import { db } from '@/firebase'; 
 import { collection, addDoc } from 'firebase/firestore';
 import confetti from 'canvas-confetti';
@@ -57,6 +59,7 @@ const message = ref('');
 const errors = ref({});
 const showSuccessModal = ref(false);
 
+// Votre logique existante...
 const validateForm = () => {
   const newErrors = {};
 
@@ -105,7 +108,7 @@ const submitForm = async () => {
   try {
     await addDoc(collection(db, 'messages'), formData); 
     confetti({
-      zIndex: 2000, // Assurez-vous que les confettis apparaissent au premier plan
+      zIndex: 99999, // Z-index très élevé pour les confettis
       particleCount: 100,
       spread: 70,
       origin: { y: 0.6 }
@@ -117,6 +120,15 @@ const submitForm = async () => {
 
   emit('submit', formData);
 };
+
+// Gérer le scroll quand le modal s'ouvre/ferme
+watch(() => props.isOpen, (newValue) => {
+  if (newValue) {
+    document.body.style.overflow = 'hidden';
+  } else {
+    document.body.style.overflow = 'auto';
+  }
+});
 </script>
 
 <style scoped>
@@ -124,27 +136,31 @@ const submitForm = async () => {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.8);
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
-  padding: 10px; /* Ajout de padding pour petits écrans */
+  z-index: 99999; /* Z-index maximum */
+  padding: 20px;
+  box-sizing: border-box;
 }
 
 .modal-content {
   width: 100%;
   max-width: 500px;
+  max-height: 90vh;
   background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
   border-radius: 15px;
+  overflow-y: auto;
   padding: 20px;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
   color: white;
   position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .close-button {
@@ -153,21 +169,28 @@ const submitForm = async () => {
   right: 10px;
   background: none;
   border: none;
-  font-size: 1.5rem; /* Taille réduite pour petits écrans */
-  color: white;
+  font-size: 2rem;
+  color: #ccc;
   cursor: pointer;
+  transition: color 0.3s ease;
+  z-index: 10;
+}
+
+.close-button:hover {
+  color: #fff;
 }
 
 .modal-title {
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   text-align: center;
   margin-bottom: 20px;
+  font-weight: 700;
 }
 
 .contact-form {
   display: flex;
   flex-direction: column;
-  gap: 10px; /* Réduction de l'espacement pour petits écrans */
+  gap: 15px;
 }
 
 .form-group {
@@ -178,17 +201,31 @@ const submitForm = async () => {
 .form-group label {
   margin-bottom: 5px;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.9rem;
 }
 
 .form-group input,
 .form-group textarea {
-  padding: 10px;
+  padding: 12px;
   border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   background: rgba(255, 255, 255, 0.1);
   color: white;
   font-size: 1rem;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #3b82f6;
+  background: rgba(255, 255, 255, 0.15);
 }
 
 .form-group textarea {
@@ -209,18 +246,21 @@ const submitForm = async () => {
 }
 
 .submit-button {
-  background-color: #007acc;
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
   color: white;
   font-weight: 600;
-  padding: 10px;
+  padding: 12px;
   border-radius: 8px;
+  border: none;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.3s ease;
+  transition: all 0.3s ease;
+  font-size: 1rem;
 }
 
 .submit-button:hover {
-  background-color: #005f99;
-  transform: scale(1.05);
+  background: linear-gradient(135deg, #2563eb, #1e40af);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(59, 130, 246, 0.4);
 }
 
 .success-modal {
@@ -232,10 +272,10 @@ const submitForm = async () => {
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border-radius: 15px;
-  padding: 20px; /* Ajustement du padding */
+  padding: 20px;
   box-shadow: 0 4px 50px rgba(11, 180, 214, 0.3);
   color: white;
-  z-index: 1100;
+  z-index: 100000; /* Encore plus haut que le modal principal */
   text-align: center;
   width: 90%;
   max-width: 400px;
@@ -245,5 +285,33 @@ const submitForm = async () => {
   margin-top: 10px;
   margin-bottom: 20px;
   font-size: 1.2rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .modal-backdrop {
+    padding: 10px;
+  }
+  
+  .modal-content {
+    max-height: 95vh;
+    padding: 15px;
+  }
+  
+  .modal-title {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal-content {
+    padding: 10px;
+  }
+  
+  .close-button {
+    font-size: 1.5rem;
+    top: 10px;
+    right: 10px;
+  }
 }
 </style>

@@ -22,10 +22,10 @@
   </div>
 </template>
 
-
 <script setup>
 import ProjectCard from './ProjectCard.vue';
-import { ref } from 'vue';
+import ProjectModal from './ProjectModal.vue';
+import { ref, computed } from 'vue';
 import { gsap } from 'gsap';
 import projet1Image from '@/assets/images/projet1.jpg';
 import projet2Image from '@/assets/images/projet2.jpg';
@@ -59,12 +59,11 @@ const projects = ref([
     image: projet1Image,
     description: "Event Manager est un SaaS spécialement conçu pour répondre aux besoins des associations dans la planification et la gestion d'événements. Développé pour Innorizon en 2024, ce service en ligne permet aux associations de centraliser l'organisation de leurs événements, de gérer efficacement les tâches, et de suivre la participation de leurs membres et invités. L'application, accessible depuis n'importe quel appareil connecté, propose un calendrier d'événements dynamique, un tableau de bord intuitif, et des vues détaillées pour chaque événement, offrant ainsi une vue d'ensemble et un contrôle complet. Conçu pour s'adapter aux besoins spécifiques des associations, Event Manager intègre les dernières technologies web, telles qu'Express JS, Node JS, Angular, PostgreSQL et Sequelize, pour offrir une expérience utilisateur fluide et une gestion des données performante. Docker est également utilisé pour garantir un déploiement flexible et une évolutivité maximale, permettant aux associations de se concentrer sur leurs missions tout en laissant la technologie s'occuper de la logistique.",
     additionalImages: [
-    eventcalendar,
-    eventdashboard,
-    eventdetail,
-    eventlist,
-    tacheeventmanager
-
+      eventcalendar,
+      eventdashboard,
+      eventdetail,
+      eventlist,
+      tacheeventmanager
     ],
     // link: 'https://example.com',
   },
@@ -76,15 +75,13 @@ const projects = ref([
     technologies: ['Flutter', 'Firebase', 'Dart', 'node Js', 'Android Studio'],
     image: projet2Image,
     description: "Miss Universités est une application mobile innovante, développée pour Moov Africa en 2023, qui permet aux utilisateurs de voter et de suivre les actualités du concours via des fonctionnalités inspirées des réseaux sociaux. Cette application permet aux participants et au public de visualiser les profils des candidates, de découvrir les photos des événements, de visionner des vidéos, et de lire des articles liés au concours. Conçue pour offrir une expérience utilisateur immersive, l'application utilise Flutter pour une compatibilité multiplateforme, avec une gestion sécurisée et en temps réel des données grâce à Firebase. L'intégration avec Node.js et Dart garantit une performance optimale, tandis qu'Android Studio permet un développement spécifique pour les utilisateurs mobiles. Réalisée en collaboration avec JoFe Digital, l'application Miss Universités renforce l'engagement du public tout en soutenant la mission de Moov Africa de promouvoir le talent et l'excellence au sein des universités africaines.",
-    
     additionalImages: [
-    missarticle,
-    misscompetence,
-    misscover,
-    misshome,
-    missphoto,
-    missplus
-
+      missarticle,
+      misscompetence,
+      misscover,
+      misshome,
+      missphoto,
+      missplus
     ],
     // link: 'https://anotherexample.com',
   },
@@ -97,16 +94,85 @@ const projects = ref([
     image: projet3Image,
     description: "MyTeach est une application mobile innovante destinée à mettre en relation des enseignants qualifiés avec des apprenants à la recherche de cours particuliers. Conçue pour offrir une expérience fluide et personnalisée, MyTeach permet aux apprenants de choisir parmi un large éventail d'enseignants qualifiés pour des cours à domicile, en fonction de leurs besoins spécifiques. Ils peuvent réserver des séances facilement via l'application. De leur côté, les enseignants ont accès à un espace de gestion des réservations, leur permettant de s'organiser efficacement pour leurs différents apprenants. En complément, MyTeach intègre une plateforme d'échange dans le style des réseaux sociaux, où enseignants et étudiants peuvent interagir, partager des ressources, et collaborer au-delà des cours. L'application vise à simplifier l'accès à l'éducation personnalisée tout en facilitant l'organisation et la communication entre les enseignants et les apprenants.",
     additionalImages: [
-    connexionmyteach,
-    enseignantmyteach,
-    homemyteach,
-    messagemyteach,
-    profilmyteach,
-    profilprofmyteach
-
+      connexionmyteach,
+      enseignantmyteach,
+      homemyteach,
+      messagemyteach,
+      profilmyteach,
+      profilprofmyteach
     ],
     // link: 'https://anotherexample.com',
   },
+  {
+    title: 'Plateforme E-commerce',
+    year: '2024',
+    client: 'Confidentiel',
+    technologies: ['React', 'Vue.js', 'Node.js', 'MongoDB', 'Flutter', 'Stripe'],
+    image: dash, // Utilisera une image existante, vous la changerez
+    description: "Développement d'une solution e-commerce complète comprenant une application mobile et une plateforme web. Cette solution intègre un système de gestion des commandes avancé, un catalogue produits dynamique, un système de paiement sécurisé et un tableau de bord administrateur complet. L'architecture modulaire permet une scalabilité optimale et une expérience utilisateur fluide sur tous les supports. Les fonctionnalités incluent la gestion des stocks en temps réel, un système de recommandations personnalisées, et des outils d'analyse des ventes avancés.",
+    additionalImages: [
+      eventcalendar,
+      eventdashboard,
+      dash
+    ],
+    services: ['Développement Mobile', 'Développement Web', 'Intégration Paiement', 'UX/UI Design']
+  },
+  {
+    title: 'Plateforme de Formation & Coaching',
+    year: '2024',
+    client: 'Confidentiel',
+    technologies: ['Vue.js', 'Laravel', 'MySQL', 'WebRTC', 'Socket.io'],
+    image: homemyteach, // Utilisera une image existante, vous la changerez
+    description: "Conception et développement d'une plateforme complète dédiée à la formation en ligne et au coaching personnalisé. Cette solution propose des cours interactifs, des sessions de coaching en direct, un système de suivi des progrès et des outils d'évaluation avancés. La plateforme intègre des fonctionnalités de visioconférence, de partage de documents en temps réel, et un système de certification automatisé. L'interface intuitive permet aux formateurs de créer facilement du contenu pédagogique et aux apprenants de suivre leur parcours de formation.",
+    additionalImages: [
+      enseignantmyteach,
+      messagemyteach,
+      profilmyteach
+    ],
+    services: ['Plateforme LMS', 'Streaming Vidéo', 'Système Certification', 'Analytics Apprentissage']
+  },
+  {
+    title: 'Système de Suivi Industriel',
+    year: '2023',
+    client: 'Confidentiel',
+    technologies: ['Angular', 'Spring Boot', 'PostgreSQL', 'Docker', 'Kafka', 'IoT'],
+    image: eventdashboard, // Utilisera une image existante, vous la changerez
+    description: "Développement d'une solution robuste de monitoring et de suivi des processus industriels. Cette plateforme permet le suivi en temps réel des équipements, la collecte et l'analyse de données de capteurs IoT, ainsi que la génération de rapports automatisés. Le système intègre des alertes intelligentes, des tableaux de bord personnalisables et des outils de maintenance prédictive. L'architecture distribuée garantit une haute disponibilité et une performance optimale même avec de gros volumes de données.",
+    additionalImages: [
+      dash,
+      eventlist,
+      tacheeventmanager
+    ],
+    services: ['Monitoring IoT', 'Analytics Prédictive', 'Tableaux de Bord', 'Maintenance Préventive']
+  },
+  {
+    title: 'Agrégateur de Paiement',
+    year: '2024',
+    client: 'Confidentiel',
+    technologies: ['Node.js', 'Express', 'Redis', 'PostgreSQL', 'Microservices', 'API Gateway'],
+    image: connexionmyteach, // Utilisera une image existante, vous la changerez
+    description: "Conception d'une infrastructure de paiement sécurisée et évolutive permettant l'intégration de multiples moyens de paiement. Cette solution offre une API unifiée pour traiter les transactions, gérer les remboursements et suivre les flux financiers en temps réel. Le système intègre des fonctionnalités avancées de détection de fraude, de conformité réglementaire et de reporting financier. L'architecture microservices assure une haute disponibilité et permet une intégration simple avec diverses plateformes e-commerce.",
+    additionalImages: [
+      misscompetence,
+      misscover,
+      dash
+    ],
+    services: ['Intégration Multi-Paiement', 'Détection Fraude', 'Compliance', 'API Gateway']
+  },
+  {
+    title: 'Plateforme ONG',
+    year: '2023',
+    client: 'Confidentiel',
+    technologies: ['React', 'Node.js', 'MongoDB', 'Stripe', 'Charts.js', 'Email Service'],
+    image: misshome, // Utilisera une image existante, vous la changerez
+    description: "Développement d'une plateforme complète pour une organisation non gouvernementale, incluant la gestion des donations, le suivi des projets humanitaires et la communication avec les donateurs. Cette solution propose un système de campagnes de collecte de fonds, des outils de reporting transparent sur l'utilisation des dons, et des fonctionnalités de communication automatisée avec les supporters. La plateforme intègre également un système de bénévolat, permettant la coordination des actions sur le terrain et le suivi de l'impact des interventions.",
+    additionalImages: [
+      missarticle,
+      missphoto,
+      missplus
+    ],
+    services: ['Gestion Donations', 'Suivi Projets', 'Communication Donateurs', 'Reporting Impact']
+  }
 ]);
 
 const selectedProject = ref(null);
@@ -118,7 +184,7 @@ const visibleProjects = computed(() => {
 });
 
 const showMoreProjects = () => {
-  visibleProjectsCount.value += 3; 
+  visibleProjectsCount.value = projects.value.length; 
 };
 
 const openModal = (project) => {

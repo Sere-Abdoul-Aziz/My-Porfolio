@@ -79,46 +79,70 @@
 
   </div>
 </template>
-  
-  <script setup>
 
-import { onMounted } from 'vue';
+<script setup>
+import { onMounted, nextTick } from 'vue';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-onMounted(() => {
+onMounted(async () => {
+  // Attendre que le DOM soit prêt
+  await nextTick();
+  
+  // S'assurer que les éléments existent
   const cards = document.querySelectorAll('.window-card');
+  
+  if (cards.length === 0) {
+    console.warn('Aucune carte trouvée');
+    return;
+  }
 
-  cards.forEach((card, index) => {
-    gsap.fromTo(card, 
-      {
-        opacity: 0,
-        y: 50,
-        rotate: 10,
-      },
-      {
+  // Définir l'état initial des cartes
+  gsap.set(cards, {
+    opacity: 0,
+    y: 50,
+    scale: 0.8
+  });
+
+  // Animation d'entrée avec un délai pour s'assurer que tout est prêt
+  setTimeout(() => {
+    cards.forEach((card, index) => {
+      gsap.to(card, {
         opacity: 1,
         y: 0,
-        rotate: 0,
+        scale: 1,
         duration: 1,
-        delay: index * 0.3,
+        delay: index * 0.2,
         ease: 'power2.out',
         scrollTrigger: {
-          trigger: card,
-          start: 'top 80%', 
-          toggleActions: 'play none none none', 
-        },
-      }
-    );
-  });
+          trigger: '.interactive-developer-wrapper',
+          start: 'top 80%',
+          toggleActions: 'play none none none',
+        }
+      });
+    });
+  }, 100); // Petit délai pour s'assurer que tout est prêt
 });
+</script>
 
-  </script>
-  
-  <style scoped>
-  
+<style scoped>
+.interactive-developer-wrapper {
+  position: relative;
+  padding: 2rem;
+  margin: 4rem 0;
+  min-height: 80vh;
+  z-index: 10;
+}
+
+.cards-container {
+  position: relative;
+  width: 100%;
+  height: 60vh;
+  margin-top: 2rem;
+}
+
 .window-card {
   position: relative;
   width: 100%; /* Full width on small screens */
@@ -282,9 +306,4 @@ onMounted(() => {
     height: 180vh;
   }
 }
-
-
-
-
-  </style>
-  
+</style>

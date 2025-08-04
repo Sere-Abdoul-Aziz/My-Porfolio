@@ -22,21 +22,15 @@
         <div class="text-center md:text-right">
           <h2 class="text-white text-lg font-bold mb-4">Contact</h2>
           <p>Email : <a href="mailto:abdoulazizserepro@gmail.com" class="hover:text-blue-400">abdoulazizserepro@gmail.com</a></p>
-          <p>Téléphone : <a href="tel:+21651333508" class="hover:text-blue-400">+21651333508</a>
-            <div class="text-center md:text-right"> </div>
-            <a href="tel:+22671037367" class="hover:text-blue-400">+22671037367</a> 
+          <p>Téléphone : <a href="tel:+22671037367" class="hover:text-blue-400">+22671037367</a>
+            <!-- <div class="text-center md:text-right"> </div>
+            <a href="tel:+22671037367" class="hover:text-blue-400">+22671037367</a>  -->
         </p>
         </div>
       </div>
   
       <div class="border-t border-white/20 mt-8 pt-4 flex flex-col md:flex-row justify-between items-center">
-        <p class="text-gray-300 text-sm">&copy; 2024 Abdoul Aziz SERE. Tous droits réservés.</p>
-        <!-- <p class="text-gray-300 text-sm mt-2 md:mt-0">
-          Design inspiré par <a href="https://dribbble.com/stefanobartoletti" target="_blank" class="hover:text-blue-400">@stefanobartoletti</a>          
-        </p> -->
-        <p class="text-gray-300 text-sm mt-2 md:mt-0">
-          Dessin par <a href="https://www.instagram.com/crazyblack.art" target="_blank" class="hover:text-blue-400">@crazyblack.art</a>
-        </p>
+        <p class="text-gray-300 text-sm">&copy; 2025 Abdoul Aziz SERE. Tous droits réservés.</p>
       </div>
     </footer>
   </template>

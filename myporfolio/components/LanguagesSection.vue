@@ -1,45 +1,99 @@
 <template>
   <div id="languages-section" class="languages-section">
-    <h1 ref="heading1" class="text-red-500 text-3xl mb-6 md:text-6xl font-bold leading-tight text-center">
-      Langues <span class="text-primary text-blue-400">Parlées</span>
+    <h1 class="text-gray-200 text-3xl md:text-5xl lg:text-6xl font-bold leading-tight text-center mb-12">
+      Langues <span class="text-primary text-blue-400">Maîtrisées</span>
     </h1>
 
-    <div class="language-item">
-      <img src="@/assets/images/france_flag.jpeg" alt="French Flag" class="flag-icon">
-      <div class="language-details">
-        <h3 class="language-title">Français</h3>
-        <div class="progress-bar-container">
-          <div class="progress-bar" style="width: 100%;"></div>
+    <div class="languages-container">
+      <!-- Français -->
+      <div class="language-card french-card">
+        <div class="language-header">
+          <div class="flag-container">
+            <img src="@/assets/images/france_flag.jpeg" alt="Drapeau Français" class="flag-icon">
+          </div>
+          <div class="language-info">
+            <h3 class="language-name">Français</h3>
+            <p class="language-level">Langue Maternelle</p>
+          </div>
+          <div class="proficiency-badge native">100%</div>
+        </div>
+        <div class="language-body">
+          <div class="progress-container">
+            <div class="progress-bar french-progress" data-width="100"></div>
+          </div>
+          <div class="language-skills">
+            <span class="skill-tag">Écrit</span>
+            <span class="skill-tag">Oral</span>
+            <span class="skill-tag">Professionnel</span>
+          </div>
+          <p class="language-description">
+            "Maîtrise parfaite de ma langue maternelle, utilisée quotidiennement dans mes interactions professionnelles et personnelles."
+          </p>
+        </div>
+      </div>
+
+      <!-- Anglais -->
+      <div class="language-card english-card">
+        <div class="language-header">
+          <div class="flag-container">
+            <img src="@/assets/images/uk_flag.jpeg" alt="Drapeau Anglais" class="flag-icon">
+          </div>
+          <div class="language-info">
+            <h3 class="language-name">English</h3>
+            <p class="language-level">Intermédiaire Avancé</p>
+          </div>
+          <div class="proficiency-badge intermediate">75%</div>
+        </div>
+        <div class="language-body">
+          <div class="progress-container">
+            <div class="progress-bar english-progress" data-width="75"></div>
+          </div>
+          <div class="language-skills">
+            <span class="skill-tag">Technical Reading</span>
+            <span class="skill-tag">Documentation</span>
+            <span class="skill-tag">Code Reviews</span>
+          </div>
+          <p class="language-description">
+            "Strong technical English for development work, documentation, and international collaboration in tech projects."
+          </p>
         </div>
       </div>
     </div>
 
-    <div class="language-item">
-      <img src="@/assets/images/uk_flag.jpeg" alt="English Flag" class="flag-icon">
-      <div class="language-details">
-        <h3 class="language-title">Anglais</h3>
-        <div class="progress-bar-container">
-          <div class="progress-bar" style="width: 75%;"></div>
-        </div>
+    <!-- Petit bonus : Indicator global -->
+    <div class="global-indicator">
+      <div class="indicator-item">
+        <i class="fas fa-globe"></i>
+        <span>Communication Internationale</span>
+      </div>
+      <div class="indicator-item">
+        <i class="fas fa-code"></i>
+        <span>Documentation Technique</span>
+      </div>
+      <div class="indicator-item">
+        <i class="fas fa-users"></i>
+        <span>Collaboration Multiculturelle</span>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { onMounted } from 'vue';
-import gsap from 'gsap';
-import ScrollTrigger from 'gsap/ScrollTrigger';
+import { onMounted, nextTick } from 'vue';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-onMounted(() => {
-  gsap.from('.language-item', {
+onMounted(async () => {
+  await nextTick();
+
+  // Animation du titre
+  gsap.from('h1', {
     opacity: 0,
-    x: -100,
+    y: -30,
     duration: 1.2,
-    ease: 'power2.out',
-    stagger: 0.3,
+    ease: 'power3.out',
     scrollTrigger: {
       trigger: '#languages-section',
       start: 'top 80%',
@@ -47,13 +101,50 @@ onMounted(() => {
     },
   });
 
-  gsap.from('.progress-bar', {
-    width: 0,
-    duration: 1.5,
+  // Animation des cartes de langues
+  gsap.from('.language-card', {
+    opacity: 0,
+    y: 50,
+    scale: 0.9,
+    duration: 1,
+    stagger: 0.3,
     ease: 'power2.out',
     scrollTrigger: {
-      trigger: '#languages-section',
+      trigger: '.languages-container',
       start: 'top 80%',
+      toggleActions: 'play none none none',
+    },
+  });
+
+  // Animation des barres de progression
+  const progressBars = document.querySelectorAll('.progress-bar');
+  progressBars.forEach((bar) => {
+    const width = bar.getAttribute('data-width');
+    gsap.fromTo(bar, 
+      { width: '0%' },
+      {
+        width: `${width}%`,
+        duration: 2,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: bar,
+          start: 'top 90%',
+          toggleActions: 'play none none none',
+        },
+      }
+    );
+  });
+
+  // Animation des indicateurs globaux
+  gsap.from('.indicator-item', {
+    opacity: 0,
+    x: -30,
+    duration: 0.8,
+    stagger: 0.2,
+    ease: 'power2.out',
+    scrollTrigger: {
+      trigger: '.global-indicator',
+      start: 'top 90%',
       toggleActions: 'play none none none',
     },
   });
@@ -63,117 +154,253 @@ onMounted(() => {
 <style scoped>
 .languages-section {
   padding: 2rem;
-  margin-top: 4rem;
-  background: url('@/assets/images/cartepostal.png') no-repeat center center;
-  background-size: cover;
+  margin: 4rem 0;
   position: relative;
-  border-radius: 10px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-  height: 80vh;
-  width: 100%;
-  max-width: 800px;
-  margin-left: auto;
-  margin-right: auto;
-  text-align: left;
-  font-family: 'Georgia', serif;
-  color: #333;
-  z-index: 1;
+  z-index: 2;
 }
 
-.language-item {
-  display: flex;
-  align-items: center;
-  margin-bottom: 1.5rem;
-  padding-left: 1rem;
-  position: relative;
+.languages-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
 }
 
-.language-item::before {
+.language-card {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  padding: 1.5rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.language-card::before {
   content: '';
   position: absolute;
+  top: 0;
   left: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 8px;
-  height: 8px;
-  background-color: #333;
-  border-radius: 50%;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #3b82f6, #06b6d4);
+}
+
+.language-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+}
+
+.french-card::before {
+  background: linear-gradient(90deg, #ef4444, #dc2626);
+}
+
+.english-card::before {
+  background: linear-gradient(90deg, #3b82f6, #1d4ed8);
+}
+
+.language-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+  gap: 1rem;
+}
+
+.flag-container {
+  position: relative;
 }
 
 .flag-icon {
-  width: 40px;
-  height: 40px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
-  margin-right: 10px;
-  border: 2px solid #333;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
-.language-details {
-  flex-grow: 1;
-  padding-left: 10px;
-  font-family: 'Fira Code', monospace;
-  text-align: justify;
+.language-info {
+  flex: 1;
 }
 
-.language-title {
+.language-name {
   font-size: 1.5rem;
-  font-weight: bold;
-  color: #333;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.95);
+  margin: 0;
 }
 
-.progress-bar-container {
-  background: rgba(240, 240, 240, 0.8);
+.language-level {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0.2rem 0 0 0;
+}
+
+.proficiency-badge {
+  background: rgba(59, 130, 246, 0.2);
+  border: 1px solid rgba(59, 130, 246, 0.4);
+  color: #3b82f6;
+  padding: 0.5rem 1rem;
+  border-radius: 25px;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.proficiency-badge.native {
+  background: rgba(34, 197, 94, 0.2);
+  border-color: rgba(34, 197, 94, 0.4);
+  color: #22c55e;
+}
+
+.proficiency-badge.intermediate {
+  background: rgba(59, 130, 246, 0.2);
+  border-color: rgba(59, 130, 246, 0.4);
+  color: #3b82f6;
+}
+
+.language-body {
+  margin-top: 1rem;
+}
+
+.progress-container {
+  background: rgba(255, 255, 255, 0.1);
   border-radius: 10px;
+  height: 8px;
   overflow: hidden;
-  height: 15px;
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
-  margin-top: 5px;
+  margin-bottom: 1rem;
 }
 
 .progress-bar {
   height: 100%;
-  background-color: #333;
   border-radius: 10px;
-  transition: width 1s ease-in-out;
+  transition: width 2s ease-out;
 }
 
+.french-progress {
+  background: linear-gradient(90deg, #ef4444, #dc2626);
+}
+
+.english-progress {
+  background: linear-gradient(90deg, #3b82f6, #1d4ed8);
+}
+
+.language-skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.skill-tag {
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.8);
+  padding: 0.3rem 0.8rem;
+  border-radius: 15px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.language-description {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  font-style: italic;
+  margin: 0;
+}
+
+.global-indicator {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+}
+
+.indicator-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 0.8rem 1.2rem;
+  border-radius: 25px;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.9rem;
+  font-weight: 500;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.indicator-item i {
+  color: #3b82f6;
+  font-size: 1.1rem;
+}
+
+/* Responsive */
 @media (max-width: 768px) {
   .languages-section {
-    padding: 1.5rem;
-    margin-top: 2rem;
-    height: auto; /* Adjust height for smaller screens */
+    padding: 1rem;
+    margin: 2rem 0;
   }
 
-  .language-item {
+  .languages-container {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .language-card {
+    padding: 1.2rem;
+  }
+
+  .language-header {
     flex-direction: column;
     align-items: flex-start;
+    gap: 0.8rem;
   }
 
   .flag-icon {
-    margin-bottom: 10px;
+    width: 40px;
+    height: 40px;
   }
 
-  .language-title {
-    font-size: 1.25rem; /* Reduce font size on smaller screens */
+  .language-name {
+    font-size: 1.3rem;
   }
 
-  .progress-bar-container {
-    height: 10px; /* Adjust the height of the progress bar */
+  .global-indicator {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .indicator-item {
+    justify-content: center;
+    width: 100%;
+    max-width: 300px;
   }
 }
 
 @media (max-width: 480px) {
-  .languages-section {
+  .language-card {
     padding: 1rem;
-    margin-top: 1rem;
   }
 
-  .language-title {
-    font-size: 1rem; /* Further reduce font size for very small screens */
+  .language-header {
+    gap: 0.5rem;
   }
 
-  .progress-bar-container {
-    height: 8px; /* Adjust the height of the progress bar for small screens */
+  .language-name {
+    font-size: 1.1rem;
+  }
+
+  .language-skills {
+    gap: 0.3rem;
+  }
+
+  .skill-tag {
+    font-size: 0.7rem;
+    padding: 0.2rem 0.6rem;
   }
 }
 </style>

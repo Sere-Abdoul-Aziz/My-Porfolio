@@ -1,57 +1,55 @@
 <template>
-  <div v-if="isOpen" class="modal-backdrop" @click="closeModal">
-    <div class="modal-content" @click.stop>
-      <button class="close-button" @click="closeModal">&times;</button>
-      
-      <div class="modal-header">
-        <h1 class="modal-title">{{ project.title }}</h1>
-        <ul class="technologies-list">
-          <li v-for="tech in project.technologies" :key="tech">{{ tech }}</li>
-        </ul>
-      </div>
-      
-      <img :src="project.image" alt="Project Image" class="modal-image" />
-      
-      <div class="modal-body">
-        <div class="modal-description">
-          <p>{{ project.description }}</p>
+  <Teleport to="body">
+    <div v-if="isOpen" class="modal-backdrop" @click="closeModal">
+      <div class="modal-content" @click.stop>
+        <button class="close-button" @click="closeModal">&times;</button>
+        
+        <div class="modal-header">
+          <h1 class="modal-title">{{ project.title }}</h1>
+          <ul class="technologies-list">
+            <li v-for="tech in project.technologies" :key="tech">{{ tech }}</li>
+          </ul>
         </div>
         
-        <div class="modal-info">
-          <div class="info-section">
-            <p class="info-label">Year</p>
-            <p class="info-detail">{{ project.year }}</p>
+        <img :src="project.image" alt="Project Image" class="modal-image" />
+        
+        <div class="modal-body">
+          <div class="modal-description">
+            <p>{{ project.description }}</p>
           </div>
-          <div class="info-section" v-if="project.client">
-            <p class="info-label">Client</p>
-            <p class="info-detail">{{ project.client }}</p>
-          </div>
-          <div class="info-section" v-if="project.partner">
-            <p class="info-label">Partner</p>
-            <p class="info-detail">{{ project.partner }}</p>
-          </div>
-          <div class="info-section" v-if="project.services && project.services.length">
-            <p class="info-label">Services</p>
-            <div class="services-list">
-              <span class="service-tag" v-for="service in project.services" :key="service">{{ service }}</span>
+          
+          <div class="modal-info">
+            <div class="info-section">
+              <p class="info-label">Year</p>
+              <p class="info-detail">{{ project.year }}</p>
+            </div>
+            <div class="info-section" v-if="project.client">
+              <p class="info-label">Client</p>
+              <p class="info-detail">{{ project.client }}</p>
+            </div>
+            <div class="info-section" v-if="project.partner">
+              <p class="info-label">Partner</p>
+              <p class="info-detail">{{ project.partner }}</p>
+            </div>
+            <div class="info-section" v-if="project.services && project.services.length">
+              <p class="info-label">Services</p>
+              <div class="services-list">
+                <span class="service-tag" v-for="service in project.services" :key="service">{{ service }}</span>
+              </div>
             </div>
           </div>
-          <div class="info-section" v-if="project.link">
-            <p class="info-label">Link</p>
-            <a :href="project.link" target="_blank" class="info-link">Visit Website</a>
-          </div>
-        </div>
 
-        <div class="additional-images">
-          <img v-for="(img, index) in project.additionalImages" :key="index" :src="img" alt="Additional Project Image" />
+          <div class="additional-images" v-if="project.additionalImages && project.additionalImages.length">
+            <img v-for="(img, index) in project.additionalImages" :key="index" :src="img" alt="Additional Project Image" />
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  </Teleport>
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue';
+import { onMounted, onUnmounted, watch } from 'vue';
 
 const props = defineProps({
   project: Object,
@@ -64,9 +62,13 @@ const closeModal = () => {
   emit('close');
 };
 
-// Lock scroll when modal is open
-onMounted(() => {
-  document.body.style.overflow = 'hidden';
+// Lock/unlock scroll when modal opens/closes
+watch(() => props.isOpen, (newValue) => {
+  if (newValue) {
+    document.body.style.overflow = 'hidden';
+  } else {
+    document.body.style.overflow = 'auto';
+  }
 });
 
 onUnmounted(() => {
@@ -79,19 +81,22 @@ onUnmounted(() => {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.7);
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.8);
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
+  z-index: 9999;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
 .modal-content {
-  width: 90%;
+  width: 100%;
   max-width: 800px;
-  max-height: 90%;
+  max-height: 90vh;
+  background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border-radius: 15px;
@@ -100,6 +105,7 @@ onUnmounted(() => {
   box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
   color: white;
   position: relative;
+  margin: auto;
 }
 
 .close-button {
@@ -112,21 +118,18 @@ onUnmounted(() => {
   color: #ccc;
   cursor: pointer;
   transition: color 0.3s ease;
+  z-index: 10;
 }
 
 .close-button:hover {
   color: #fff;
 }
 
-.modal-header {
-  margin-bottom: 20px;
-  text-align: center;
-}
-
 .modal-title {
   font-size: 2rem;
   margin-bottom: 10px;
   font-weight: 700;
+  text-align: center;
 }
 
 .technologies-list {
@@ -135,6 +138,8 @@ onUnmounted(() => {
   justify-content: center;
   gap: 10px;
   margin-bottom: 20px;
+  list-style: none;
+  padding: 0;
 }
 
 .technologies-list li {
@@ -152,10 +157,10 @@ onUnmounted(() => {
   border-radius: 10px;
 }
 
-.modal-body {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+.modal-description {
+  text-align: justify;
+  margin-bottom: 20px;
+  line-height: 1.6;
 }
 
 .modal-info {
@@ -170,12 +175,6 @@ onUnmounted(() => {
   padding: 15px;
   border-radius: 10px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.info-section:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
 }
 
 .info-label {
@@ -188,7 +187,6 @@ onUnmounted(() => {
 .info-detail {
   color: #ffffff;
   font-size: 1rem;
-  line-height: 1.6;
 }
 
 .services-list {
@@ -204,42 +202,6 @@ onUnmounted(() => {
   font-size: 0.9rem;
   font-weight: 500;
   color: #ffffff;
-  transition: background-color 0.3s ease;
-}
-
-.service-tag:hover {
-  background: rgba(20, 129, 219, 0.5);
-}
-
-.info-link {
-  color: #1e90ff;
-  font-weight: 600;
-  text-decoration: none;
-  position: relative;
-  transition: color 0.3s ease;
-}
-
-.info-link::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  bottom: -2px;
-  width: 0;
-  height: 2px;
-  background: #1e90ff;
-  transition: width 0.3s ease;
-}
-
-.info-link:hover {
-  color: #63b3ed;
-}
-
-.info-link:hover::after {
-  width: 100%;
-}
-
-.modal-description {
-  text-align: justify;
 }
 
 .additional-images {
@@ -254,61 +216,33 @@ onUnmounted(() => {
 }
 
 @media (max-width: 768px) {
-  .modal-content {
-    width: 95%;
-    max-height: 80%;
+  .modal-backdrop {
+    padding: 10px;
   }
   
-  .modal-title {
-    font-size: 1.8rem;
-  }
-
-  .info-section {
-    padding: 12px;
-  }
-
-  .info-label {
-    font-size: 1rem;
-  }
-
-  .info-detail {
-    font-size: 0.9rem;
-  }
-
-  .technologies-list li {
-    font-size: 0.8rem;
-  }
-}
-
-@media (max-width: 480px) {
   .modal-content {
-    width: 100%;
-    max-height: 75%;
+    max-height: 95vh;
     padding: 15px;
   }
   
   .modal-title {
     font-size: 1.5rem;
   }
-
-  .info-section {
-    padding: 10px;
-  }
-
-  .info-label {
-    font-size: 0.9rem;
-  }
-
-  .info-detail {
-    font-size: 0.8rem;
-  }
-
-  .technologies-list li {
-    font-size: 0.7rem;
-  }
-
+  
   .additional-images img {
     width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal-content {
+    padding: 10px;
+  }
+  
+  .close-button {
+    font-size: 1.5rem;
+    top: 10px;
+    right: 10px;
   }
 }
 </style>
