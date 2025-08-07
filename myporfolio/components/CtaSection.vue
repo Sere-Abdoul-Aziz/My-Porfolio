@@ -16,9 +16,17 @@
         <p ref="typewriterText" class="typewriter-text">
           <!-- Le texte sera ajouté par l'animation typewriter -->
         </p>
-        <button @click="openContactModal" class="cta-button">
-          <i class="fas fa-envelope"></i>
-          Prenons contact
+               <button @click="openContactModal" class="cta-button">
+          <div class="button-glow"></div>
+          <div class="button-content">
+            <div class="icon-container">
+              <i class="fas fa-envelope"></i>
+            </div>
+            <span class="button-text">Prenons contact</span>
+          </div>
+          <div class="button-arrow">
+            <i class="fas fa-arrow-right"></i>
+          </div>
         </button>
       </div>
     </div>
@@ -36,7 +44,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref, nextTick } from 'vue';
+import { onMounted, ref, nextTick, onBeforeUnmount } from 'vue';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { TextPlugin } from 'gsap/TextPlugin';
@@ -46,18 +54,27 @@ gsap.registerPlugin(ScrollTrigger, TextPlugin);
 
 const typewriterText = ref(null);
 const isContactModalOpen = ref(false);
+// Cache de sélecteurs DOM pour éviter les requêtes répétées
+const elements = ref({
+  button: null,
+  iconContainer: null,
+  buttonGlow: null
+});
+// Stock pour les timelines et animations GSAP
+const animations = ref({
+  pulse: null,
+  iconRotation: null
+});
+// Pour le nettoyage des event listeners
+const eventCleanupFunctions = ref([]);
 
 const openContactModal = () => {
   isContactModalOpen.value = true;
-  console.log('Modal opened:', isContactModalOpen.value);
-  // Empêcher le scroll du body quand le modal est ouvert
   document.body.style.overflow = 'hidden';
 };
 
 const closeContactModal = () => {
   isContactModalOpen.value = false;
-  console.log('Modal closed:', isContactModalOpen.value);
-  // Restaurer le scroll du body
   document.body.style.overflow = 'auto';
 };
 
@@ -67,126 +84,241 @@ const handleFormSubmit = (formData) => {
   closeContactModal();
 };
 
+// Fonction de debounce pour les événements fréquents
+function debounce(func, wait) {
+  let timeout;
+  return function(...args) {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => func.apply(this, args), wait);
+  };
+}
+
 onMounted(async () => {
   await nextTick();
+
+  // Stocker les références DOM pour éviter les requêtes répétées
+  elements.value.button = document.querySelector('.cta-button');
+  elements.value.iconContainer = document.querySelector('.icon-container');
+  elements.value.buttonGlow = document.querySelector('.button-glow');
   
-  const textContent = "Je suis toujours ouvert à de nouvelles collaborations. Que ce soit pour un projet web, une application mobile, un logiciel, ou simplement pour discuter des technologies, n'hésitez pas à me contacter. Je suis disposé à travailler en entreprise, que ce soit en local ou à distance. Ensemble, nous pouvons transformer vos idées en réalité.";
+  // Créer un contexte de performance isolé
+  const ctx = gsap.context(() => {
+    // Text plus court et fragmenté pour performance
+    const textContent = "Besoin d’un développeur fiable pour vos projets web, mobile ou logiciels ? Je mets mon expertise à votre service pour concrétiser vos ambitions, en toute simplicité. Que vous soyez une entreprise, une startup ou un indépendant, je suis à l’écoute, disponible, et facilement joignable pour vous accompagner à chaque étape. Mon approche : proximité, réactivité et confiance, pour bâtir ensemble une solution qui vous ressemble. Ensemble, faisons de votre projet une réussite.";
 
-  // Définir l'état initial
-  gsap.set('#cta-section', { opacity: 0, y: 50 });
-  gsap.set('.cta-image', { opacity: 0, scale: 0.8, rotation: 15 });
-  gsap.set('.cta-text', { opacity: 0, x: -50 });
-  gsap.set('.cta-button', { opacity: 0, scale: 0.5 });
+    // Animation d'entrée simplifiée
+    const masterTimeline = gsap.timeline({
+      scrollTrigger: {
+        trigger: '#cta-section',
+        start: 'top 80%',
+        toggleActions: 'play none none none',
+        once: true // Exécuter une seule fois pour économiser des ressources
+      }
+    });
+    
+    // Grouper les animations d'entrée pour optimiser les performances
+    masterTimeline
+      .set('#cta-section', { opacity: 0, y: 50 })
+      .set('.cta-image', { opacity: 0, scale: 0.8, rotation: 15 })
+      .set('.cta-text', { opacity: 0, x: -50 })
+      .set('.cta-button', { opacity: 0, scale: 0.5 })
+      .to('#cta-section', {
+        opacity: 1,
+        y: 0,
+        duration: 1,
+        ease: 'power2.out'
+      })
+      .to('.cta-image', {
+        opacity: 1,
+        scale: 1,
+        rotation: 0,
+        duration: 1,
+        ease: 'back.out(1.7)'
+      }, "-=0.5")
+      .to('.cta-text', {
+        opacity: 1,
+        x: 0,
+        duration: 0.8,
+        ease: 'power2.out'
+      }, "-=0.5")
+      .to(typewriterText.value, {
+        text: {
+          value: textContent,
+          delimiter: " " // Anime mot par mot pour plus de performance
+        },
+        duration: 2,
+        ease: "none"
+      })
+      .to('.cta-button', {
+        opacity: 1,
+        scale: 1,
+        duration: 0.6,
+        ease: 'back.out(1.7)'
+      }, "-=0.8");
+    
+    // Animation de pulsation optimisée
+    animations.value.pulse = gsap.timeline({ 
+      repeat: -1, 
+      yoyo: true, 
+      repeatDelay: 5,
+      paused: true // Démarre uniquement quand visible
+    });
+    
+    animations.value.pulse
+      .to(elements.value.button, { 
+        boxShadow: '0 10px 25px rgba(29, 78, 216, 0.5), 0 6px 12px rgba(0, 0, 0, 0.15)',
+        scale: 1.03,
+        duration: 0.8,
+        ease: 'power2.out'
+      })
+      .to(elements.value.buttonGlow, { 
+        opacity: 0.4,
+        duration: 0.4,
+        ease: 'power2.in'
+      }, "-=0.8")
+      .to(elements.value.buttonGlow, { 
+        opacity: 0,
+        duration: 0.4,
+        ease: 'power2.out'
+      }, "+=0.4");
 
-  // Animation d'entrée de la section
-  gsap.to('#cta-section', {
-    opacity: 1,
-    y: 0,
-    duration: 1.5,
-    ease: 'power2.out',
-    scrollTrigger: {
-      trigger: '#cta-section',
-      start: 'top 80%',
-      toggleActions: 'play none none none',
-    },
-  });
+    // Animation de l'icône
+    animations.value.iconRotation = gsap.to(elements.value.iconContainer.querySelector('i'), {
+      rotationY: 360,
+      duration: 1.2,
+      repeat: -1,
+      repeatDelay: 8,
+      ease: 'power1.inOut',
+      paused: true // Démarre uniquement quand visible
+    });
 
-  // Animation de l'image
-  gsap.to('.cta-image', {
-    opacity: 1,
-    scale: 1,
-    rotation: 0,
-    duration: 1.2,
-    ease: 'elastic.out(1, 0.3)',
-    delay: 0.3,
-    scrollTrigger: {
-      trigger: '#cta-section',
-      start: 'top 80%',
-      toggleActions: 'play none none none',
-    },
-  });
-
-  // Animation du texte
-  gsap.to('.cta-text', {
-    opacity: 1,
-    x: 0,
-    duration: 1.2,
-    ease: 'power2.out',
-    delay: 0.5,
-    scrollTrigger: {
-      trigger: '#cta-section',
-      start: 'top 80%',
-      toggleActions: 'play none none none',
-    },
-  });
-
-  // Animation typewriter
-  gsap.to(typewriterText.value, {
-    text: textContent,
-    duration: 3,
-    ease: "none",
-    delay: 0.8,
-    scrollTrigger: {
-      trigger: '#cta-section',
-      start: 'top 80%',
-      toggleActions: 'play none none none',
+    // Observer pour démarrer/arrêter les animations quand visible
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          animations.value.pulse.play();
+          animations.value.iconRotation.play();
+        } else {
+          animations.value.pulse.pause();
+          animations.value.iconRotation.pause();
+        }
+      });
+    }, { threshold: 0.3 });
+    
+    observer.observe(document.querySelector('#cta-section'));
+    
+    // Pré-créer le pool de particules
+    if (elements.value.button) {
+      const particlePool = [];
+      const PARTICLE_COUNT = 5;
+      
+      // Créer les particules à l'avance
+      const fragment = document.createDocumentFragment();
+      for (let i = 0; i < PARTICLE_COUNT; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'button-particle';
+        particle.style.opacity = '0';
+        fragment.appendChild(particle);
+        particlePool.push(particle);
+      }
+      elements.value.button.appendChild(fragment);
+      
+      // Fonction optimisée pour le mouseenter
+      const handleMouseEnter = debounce(() => {
+        if (!elements.value.iconContainer) return;
+        
+        gsap.to(elements.value.iconContainer, {
+          rotate: 12,
+          duration: 0.3,
+          ease: 'back.out(1.7)'
+        });
+        
+        // Animer seulement les particules visibles
+        const visibleParticleCount = Math.min(3, PARTICLE_COUNT);
+        for (let i = 0; i < visibleParticleCount; i++) {
+          const particle = particlePool[i];
+          
+          gsap.set(particle, {
+            x: gsap.utils.random(20, 80, 1) + '%',
+            y: '100%',
+            scale: gsap.utils.random(0.5, 0.8, 0.1),
+            opacity: gsap.utils.random(0.2, 0.6, 0.1)
+          });
+          
+          gsap.to(particle, {
+            y: '-80%',
+            opacity: 0,
+            duration: 0.8,
+            ease: 'power1.out',
+            onComplete: () => gsap.set(particle, { opacity: 0 })
+          });
+        }
+      }, 50); // Debounce de 50ms
+      
+      // Fonction optimisée pour le mouseleave
+      const handleMouseLeave = debounce(() => {
+        if (!elements.value.iconContainer) return;
+        
+        gsap.to(elements.value.iconContainer, {
+          rotate: 0,
+          duration: 0.2,
+          ease: 'power1.out'
+        });
+      }, 50);
+      
+      elements.value.button.addEventListener('mouseenter', handleMouseEnter);
+      elements.value.button.addEventListener('mouseleave', handleMouseLeave);
+      
+      // Stocker les fonctions pour le cleanup
+      eventCleanupFunctions.value.push(() => {
+        elements.value.button.removeEventListener('mouseenter', handleMouseEnter);
+        elements.value.button.removeEventListener('mouseleave', handleMouseLeave);
+      });
     }
   });
+  
+  // Ajouter la fonction de nettoyage du contexte
+  eventCleanupFunctions.value.push(() => ctx.revert());
+});
 
-  // Animation du bouton
-  gsap.to('.cta-button', {
-    opacity: 1,
-    scale: 1,
-    duration: 1.2,
-    ease: 'back.out(1.7)',
-    delay: 1,
-    scrollTrigger: {
-      trigger: '#cta-section',
-      start: 'top 80%',
-      toggleActions: 'play none none none',
-    },
-  });
-
-  // Animation au survol du bouton
-  const button = document.querySelector('.cta-button');
-  if (button) {
-    button.addEventListener('mouseenter', () => {
-      gsap.to(button, {
-        scale: 1.05,
-        y: -3,
-        boxShadow: '0 8px 25px rgba(59, 130, 246, 0.4)',
-        duration: 0.3,
-        ease: 'power2.out',
-      });
-    });
-
-    button.addEventListener('mouseleave', () => {
-      gsap.to(button, {
-        scale: 1,
-        y: 0,
-        boxShadow: '0 4px 15px rgba(59, 130, 246, 0.3)',
-        duration: 0.3,
-        ease: 'power2.out',
-      });
-    });
-  }
+// Nettoyer toutes les animations et event listeners
+onBeforeUnmount(() => {
+  // Nettoyer les event listeners
+  eventCleanupFunctions.value.forEach(cleanup => cleanup());
+  eventCleanupFunctions.value = [];
+  
+  // Tuer les animations GSAP en cours
+  if (animations.value.pulse) animations.value.pulse.kill();
+  if (animations.value.iconRotation) animations.value.iconRotation.kill();
+  
+  // Nettoyer les ScrollTriggers
+  ScrollTrigger.getAll().forEach(st => st.kill());
 });
 </script>
 
 <style scoped>
 .cta-section {
   background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 15px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
   max-width: 800px;
   margin: 4rem auto;
   position: relative;
   z-index: 10;
   overflow: hidden;
   color: white;
+  /* Utiliser une seule propriété composite au lieu de plusieurs individuelles */
+  transform: translate3d(0, 0, 0);
+  contain: content; /* Optimiser le rendu */
+}
+
+/* Appliquer backdrop-filter uniquement si supporté */
+@supports (backdrop-filter: blur(10px)) or (-webkit-backdrop-filter: blur(10px)) {
+  .cta-section {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
 }
 
 .cta-header {
@@ -196,6 +328,7 @@ onMounted(async () => {
   align-items: center;
   justify-content: space-between;
   border-bottom: 1px solid #3c3c3c;
+  contain: content; /* Optimiser le rendu */
 }
 
 .window-controls {
@@ -236,6 +369,7 @@ onMounted(async () => {
   display: flex;
   align-items: center;
   gap: 2rem;
+  contain: content; /* Optimiser le rendu */
 }
 
 .cta-image {
@@ -243,8 +377,10 @@ onMounted(async () => {
   height: 120px;
   border-radius: 50%;
   border: 3px solid rgba(59, 130, 246, 0.5);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
   flex-shrink: 0;
+  /* Utiliser transform pour optimiser le GPU */
+  transform: translate3d(0, 0, 0);
 }
 
 .cta-text {
@@ -260,32 +396,136 @@ onMounted(async () => {
   text-align: justify;
 }
 
+/* Optimisation du rendu du bouton */
 .cta-button {
-  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  position: relative;
+  background: rgba(59, 130, 246, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   color: white;
   font-family: 'Fira Code', monospace;
   font-size: 1rem;
   font-weight: 600;
-  padding: 12px 24px;
-  border-radius: 10px;
-  border: none;
+  padding: 0;
+  border-radius: 16px;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
-  transition: all 0.3s ease;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(29, 78, 216, 0.3);
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+              box-shadow 0.3s ease;
+  transform: translateZ(0); /* Forcer la GPU */
+  contain: content; /* Optimiser le rendu */
+}
+
+/* Appliquer backdrop-filter uniquement si supporté */
+@supports (backdrop-filter: blur(8px)) or (-webkit-backdrop-filter: blur(8px)) {
+  .cta-button {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.4), rgba(29, 78, 216, 0.3));
+  }
+  
+  .cta-button:hover {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.5), rgba(29, 78, 216, 0.4));
+  }
 }
 
 .cta-button:hover {
-  background: linear-gradient(135deg, #2563eb, #1e40af);
+  transform: translateY(-5px) translateZ(0);
+  box-shadow: 0 15px 30px rgba(29, 78, 216, 0.4);
 }
 
 .cta-button i {
   font-size: 1.1rem;
 }
 
-/* Responsive */
+.cta-button:active {
+  transform: translateY(-2px) scale(0.98) translateZ(0);
+  box-shadow: 0 5px 15px rgba(29, 78, 216, 0.3);
+}
+
+/* Optimiser l'effet de lueur */
+.button-glow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at center, rgba(59, 130, 246, 0.6) 0%, transparent 60%);
+  opacity: 0;
+  z-index: 1;
+  pointer-events: none;
+  mix-blend-mode: overlay;
+}
+
+.button-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 14px 24px;
+  contain: content; /* Optimiser le rendu */
+}
+
+.icon-container {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 7px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.2);
+  transform: translateZ(0); /* Forcer la GPU */
+}
+
+.icon-container i {
+  font-size: 1rem;
+  z-index: 2;
+}
+
+.button-arrow {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%) scale(0) translateZ(0);
+  opacity: 0;
+  transition: all 0.3s ease;
+  color: rgba(255, 255, 255, 0.9);
+  z-index: 2;
+}
+
+.cta-button:hover .button-arrow {
+  transform: translateY(-50%) scale(1) translateZ(0);
+  opacity: 1;
+  right: 15px;
+}
+
+.cta-button:hover .button-text {
+  transform: translateX(-10px) translateZ(0);
+}
+
+.button-text {
+  transition: transform 0.25s ease;
+  transform: translateZ(0); /* Forcer la GPU */
+}
+
+/* Optimiser les particules */
+.button-particle {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  z-index: 1;
+  pointer-events: none;
+  transform: translateZ(0); /* Forcer la GPU */
+}
+
+/* Media queries restent inchangées */
 @media (max-width: 768px) {
   .cta-section {
     margin: 2rem 1rem;
@@ -314,6 +554,11 @@ onMounted(async () => {
     font-size: 0.9rem;
     padding: 10px 20px;
   }
+  
+  /* Désactiver les particules sur mobile */
+  .button-particle {
+    display: none;
+  }
 }
 
 @media (max-width: 480px) {
@@ -336,7 +581,7 @@ onMounted(async () => {
   }
 }
 
-/* Fallback pour éviter l'invisibilité */
+/* Fallback pour préserver l'accessibilité */
 @media (prefers-reduced-motion: reduce) {
   .cta-section,
   .cta-image,
@@ -344,6 +589,12 @@ onMounted(async () => {
   .cta-button {
     opacity: 1 !important;
     transform: none !important;
+    animation: none !important;
+    transition: none !important;
+  }
+  
+  .typewriter-text {
+    visibility: visible !important;
   }
 }
 </style>
