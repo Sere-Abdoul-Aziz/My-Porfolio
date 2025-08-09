@@ -26,7 +26,7 @@
     <div class="window-card collaboration-card">
       <div class="window-header bg-blue-400 text-white p-2 rounded-t-lg">Collaboration</div>
       <div class="window-body p-4 bg-gray-100 rounded-b-lg">
-        <p > J'aime collaborer de manière proactive au sein d'équipes dynamiques, en utilisant des méthodes agiles pour garantir la réussite des projets. Mon esprit d'équipe et mon dynamisme sont au cœur de mon approche, assurant des résultats de haute qualité à chaque étape du développement.</p>
+        <p > J’interviens comme un véritable partenaire de projet, collaborant avec souplesse et efficacité, que ce soit dans un environnement d’entreprise ou avec des particuliers. Chaque projet est abordé avec la même exigence de qualité et d’efficacité. Je mets un point d’honneur à instaurer une communication claire et une collaboration efficace, pour avancer ensemble vers des objectifs ambitieux.</p>
       </div>
     </div>
 
@@ -37,20 +37,26 @@
         <p>Retrouvez-moi sur:</p>
         <ul>
           <li>
-        <a href="https://www.linkedin.com/in/aziz-sere/" class="text-blue-500 flex items-center">
-          <i class="fab fa-linkedin fa-lg mr-2"></i> LinkedIn
-        </a>
-      </li>
-      <li>
-        <a href="https://github.com/Sere-Abdoul-Aziz/" class="text-blue-500 flex items-center">
-          <i class="fab fa-github fa-lg mr-2"></i> GitHub
-        </a>
-      </li>
-      <li>
-        <a href="https://discord.com/users/711138503316078595" class="text-blue-500 flex items-center">
-          <i class="fab fa-discord fa-lg mr-2"></i> Discord
-        </a>
-      </li>
+            <a href="https://www.linkedin.com/in/aziz-sere/" class="text-blue-500 flex items-center">
+              <i class="fab fa-linkedin fa-lg mr-2"></i> LinkedIn
+            </a>
+          </li>
+           <li>
+            <a href="https://wa.me/22671037367" target="_blank" class="text-blue-500 flex items-center">
+              <i class="fab fa-whatsapp fa-lg mr-2 "></i> WhatsApp
+            </a>
+          </li>
+          <li>
+            <a href="https://github.com/Sere-Abdoul-Aziz/" class="text-blue-500 flex items-center">
+              <i class="fab fa-github fa-lg mr-2"></i> GitHub
+            </a>
+          </li>
+          <li>
+            <a href="https://discord.com/users/711138503316078595" class="text-blue-500 flex items-center">
+              <i class="fab fa-discord fa-lg mr-2"></i> Discord
+            </a>
+          </li>
+         
         </ul>
       </div>
     </div>
@@ -267,12 +273,12 @@ onMounted(async () => {
 }
 
 .collaboration-card {
-  bottom: 300px;
+  bottom: 250px;
   right: 100px;
 }
 
 .online-card {
-  top: -740px;
+  top: -800px;
   left: 150px;
 }
 

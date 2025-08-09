@@ -4,26 +4,57 @@
   <div id="parallax-container" class="parallax-container">
     <AnimatedBackground />
     <IcebergImage />
-    <main class="content flex-grow flex flex-col justify-center items-center text-center px-4 ">
-      <h1 class="text-gray-200 text-4xl md:text-6xl lg:text-8xl font-bold leading-tight ">
-        Bonjour, je suis <span class="text-primary text-blue-400">SERE</span>,
-      </h1>
-      <h1 class="text-gray-200 text-4xl md:text-6xl lg:text-8xl font-bold leading-tight devant">
-        <span class="text-primary">Ingénieur en Génie Logiciel</span> <span class="text-primary text-blue-400">Fullstack</span>
-      </h1>
+    <main class="content flex-grow flex flex-col justify-center items-center text-center px-4">
+      <header>
+        <h1 class="text-gray-200 text-4xl md:text-6xl lg:text-8xl font-bold leading-tight">
+          Bonjour, je suis <span class="text-primary text-blue-400">SERE</span>,
+        </h1>
+        <h2 class="text-gray-200 text-4xl md:text-6xl lg:text-8xl font-bold leading-tight devant">
+          <span class="text-primary">Ingénieur en Génie Logiciel</span> <span class="text-primary text-blue-400">Fullstack</span>
+        </h2>
+      </header>
+      
       <GlassBox />
       
-      <h1 class="text-gray-200 text-2xl md:text-4xl lg:text-6xl font-bold leading-tight devant mt-10 lg:mt-20">
-        PROJETS <span class="text-primary text-blue-400">VEDETTES</span>
-      </h1>
-      <ProjectsSection />
-      <InteractiveDeveloperSection />
-      <ServiceSection />
-      <TechnologiesSection />
-      <CertificationsSection />
-      <ExperienceSection />
-      <LanguagesSection />
-      <CtaSection /> 
+      <section id="projects" aria-labelledby="projects-title">
+        <h2 id="projects-title" class="text-gray-200 text-2xl md:text-4xl lg:text-6xl font-bold leading-tight devant mt-10 lg:mt-20">
+          PROJETS <span class="text-primary text-blue-400">VEDETTES</span>
+        </h2>
+        <ProjectsSection />
+      </section>
+      
+      <section id="about-me" aria-labelledby="about-me-title">
+        <InteractiveDeveloperSection />
+      </section>
+      
+      <section id="services" aria-labelledby="services-title">
+        <ServiceSection />
+      </section>
+      
+      <section id="technologies" aria-labelledby="technologies-title">
+        <TechnologiesSection />
+      </section>
+      
+      <section id="certifications" aria-labelledby="certifications-title">
+        <CertificationsSection />
+      </section>
+      
+      <section id="experience" aria-labelledby="experience-title">
+        <ExperienceSection />
+      </section>
+      
+      <section id="blog" aria-labelledby="blog-title">
+        <Blog/>
+      </section>
+      
+      <section id="languages" aria-labelledby="languages-title">
+        <LanguagesSection />
+      </section>
+      
+      <section id="contact" aria-labelledby="contact-title">
+        <CtaSection />
+      </section>
+      
       <Footer />
     </main>
     <BottomImage />
