@@ -1093,25 +1093,40 @@ onUnmounted(() => {
 }
 
 /* Grille de services */
+
+/* Desktop par défaut - 3 colonnes (déjà défini) */
 .services-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* Exactement 3 colonnes */
+  grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
   margin: 0 auto;
   max-width: 1400px;
   contain: layout;
 }
 
-/* Ajouter des règles responsive pour que ça s'adapte sur mobile */
+/* Tablette paysage - 2 colonnes */
 @media (max-width: 1024px) {
   .services-grid {
-    grid-template-columns: repeat(2, 1fr); /* 2 colonnes sur tablette */
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 1.8rem;
   }
 }
 
-@media (max-width: 640px) {
+/* Tablette portrait et mobile - 1 colonne */
+@media (max-width: 768px) {
   .services-grid {
-    grid-template-columns: 1fr; /* 1 colonne sur mobile */
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem;
+    padding: 0 0.5rem;
+  }
+}
+
+/* Très petit mobile - optimisations supplémentaires */
+@media (max-width: 480px) {
+  .services-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1.2rem;
+    padding: 0 1rem;
   }
 }
 
