@@ -1,53 +1,91 @@
 <template>
   <div id="app">
-    <Header />
-    <router-view />
+    <!-- ✅ Contenu critique VISIBLE immédiatement -->
+    <div class="critical-splash" v-if="isLoading">
+      <div class="critical-content">
+        <h1 class="critical-title">SERE</h1>
+        <p class="critical-subtitle">Ingénieur Fullstack</p>
+        <div class="critical-loader"></div>
+      </div>
+    </div>
+    
+    <!-- ✅ Contenu principal -->
+    <div v-show="!isLoading" class="main-content">
+      <Header />
+      <router-view />
+    </div>
   </div>
 </template>
 
-<script>
-import { createApp } from 'vue';
-import Header from './components/Header.vue';
-import { app as firebaseApp } from './firebase'; // Import Firebase to ensure it's initialized
+<script setup>
+import { ref, onMounted } from 'vue'
+import Header from './components/Header.vue'
 
+const isLoading = ref(true)
 
-// const app = createApp(App);
-
-
-// app.mount('#app');
-
-export default {
-  name: 'App',
-  components: {
-    Header,
-  },
-  mounted() {
-    // Message original pour les développeurs
-    console.log("%c─────────────────────────────────────────────", "color: #ff6347; font-size: 20px; font-weight: bold;");
-    console.log("%c| Salut, développeur curieux !                         |", "color: #ff6347; font-size: 20px; font-weight: bold;");
-    console.log("%c─────────────────────────────────────────────", "color: #ff6347; font-size: 20px; font-weight: bold;");
-
-    console.log("%c| Il semble que tu aimes explorer les coulisses... 👀  |", "color: #20b2aa; font-size: 16px; background: #fff3cd; padding: 4px 0;");
-    console.log("%c| Si tu es du genre à aimer les surprises,            |", "color: #f39c12; font-size: 16px; background: #fff3cd; padding: 4px 0;");
-    console.log("%c| tu devrais peut-être chercher un petit Easter Egg   |", "color: #f39c12; font-size: 16px; background: #fff3cd; padding: 4px 0;");
-    console.log("%c| caché dans ce site...                               |", "color: #f39c12; font-size: 16px; background: #fff3cd; padding: 4px 0;");
-    
-    console.log("%c| Astuce : Tout n'est pas que decor. Amuse-toi bien ! 🔵 |", "color: #3498db; font-size: 16px; font-style: italic; background: #dff9fb; padding: 4px 0;");
-    
-    console.log("%c| SERE Abdoul Aziz - Fullstack Developer              |", "color: #2ecc71; font-size: 14px; font-style: italic; background: #eafaf1; padding: 4px 0;");
-    console.log("%c─────────────────────────────────────────────", "color: #ff6347; font-size: 20px; font-weight: bold;");
-}
-
-};
+onMounted(() => {
+  // ✅ Masquer le splash après le rendu critique
+  setTimeout(() => {
+    isLoading.value = false
+  }, 300) // Temps minimal pour FCP
+})
 </script>
 
 <style>
-body {
-  margin: 0;
-  padding: 0;
-  overflow-x: hidden; /* Masquer le défilement horizontal */
-  overflow-y: scroll;
-  /* overflow-y: hidden; */
+/* ✅ Styles critiques inline pour FCP immédiat */
+.critical-splash {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: linear-gradient(135deg, #0a192f 0%, #1e3a8a 50%, #0f172a 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
 }
 
+.critical-content {
+  text-align: center;
+  color: white;
+}
+
+.critical-title {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #60a5fa;
+  margin: 0;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+.critical-subtitle {
+  font-size: 1.2rem;
+  margin: 0.5rem 0;
+  opacity: 0.8;
+}
+
+.critical-loader {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(96, 165, 250, 0.3);
+  border-top: 3px solid #60a5fa;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 1rem auto;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.main-content {
+  opacity: 0;
+  animation: fadeIn 0.5s ease-in-out 0.3s forwards;
+}
+
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
 </style>

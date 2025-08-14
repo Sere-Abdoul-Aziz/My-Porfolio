@@ -376,23 +376,24 @@ gsap.registerPlugin(ScrollTrigger);
 
 // Services data
 const services = ref([
+      
     {
-    title: "Site Vitrine",
-    category: "web",
-    icon: "fas fa-building",
-    summary: "Présence en ligne professionnelle et impactante",
-    description: "Création de sites web vitrines élégants et optimisés pour présenter votre entreprise, vos services ou votre portfolio avec une identité visuelle cohérente et professionnelle.",
-    offers: [
-      "Design sur mesure et responsive",
-      "Optimisation SEO de base",
-      "Formulaire de contact",
-      "Intégration réseaux sociaux",
-    ],
-    technologies: ["HTML5", "CSS3", "JavaScript", "WordPress", "TailwindCSS"],
-    satisfaction: "4.9",
-    projects: "30+",
-    timeframe: "1-3 semaines"
-  },
+      title: "Site Web", // ✅ Changé de "Site Vitrine" à "Site Web"
+      category: "web",
+      icon: "fas fa-globe", // ✅ Changé de "fas fa-building" à "fas fa-globe"
+      summary: "Sites web professionnels et performants",
+      description: "Création de sites web modernes et optimisés pour présenter votre entreprise, vos services ou votre portfolio avec une identité visuelle cohérente et des fonctionnalités adaptées à vos besoins.",
+      offers: [
+        "Design sur mesure et responsive",
+        "Optimisation SEO avancée",
+        "Formulaire de contact interactif",
+        "Intégration réseaux sociaux et analytics",
+      ],
+      technologies: ["Nuxt.js", "React", "JavaScript", "Gsap", "JavaScript", "Vue.js", "TailwindCSS", "..."],
+      satisfaction: "4.9",
+      projects: "35+", 
+      timeframe: "1-3 semaines"
+    },
   {
     title: "Applications Web",
     category: "web",
@@ -611,14 +612,16 @@ const serviceSpecificFields = computed(() => {
   switch(modalService.value.category) {
     case 'web':
       // Vérification du titre du service pour personnaliser les options
-      if (modalService.value.title === 'Site Vitrine') {
-        return [
-          { id: 'responsive', label: 'Design responsive', info: 'Adaptatif à tous les appareils' },
-          { id: 'seo', label: 'Optimisation SEO', info: 'Référencement naturel' },
-          { id: 'cms', label: 'Système de gestion de contenu', info: 'Pour mettre à jour votre site facilement' },
-          { id: 'social', label: 'Intégration réseaux sociaux', info: 'Partage et boutons sociaux' }
-        ];
-      } else if (modalService.value.title === 'Portfolio personnalisé') {
+      if (modalService.value.title === 'Site Web') { 
+    return [
+      { id: 'responsive', label: 'Design responsive', info: 'Adaptatif à tous les appareils' },
+      { id: 'seo', label: 'Optimisation SEO avancée', info: 'Référencement naturel et technique' },
+      { id: 'cms', label: 'Système de gestion de contenu', info: 'Pour mettre à jour votre site facilement' },
+      { id: 'social', label: 'Intégration réseaux sociaux', info: 'Partage et boutons sociaux' },
+      { id: 'analytics', label: 'Analytics et statistiques', info: 'Suivi des performances et visiteurs' },
+      { id: 'contact', label: 'Formulaires avancés', info: 'Formulaires de contact personnalisés' }
+    ];
+  } else if (modalService.value.title === 'Portfolio personnalisé') {
         return [
           { id: 'animations', label: 'Animations avancées', info: 'Effets visuels dynamiques' },
           { id: 'projects', label: 'Section projets interactive', info: 'Présentation attractive de vos travaux' },

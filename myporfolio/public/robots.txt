@@ -1,0 +1,24 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://azizsere.eveilon.com/sitemap.xml
+
+# Optimisations SEO
+Crawl-delay: 1
+
+# Bloquer les fichiers non nécessaires
+Disallow: /_nuxt/
+Disallow: /api/
+Disallow: /.git/
+Disallow: /node_modules/
+Disallow: *.js$
+Disallow: *.css$
+Disallow: *.json$
+
+# Permettre les images et ressources importantes
+Allow: *.jpg$
+Allow: *.jpeg$
+Allow: *.png$
+Allow: *.webp$
+Allow: *.svg$

@@ -1,0 +1,36 @@
+/* Styles critiques pour FCP */
+.critical-content {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  color: #ffffff;
+  background: linear-gradient(135deg, #0a192f 0%, #1e3a8a 50%, #0f172a 100%);
+}
+
+.critical-title {
+  font-size: clamp(2rem, 8vw, 4rem);
+  font-weight: 700;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.critical-subtitle {
+  font-size: clamp(1rem, 4vw, 1.5rem);
+  opacity: 0.9;
+  margin: 0.5rem 0 0 0;
+}
+
+/* Optimisations de performance */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}

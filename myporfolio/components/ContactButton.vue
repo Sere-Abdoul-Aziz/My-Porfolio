@@ -55,8 +55,6 @@ const isAnimating = ref(false);
 // Computed pour formater le lien (on garde la fonctionnalité d'appel)
 const phoneLink = computed(() => `tel:${props.phoneNumber}`);
 
-// Plus besoin de formattedPhone puisqu'on n'affiche plus le numéro
-
 // Animations GSAP
 const hoverAnimation = () => {
   if (isAnimating.value) return;
@@ -154,16 +152,14 @@ onMounted(() => {
   // Animation d'apparition
   gsap.fromTo('.contact-button-container', 
     {
-      opacity: 0,
-      y: 50,
-      scale: 0.8
+      y: 30,
+      scale: 0.9
     },
     {
-      opacity: 1,
       y: 0,
       scale: 1,
-      duration: 0.8,
-      delay: 0.5,
+      duration: 0.6,
+      delay: 0.2,
       ease: 'back.out(1.7)'
     }
   );
@@ -182,16 +178,16 @@ onMounted(() => {
 
 <style scoped>
 .contact-button-container {
-  display: none; /* Caché par défaut */
+  display: block; /* ✅ CHANGÉ : Visible par défaut au lieu de none */
   width: 100%;
   margin: 1.5rem auto 0;
   padding: 0 1rem;
 }
 
-/* Affichage uniquement sur mobile */
-@media (max-width: 768px) {
+/* ✅ OPTIONNEL : Masquer sur desktop si voulu */
+@media (min-width: 1025px) {
   .contact-button-container {
-    display: block;
+    display: none; /* Caché sur desktop */
   }
 }
 
