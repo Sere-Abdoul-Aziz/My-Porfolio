@@ -1052,11 +1052,11 @@ onUnmounted(() => {
 <style scoped>
 .services-section {
   position: relative;
-  padding: 4rem 2rem;
-  margin: 6rem 0;
+  padding: 10rem 2rem 4rem; /* ✅ Changé : 6rem en haut au lieu de 4rem */
+  margin: 8rem 0 6rem; /* ✅ Changé : 8rem en haut au lieu de 6rem */
   overflow: hidden;
   z-index: 2;
-  contain: layout paint; /* Optimisation de rendu */
+  contain: layout paint;
 }
 
 /* Filtres de catégories */

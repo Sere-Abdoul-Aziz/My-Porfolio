@@ -121,7 +121,7 @@ import ingenieurImage from '@/assets/images/Ingenieur.png';
 import esbCertificationImage from '@/assets/images/ESB_logo.png';
 import azureCertificationImage from '@/assets/images/microsoft_logo.jpeg';
 import ccnaCertificationImage from '@/assets/images/cisco_logo.jpeg';
-import placeholderImage from '@/assets/images/Ingenieur.png'; // Image de secours
+import placeholderImage from '@/assets/images/Ingenieur.png'; 
 
 // Enregistrement du plugin GSAP
 gsap.registerPlugin(ScrollTrigger);
