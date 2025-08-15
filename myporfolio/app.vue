@@ -14,12 +14,17 @@
       <Header />
       <router-view />
     </div>
+    
+    <!-- ✅ AJOUT : Composant de consentement cookies -->
+    <CookieConsent />
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
 import Header from './components/Header.vue'
+// ✅ AJOUT : Import du composant CookieConsent
+import CookieConsent from './components/CookieConsent.vue'
 
 const isLoading = ref(true)
 
@@ -87,5 +92,10 @@ onMounted(() => {
 
 @keyframes fadeIn {
   to { opacity: 1; }
+}
+
+/* ✅ AJOUT : Styles pour que le banner cookies soit au-dessus du splash */
+.cookie-consent {
+  z-index: 10001 !important; /* Plus élevé que le splash (9999) */
 }
 </style>

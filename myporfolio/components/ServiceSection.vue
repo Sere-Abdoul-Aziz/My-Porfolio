@@ -371,8 +371,13 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { db } from '@/firebase'; 
 import { collection, addDoc } from 'firebase/firestore';
 import confetti from 'canvas-confetti';
+// ✅ AJOUT : Import du composable analytics
+import { useAnalytics } from '~/composables/useAnalytics';
 
 gsap.registerPlugin(ScrollTrigger);
+
+// ✅ AJOUT : Initialisation du tracking avec vérification
+const { trackServiceView, trackQuoteRequest, trackEvent, isGtagEnabled } = useAnalytics();
 
 // Services data
 const services = ref([
@@ -692,7 +697,16 @@ const getCardStyle = (index) => {
 // Fonction pour filtrer par catégorie
 const filterCategory = (category) => {
   activeCategory.value = category;
-  expandedService.value = null; // Fermer le service développé lors du changement de filtre
+  expandedService.value = null;
+  
+  // ✅ AJOUT : Tracking du filtrage (avec vérification)
+  if (isGtagEnabled()) {
+    trackEvent('service_filter_used', {
+      label: category,
+      section: 'services',
+      filter_type: 'category'
+    });
+  }
   
   // Animation de réorganisation
   nextTick(() => {
@@ -718,6 +732,12 @@ const throttle = (func, limit) => {
 const toggleService = (index) => {
   // Définir le service sélectionné
   modalService.value = services.value[index];
+  
+  // ✅ AJOUT : Tracking de l'ouverture du modal service (avec vérification)
+  if (isGtagEnabled()) {
+    trackServiceView(services.value[index].title);
+  }
+  
   // Empêcher le défilement du corps
   document.body.style.overflow = 'hidden';
   // Réinitialiser l'état du formulaire
@@ -746,6 +766,15 @@ const submitQuoteRequest = async () => {
     // Vérifier que le service est bien défini
     if (!modalService.value || !modalService.value.title) {
       throw new Error("Information de service manquante");
+    }
+
+    // ✅ AJOUT : Tracking du début de soumission (avec vérification)
+    if (isGtagEnabled()) {
+      trackEvent('quote_form_start', {
+        label: modalService.value.title,
+        section: 'services',
+        form_type: 'quote_request'
+      });
     }
 
     // Préparation des données du formulaire - conversion des options en format compatible Firestore
@@ -812,8 +841,34 @@ const submitQuoteRequest = async () => {
       });
     }
     
+    // ✅ AJOUT : Tracking de la soumission réussie (avec vérification)
+    if (isGtagEnabled()) {
+      trackQuoteRequest(modalService.value.title, quoteForm.budget);
+      
+      // ✅ AJOUT : Tracking des options sélectionnées
+      const selectedOptions = Object.keys(options).filter(key => options[key]);
+      if (selectedOptions.length > 0) {
+        trackEvent('quote_options_selected', {
+          label: modalService.value.title,
+          section: 'services',
+          options_count: selectedOptions.length,
+          selected_options: selectedOptions.join(',')
+        });
+      }
+    }
+    
   } catch (error) {
     console.error('Erreur détaillée lors de l\'envoi du formulaire:', error);
+    
+    // ✅ AJOUT : Tracking des erreurs (avec vérification)
+    if (isGtagEnabled()) {
+      trackEvent('quote_form_error', {
+        label: modalService.value?.title || 'unknown_service',
+        section: 'services',
+        error_type: error.code || 'unknown_error',
+        error_message: error.message
+      });
+    }
     
     // Message d'erreur plus précis selon le type d'erreur
     if (error.code === 'permission-denied') {
@@ -859,6 +914,15 @@ watch(modalService, (newVal) => {
 
 // Fonction pour demander un service spécifique - optimisée
 const requestService = (serviceTitle) => {
+  // ✅ AJOUT : Tracking de la demande de service (avec vérification)
+  if (isGtagEnabled()) {
+    trackEvent('service_request_initiated', {
+      label: serviceTitle,
+      section: 'services',
+      request_method: 'cta_button'
+    });
+  }
+  
   // Stocker le service sélectionné
   localStorage.setItem('requestedService', serviceTitle);
   
@@ -886,26 +950,17 @@ const requestService = (serviceTitle) => {
   console.log(`Service requested: ${serviceTitle}`);
 };
 
-// Animation des cartes optimisée
-const animateServicesLayout = () => {
-  const visibleCards = Array.from(document.querySelectorAll('.service-card')).filter(card => {
-    return window.getComputedStyle(card).display !== 'none';
-  });
-  
-  gsap.fromTo(visibleCards, 
-    { opacity: 0, y: 20 },
-    { 
-      opacity: 1, 
-      y: 0, 
-      duration: 0.4, 
-      stagger: 0.05,  // Réduit le stagger
-      clearProps: 'all' // Nettoie les propriétés après animation
-    }
-  );
-};
-
 // Scroll vers la section contact
 const scrollToContact = () => {
+  // ✅ AJOUT : Tracking du scroll vers contact (avec vérification)
+  if (isGtagEnabled()) {
+    trackEvent('contact_section_accessed', {
+      label: 'services_cta_button',
+      section: 'services',
+      action_type: 'scroll_to_contact'
+    });
+  }
+  
   const contactSection = document.getElementById('cta-section');
   if (contactSection) {
     contactSection.scrollIntoView({ behavior: 'smooth' });
@@ -2897,6 +2952,272 @@ onUnmounted(() => {
   }
 }
 
+/* Responsive Design optimisé */
+@media (max-width: 768px) {
+  .services-section {
+    padding: 2rem 1rem;
+    margin: 3rem 0;
+  }
+  
+  .services-grid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .filter-button {
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+  }
+  
+  .quality-indicator {
+    flex-direction: column;
+    gap: 1rem;
+    margin: 2rem auto;
+  }
+  
+  /* Hauteur adaptive au lieu de fixe */
+  .service-card.expanded {
+    min-height: 450px;
+    height: auto;
+    max-height: none;
+  }
+}
+
+/* Modal - styles */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.modal-content {
+  width: 100%;
+  max-width: 800px;
+  max-height: 90vh;
+  background: rgba(17, 25, 40, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  overflow-y: auto;
+  padding: 0;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
+  color: white;
+  position: relative;
+  animation: modalAppear 0.3s forwards ease-out;
+}
+
+.modal-close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  width: 36px;
+  height: 36px;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+.modal-close:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: rotate(90deg);
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  padding: 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(59, 130, 246, 0.1);
+}
+
+.modal-icon-container {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(96, 165, 250, 0.8), rgba(59, 130, 246, 0.5));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  margin-right: 1rem;
+  color: white;
+}
+
+.modal-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: white;
+  margin: 0;
+}
+
+.modal-body {
+  padding: 2rem;
+}
+
+.modal-description {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 2rem;
+}
+
+.modal-satisfaction {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+}
+
+.satisfaction-stars {
+  color: #fbbf24;
+  font-size: 1.1rem;
+}
+
+.satisfaction-rate {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.modal-section {
+  margin-bottom: 2rem;
+}
+
+.modal-section-title {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: rgba(96, 165, 250, 0.9);
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+.modal-offers {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.modal-offer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.modal-offer i {
+  color: #3b82f6;
+}
+
+.technologies-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+  list-style: none;
+  padding: 0;
+}
+
+.technologies-list li {
+  background: rgba(20, 129, 219, 0.3);
+  border-radius: 4px;
+  padding: 6px 12px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.modal-timeframe {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.modal-timeframe i {
+  color: #3b82f6;
+}
+
+.modal-cta {
+  margin-top: 3rem;
+  text-align: center;
+}
+
+/* Styles du bouton CTA amélioré */
+.modal-cta-button {
+  padding: 0.8rem 1.5rem;
+  background: linear-gradient(135deg, #22c55e, #15803d);
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-weight: 600;
+  font-size: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 25px rgba(21, 128, 61, 0.4);
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.modal-cta-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(21, 128, 61, 0.6);
+}
+
+.cta-main {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  font-size: 1.1rem;
+}
+
+.cta-secondary {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* Animation d'apparition du modal */
+@keyframes modalAppear {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
 /* Styles améliorés pour le formulaire de devis */
 .quote-form-container {
   animation: fadeScale 0.5s ease-out forwards;
@@ -3178,23 +3499,44 @@ select {
 .submit-quote-btn:before {
   content: '';
   position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-  transition: left 0.7s ease;
+   width: 20px;
+  height: 20px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: rotate 1s infinite linear;
 }
 
-.submit-quote-btn:hover:before {
-  left: 100%;
+@keyframes rotate {
+  to { transform: rotate(360deg); }
 }
 
-.submit-quote-btn:disabled {
-  opacity: 0.7;
-  cursor: not-allowed;
-  transform: none;
-  box-shadow: 0 8px 15px rgba(29, 78, 216, 0.2);
+.submit-quote-btn.submitting {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  position: relative;
+  color: transparent;
+}
+
+.submit-quote-btn.submitting::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 24px;
+  height: 24px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.8s infinite linear;
+}
+
+@keyframes spin {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
 }
 
 .form-notice {
@@ -3353,7 +3695,9 @@ select:required:invalid {
     left: 100%;
     opacity: 1;
   }
-}/* Styles pour le message de succès */
+}
+
+/* Styles pour le message de succès */
 .success-message-container {
   position: absolute;
   top: 0;
@@ -3429,29 +3773,4 @@ select:required:invalid {
     transform: translateY(0);
   }
 }
-
-/* Modification du bouton CTA pour montrer l'état de chargement */
-.submit-quote-btn.submitting {
-  background: linear-gradient(135deg, #2563eb, #1d4ed8);
-  position: relative;
-  color: transparent;
-}
-
-.submit-quote-btn.submitting::after {
-  content: "";
-  position: absolute;
-   width: 20px;
-  height: 20px;
-  border: 3px solid rgba(255, 255, 255, 0.3);
-  border-top-color: white;
-  border-radius: 50%;
-  animation: rotate 1s infinite linear;
-}
-
-@keyframes rotate {
-  to { transform: rotate(360deg); }
-}
-
-
-
 </style>

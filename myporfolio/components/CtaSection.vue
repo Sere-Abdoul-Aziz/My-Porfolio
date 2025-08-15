@@ -49,11 +49,17 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { TextPlugin } from 'gsap/TextPlugin';
 import ContactModal from './ContactModal.vue';
+// ✅ AJOUT : Import du composable analytics
+import { useAnalytics } from '~/composables/useAnalytics';
 
 gsap.registerPlugin(ScrollTrigger, TextPlugin);
 
 const typewriterText = ref(null);
 const isContactModalOpen = ref(false);
+
+// ✅ AJOUT : Initialisation du tracking
+const { trackEvent, trackContactAction, trackEngagement, isGtagEnabled } = useAnalytics();
+
 // Cache de sélecteurs DOM pour éviter les requêtes répétées
 const elements = ref({
   button: null,
@@ -68,20 +74,215 @@ const animations = ref({
 // Pour le nettoyage des event listeners
 const eventCleanupFunctions = ref([]);
 
+// ✅ AJOUT : Variables de tracking
+const ctaStartTime = ref(null);
+const buttonHoverCount = ref(0);
+const typewriterCompletionTime = ref(null);
+const userInteractionData = ref({
+  scrolledToCta: false,
+  hoveredButton: false,
+  clickedButton: false,
+  viewedTypewriter: false
+});
+
+// ✅ MODIFICATION : Ouverture du modal avec tracking
 const openContactModal = () => {
+  // ✅ AJOUT : Tracking de l'ouverture du modal depuis CTA
+  if (isGtagEnabled()) {
+    const timeSpentBeforeClick = ctaStartTime.value ? 
+      Math.round((Date.now() - ctaStartTime.value) / 1000) : 0;
+    
+    trackContactAction('cta_button_clicked', 'cta_section');
+    
+    trackEvent('cta_modal_opened', {
+      label: 'Contact Modal from CTA',
+      section: 'cta',
+      time_before_click: timeSpentBeforeClick,
+      hover_count: buttonHoverCount.value,
+      typewriter_completed: userInteractionData.value.viewedTypewriter,
+      user_engagement_level: calculateEngagementLevel(),
+      value: 8 // Valeur élevée pour l'action CTA
+    });
+  }
+  
   isContactModalOpen.value = true;
   document.body.style.overflow = 'hidden';
 };
 
 const closeContactModal = () => {
+  // ✅ MODIFICATION : Fermeture du modal avec tracking
+  // ✅ AJOUT : Tracking de la fermeture
+  if (isGtagEnabled()) {
+    trackEvent('cta_modal_closed', {
+      label: 'Contact Modal Closed from CTA',
+      section: 'cta',
+      close_method: 'manual_close'
+    });
+  }
+  
   isContactModalOpen.value = false;
   document.body.style.overflow = 'auto';
 };
 
 const handleFormSubmit = (formData) => {
   console.log('Form Submitted:', formData);
+  
+  // ✅ MODIFICATION : Soumission du formulaire avec tracking
+  // ✅ AJOUT : Tracking de la conversion CTA -> Soumission
+  if (isGtagEnabled()) {
+    const totalCtaTime = ctaStartTime.value ? 
+      Math.round((Date.now() - ctaStartTime.value) / 1000) : 0;
+    
+    trackEvent('cta_conversion_completed', {
+      label: `${formData.firstName} ${formData.lastName}`,
+      section: 'cta',
+      total_cta_time: totalCtaTime,
+      contact_preference: formData.contactPreference,
+      conversion_source: 'cta_section',
+      value: 15 // Valeur très élevée pour une conversion complète
+    });
+    
+    // ✅ AJOUT : Tracking de la qualité de l'engagement
+    trackEvent('cta_engagement_quality', {
+      label: 'High Quality Engagement',
+      section: 'cta',
+      engagement_metrics: JSON.stringify(userInteractionData.value),
+      hover_count: buttonHoverCount.value,
+      engagement_score: calculateEngagementScore()
+    });
+  }
+  
   alert(`Merci, ${formData.firstName}! Votre message a été envoyé.`);
   closeContactModal();
+};
+
+// ✅ AJOUT : Calcul du niveau d'engagement
+const calculateEngagementLevel = () => {
+  let score = 0;
+  if (userInteractionData.value.scrolledToCta) score += 2;
+  if (userInteractionData.value.viewedTypewriter) score += 3;
+  if (userInteractionData.value.hoveredButton) score += 2;
+  if (buttonHoverCount.value > 2) score += 1;
+  
+  if (score >= 7) return 'very_high';
+  if (score >= 5) return 'high';
+  if (score >= 3) return 'medium';
+  return 'low';
+};
+
+// ✅ AJOUT : Calcul du score d'engagement
+const calculateEngagementScore = () => {
+  let score = 0;
+  
+  // Points pour les différentes interactions
+  if (userInteractionData.value.scrolledToCta) score += 20;
+  if (userInteractionData.value.viewedTypewriter) score += 30;
+  if (userInteractionData.value.hoveredButton) score += 20;
+  if (userInteractionData.value.clickedButton) score += 30;
+  
+  // Bonus pour les hovers multiples (engagement soutenu)
+  score += Math.min(buttonHoverCount.value * 5, 25);
+  
+  // Malus si l'action a été trop rapide (possiblement accidentelle)
+  const timeSpent = ctaStartTime.value ? (Date.now() - ctaStartTime.value) / 1000 : 0;
+  if (timeSpent < 5) score -= 10;
+  
+  return Math.max(0, Math.min(100, score));
+};
+
+// ✅ AJOUT : Tracking de la completion du typewriter
+const handleTypewriterComplete = () => {
+  userInteractionData.value.viewedTypewriter = true;
+  typewriterCompletionTime.value = Date.now();
+  
+  if (isGtagEnabled()) {
+    trackEvent('cta_typewriter_completed', {
+      label: 'Typewriter Animation Completed',
+      section: 'cta',
+      animation_type: 'typewriter_text',
+      completion_time: typewriterCompletionTime.value - ctaStartTime.value
+    });
+  }
+};
+
+// ✅ AJOUT : Tracking du défilement vers la section CTA
+const handleCtaInView = () => {
+  if (!userInteractionData.value.scrolledToCta) {
+    userInteractionData.value.scrolledToCta = true;
+    ctaStartTime.value = Date.now();
+    
+    if (isGtagEnabled()) {
+      trackEvent('cta_section_viewed', {
+        label: 'CTA Section in Viewport',
+        section: 'cta',
+        view_trigger: 'scroll',
+        viewport_entry: 'first_time'
+      });
+      
+      // Démarrer le tracking d'engagement
+      trackEngagement('cta_section_active', 0);
+    }
+  }
+};
+
+// ✅ AJOUT : Tracking des hovers du bouton
+const handleButtonHover = () => {
+  buttonHoverCount.value++;
+  userInteractionData.value.hoveredButton = true;
+  
+  if (isGtagEnabled()) {
+    trackEvent('cta_button_hovered', {
+      label: 'CTA Button Hover',
+      section: 'cta',
+      hover_count: buttonHoverCount.value,
+      interaction_type: 'mouse_hover'
+    });
+    
+    // Tracking spécial pour les hovers répétés (indique un intérêt fort)
+    if (buttonHoverCount.value === 3) {
+      trackEvent('cta_button_multiple_hovers', {
+        label: 'High Interest Detected',
+        section: 'cta',
+        hover_count: buttonHoverCount.value,
+        engagement_indicator: 'high_interest'
+      });
+    }
+  }
+};
+
+// ✅ AJOUT : Tracking de la sortie du hover
+const handleButtonLeave = () => {
+  if (isGtagEnabled() && buttonHoverCount.value > 0) {
+    trackEvent('cta_button_hover_ended', {
+      label: 'CTA Button Hover End',
+      section: 'cta',
+      total_hovers: buttonHoverCount.value,
+      interaction_type: 'mouse_leave'
+    });
+  }
+};
+
+// ✅ AJOUT : Tracking de l'interaction avec les contrôles de fenêtre
+const handleWindowControlClick = (controlType) => {
+  if (isGtagEnabled()) {
+    trackEvent('cta_window_control_clicked', {
+      label: `Window Control: ${controlType}`,
+      section: 'cta',
+      control_type: controlType,
+      interaction_type: 'decorative_element'
+    });
+  }
+};
+
+// ✅ AJOUT : Tracking de l'interaction avec l'image de profil
+const handleProfileImageClick = () => {
+  if (isGtagEnabled()) {
+    trackEvent('cta_profile_image_clicked', {
+      label: 'Profile Image Interaction',
+      section: 'cta',
+      interaction_type: 'profile_curiosity'
+    });
+  }
 };
 
 // Fonction de debounce pour les événements fréquents
@@ -92,6 +293,39 @@ function debounce(func, wait) {
     timeout = setTimeout(() => func.apply(this, args), wait);
   };
 }
+
+// ✅ AJOUT : Tracking de l'engagement temps réel
+let engagementInterval = null;
+const startEngagementTracking = () => {
+  if (isGtagEnabled()) {
+    engagementInterval = setInterval(() => {
+      const currentTime = Date.now();
+      const timeSpent = Math.round((currentTime - ctaStartTime.value) / 1000);
+      
+      // Tracker toutes les 15 secondes
+      if (timeSpent % 15 === 0 && timeSpent > 0) {
+        trackEngagement('cta_section_engagement', timeSpent);
+        
+        // Tracker des milestones spéciaux
+        if (timeSpent === 30) {
+          trackEvent('cta_engagement_milestone', {
+            label: '30 seconds milestone',
+            section: 'cta',
+            milestone_type: 'time_spent',
+            engagement_duration: timeSpent
+          });
+        }
+      }
+    }, 1000);
+  }
+};
+
+const stopEngagementTracking = () => {
+  if (engagementInterval) {
+    clearInterval(engagementInterval);
+    engagementInterval = null;
+  }
+};
 
 onMounted(async () => {
   await nextTick();
@@ -104,7 +338,7 @@ onMounted(async () => {
   // Créer un contexte de performance isolé
   const ctx = gsap.context(() => {
     // Text plus court et fragmenté pour performance
-    const textContent = "Besoin d’un développeur fiable pour vos projets web, mobile ou logiciels ? Je mets mon expertise à votre service pour concrétiser vos ambitions, en toute simplicité. Que vous soyez une entreprise, une startup ou un indépendant, je suis à l’écoute, disponible, et facilement joignable pour vous accompagner à chaque étape. Mon approche : proximité, réactivité et confiance, pour bâtir ensemble une solution qui vous ressemble. Ensemble, faisons de votre projet une réussite.";
+    const textContent = "Besoin d'un développeur fiable pour vos projets web, mobile ou logiciels ? Je mets mon expertise à votre service pour concrétiser vos ambitions, en toute simplicité. Que vous soyez une entreprise, une startup ou un indépendant, je suis à l'écoute, disponible, et facilement joignable pour vous accompagner à chaque étape. Mon approche : proximité, réactivité et confiance, pour bâtir ensemble une solution qui vous ressemble. Ensemble, faisons de votre projet une réussite.";
 
     // Animation d'entrée simplifiée
     const masterTimeline = gsap.timeline({
@@ -112,7 +346,9 @@ onMounted(async () => {
         trigger: '#cta-section',
         start: 'top 80%',
         toggleActions: 'play none none none',
-        once: true // Exécuter une seule fois pour économiser des ressources
+        once: true, // Exécuter une seule fois pour économiser des ressources
+        // ✅ AJOUT : Callback pour le tracking
+        onEnter: handleCtaInView
       }
     });
     
@@ -147,7 +383,9 @@ onMounted(async () => {
           delimiter: " " // Anime mot par mot pour plus de performance
         },
         duration: 2,
-        ease: "none"
+        ease: "none",
+        // ✅ AJOUT : Callback de completion du typewriter
+        onComplete: handleTypewriterComplete
       })
       .to('.cta-button', {
         opacity: 1,
@@ -198,9 +436,11 @@ onMounted(async () => {
         if (entry.isIntersecting) {
           animations.value.pulse.play();
           animations.value.iconRotation.play();
+          startEngagementTracking();
         } else {
           animations.value.pulse.pause();
           animations.value.iconRotation.pause();
+          stopEngagementTracking();
         }
       });
     }, { threshold: 0.3 });
@@ -223,9 +463,12 @@ onMounted(async () => {
       }
       elements.value.button.appendChild(fragment);
       
-      // Fonction optimisée pour le mouseenter
+      // ✅ MODIFICATION : Fonction optimisée pour le mouseenter avec tracking
       const handleMouseEnter = debounce(() => {
         if (!elements.value.iconContainer) return;
+        
+        // ✅ AJOUT : Tracking du hover
+        handleButtonHover();
         
         gsap.to(elements.value.iconContainer, {
           rotate: 12,
@@ -255,9 +498,12 @@ onMounted(async () => {
         }
       }, 50); // Debounce de 50ms
       
-      // Fonction optimisée pour le mouseleave
+      // ✅ MODIFICATION : Fonction optimisée pour le mouseleave avec tracking
       const handleMouseLeave = debounce(() => {
         if (!elements.value.iconContainer) return;
+        
+        // ✅ AJOUT : Tracking de la sortie du hover
+        handleButtonLeave();
         
         gsap.to(elements.value.iconContainer, {
           rotate: 0,
@@ -281,8 +527,25 @@ onMounted(async () => {
   eventCleanupFunctions.value.push(() => ctx.revert());
 });
 
-// Nettoyer toutes les animations et event listeners
+// ✅ MODIFICATION : Nettoyer toutes les animations et event listeners avec tracking final
 onBeforeUnmount(() => {
+  // ✅ AJOUT : Tracking final avant destruction du composant
+  if (isGtagEnabled() && ctaStartTime.value) {
+    const totalTimeSpent = Math.round((Date.now() - ctaStartTime.value) / 1000);
+    
+    trackEvent('cta_section_unloaded', {
+      label: 'CTA Section Destroyed',
+      section: 'cta',
+      total_time_spent: totalTimeSpent,
+      final_engagement_score: calculateEngagementScore(),
+      user_converted: userInteractionData.value.clickedButton,
+      interactions_summary: JSON.stringify(userInteractionData.value)
+    });
+  }
+  
+  // Arrêter le tracking d'engagement
+  stopEngagementTracking();
+  
   // Nettoyer les event listeners
   eventCleanupFunctions.value.forEach(cleanup => cleanup());
   eventCleanupFunctions.value = [];

@@ -230,10 +230,12 @@
 </template>
 
 <script setup>
-import { ref, watch, computed, onMounted, nextTick } from 'vue';
+import { ref, watch, computed, onMounted, nextTick, onUnmounted } from 'vue';
 import { db } from '@/firebase'; 
 import { collection, addDoc } from 'firebase/firestore';
 import confetti from 'canvas-confetti';
+// ✅ AJOUT : Import du composable analytics
+import { useAnalytics } from '~/composables/useAnalytics';
 
 const props = defineProps({
   isOpen: Boolean,
@@ -241,6 +243,15 @@ const props = defineProps({
 
 const emit = defineEmits(['close', 'submit']);
 
+// ✅ AJOUT : Initialisation du tracking
+const { 
+  trackEvent, 
+  trackContactAction, 
+  trackEngagement, 
+  isGtagEnabled 
+} = useAnalytics();
+
+// Variables existantes...
 const firstName = ref('');
 const lastName = ref('');
 const email = ref('');
@@ -253,10 +264,17 @@ const isSubmitting = ref(false);
 const scrollIndicator = ref(null);
 const showScrollIndicator = ref(false);
 
-// Calcul du progrès du formulaire
+// ✅ AJOUT : Variables de tracking
+const modalOpenTime = ref(null);
+const formStartTime = ref(null);
+const fieldInteractions = ref({});
+const hasUserInteracted = ref(false);
+let engagementTimer = null;
+
+// Calcul du progrès du formulaire (existant)
 const formProgress = computed(() => {
   let progress = 0;
-  const totalFields = 4; // Nom, prénom, email, message
+  const totalFields = 4;
   
   if (firstName.value.length > 0) progress += 25;
   if (lastName.value.length > 0) progress += 25;
@@ -266,7 +284,29 @@ const formProgress = computed(() => {
   return Math.min(100, progress);
 });
 
-// Vérifier si un champ spécifique est valide
+// ✅ AJOUT : Tracking du progrès du formulaire
+watch(formProgress, (newProgress, oldProgress) => {
+  if (isGtagEnabled() && newProgress > oldProgress) {
+    trackEvent('contact_form_progress', {
+      label: 'Form Progress',
+      section: 'contact',
+      progress_percentage: newProgress,
+      progress_milestone: Math.floor(newProgress / 25) * 25
+    });
+    
+    // Marquer le début du formulaire à la première interaction
+    if (!formStartTime.value && newProgress > 0) {
+      formStartTime.value = Date.now();
+      trackEvent('contact_form_started', {
+        label: 'Form Interaction Started',
+        section: 'contact',
+        form_type: 'contact_modal'
+      });
+    }
+  }
+});
+
+// Vérifier si un champ spécifique est valide (existant)
 const isFieldValid = (field) => {
   switch (field) {
     case 'firstName':
@@ -282,11 +322,33 @@ const isFieldValid = (field) => {
   }
 };
 
-// Mise à jour du progrès et validation en temps réel
-const updateProgress = () => {
-  validateField(event.target.id);
+// ✅ MODIFICATION : Mise à jour du progrès avec tracking
+const updateProgress = (event) => {
+  const fieldName = event.target.id;
+  
+  // ✅ AJOUT : Tracking des interactions par champ
+  if (isGtagEnabled()) {
+    if (!fieldInteractions.value[fieldName]) {
+      fieldInteractions.value[fieldName] = {
+        firstInteraction: Date.now(),
+        interactionCount: 0
+      };
+      
+      trackEvent('contact_field_first_interaction', {
+        label: fieldName,
+        section: 'contact',
+        field_name: fieldName
+      });
+    }
+    
+    fieldInteractions.value[fieldName].interactionCount++;
+    hasUserInteracted.value = true;
+  }
+  
+  validateField(fieldName);
 };
 
+// ✅ MODIFICATION : Validation avec tracking
 const validateField = (fieldName) => {
   const newErrors = { ...errors.value };
   
@@ -298,6 +360,15 @@ const validateField = (fieldName) => {
         newErrors.firstName = 'Votre prénom doit contenir au moins 2 caractères';
       } else {
         delete newErrors.firstName;
+        // ✅ AJOUT : Tracking de validation réussie
+        if (isGtagEnabled()) {
+          trackEvent('contact_field_validated', {
+            label: 'firstName',
+            section: 'contact',
+            field_name: 'firstName',
+            validation_status: 'success'
+          });
+        }
       }
       break;
       
@@ -308,6 +379,14 @@ const validateField = (fieldName) => {
         newErrors.lastName = 'Votre nom doit contenir au moins 2 caractères';
       } else {
         delete newErrors.lastName;
+        if (isGtagEnabled()) {
+          trackEvent('contact_field_validated', {
+            label: 'lastName',
+            section: 'contact',
+            field_name: 'lastName',
+            validation_status: 'success'
+          });
+        }
       }
       break;
       
@@ -316,8 +395,25 @@ const validateField = (fieldName) => {
         newErrors.email = 'Votre email est requis';
       } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) {
         newErrors.email = 'Veuillez entrer un email valide';
+        // ✅ AJOUT : Tracking d'erreur de validation
+        if (isGtagEnabled()) {
+          trackEvent('contact_field_validation_error', {
+            label: 'email',
+            section: 'contact',
+            field_name: 'email',
+            error_type: 'invalid_format'
+          });
+        }
       } else {
         delete newErrors.email;
+        if (isGtagEnabled()) {
+          trackEvent('contact_field_validated', {
+            label: 'email',
+            section: 'contact',
+            field_name: 'email',
+            validation_status: 'success'
+          });
+        }
       }
       break;
       
@@ -326,10 +422,37 @@ const validateField = (fieldName) => {
         newErrors.message = 'Votre message est requis';
       } else if (message.value.length < 10) {
         newErrors.message = 'Votre message est un peu court, n\'hésitez pas à détailler';
+        if (isGtagEnabled()) {
+          trackEvent('contact_field_validation_error', {
+            label: 'message',
+            section: 'contact',
+            field_name: 'message',
+            error_type: 'too_short',
+            message_length: message.value.length
+          });
+        }
       } else if (message.value.length > 1000) {
         newErrors.message = 'Votre message ne doit pas dépasser 1000 caractères';
+        if (isGtagEnabled()) {
+          trackEvent('contact_field_validation_error', {
+            label: 'message',
+            section: 'contact',
+            field_name: 'message',
+            error_type: 'too_long',
+            message_length: message.value.length
+          });
+        }
       } else {
         delete newErrors.message;
+        if (isGtagEnabled()) {
+          trackEvent('contact_field_validated', {
+            label: 'message',
+            section: 'contact',
+            field_name: 'message',
+            validation_status: 'success',
+            message_length: message.value.length
+          });
+        }
       }
       break;
   }
@@ -337,23 +460,104 @@ const validateField = (fieldName) => {
   errors.value = newErrors;
 };
 
+// ✅ MODIFICATION : Validation du formulaire avec tracking
 const validateForm = () => {
   ['firstName', 'lastName', 'email', 'message'].forEach(validateField);
-  return Object.keys(errors.value).length === 0;
+  const isValid = Object.keys(errors.value).length === 0;
+  
+  // ✅ AJOUT : Tracking de validation globale
+  if (isGtagEnabled()) {
+    trackEvent('contact_form_validation', {
+      label: 'Form Validation Attempt',
+      section: 'contact',
+      validation_result: isValid ? 'success' : 'failed',
+      error_count: Object.keys(errors.value).length,
+      form_completion: formProgress.value
+    });
+  }
+  
+  return isValid;
 };
 
+// ✅ MODIFICATION : Fermeture du modal avec tracking
 const closeModal = () => {
+  // ✅ AJOUT : Tracking de fermeture
+  if (isGtagEnabled() && modalOpenTime.value) {
+    const timeSpent = Math.round((Date.now() - modalOpenTime.value) / 1000);
+    const abandonReason = determineAbandonReason();
+    
+    trackEvent('contact_modal_closed', {
+      label: 'Modal Closed',
+      section: 'contact',
+      time_spent: timeSpent,
+      form_progress: formProgress.value,
+      user_interacted: hasUserInteracted.value,
+      abandon_reason: abandonReason,
+      close_method: 'manual_close'
+    });
+    
+    // Arrêter le timer d'engagement
+    if (engagementTimer) {
+      clearInterval(engagementTimer);
+      engagementTimer = null;
+    }
+  }
+  
   emit('close');
+  resetModalState();
 };
 
+// ✅ AJOUT : Fonction pour déterminer la raison d'abandon
+const determineAbandonReason = () => {
+  if (formProgress.value === 0) return 'no_interaction';
+  if (formProgress.value < 25) return 'early_abandon';
+  if (formProgress.value < 75) return 'mid_abandon';
+  if (formProgress.value < 100) return 'late_abandon';
+  return 'form_complete';
+};
+
+// ✅ AJOUT : Réinitialisation de l'état du modal
+const resetModalState = () => {
+  modalOpenTime.value = null;
+  formStartTime.value = null;
+  fieldInteractions.value = {};
+  hasUserInteracted.value = false;
+};
+
+// ✅ MODIFICATION : Fermeture du modal de succès avec tracking
 const closeSuccessModal = () => {
+  if (isGtagEnabled()) {
+    trackEvent('contact_success_modal_closed', {
+      label: 'Success Modal Dismissed',
+      section: 'contact',
+      action_type: 'success_acknowledgment'
+    });
+  }
+  
   showSuccessModal.value = false;
   closeModal();
 };
 
+// ✅ MODIFICATION : Soumission du formulaire avec tracking avancé
 const submitForm = async () => {
   if (!validateForm()) return;
+  
   isSubmitting.value = true;
+  
+  // ✅ AJOUT : Tracking du début de soumission
+  if (isGtagEnabled()) {
+    const timeToSubmit = formStartTime.value ? 
+      Math.round((Date.now() - formStartTime.value) / 1000) : 0;
+    
+    trackEvent('contact_form_submit_attempt', {
+      label: 'Form Submission Started',
+      section: 'contact',
+      time_to_submit: timeToSubmit,
+      contact_preference: contactPreference.value,
+      message_length: message.value.length,
+      has_phone: phone.value ? 'yes' : 'no'
+    });
+  }
 
   const formData = {
     firstName: firstName.value,
@@ -368,7 +572,25 @@ const submitForm = async () => {
   try {
     await addDoc(collection(db, 'messages'), formData);
     
-    // Célébration avec confetti
+    // ✅ AJOUT : Tracking de succès
+    if (isGtagEnabled()) {
+      const totalTime = modalOpenTime.value ? 
+        Math.round((Date.now() - modalOpenTime.value) / 1000) : 0;
+      
+      trackContactAction('form_submitted', 'contact_modal');
+      
+      trackEvent('contact_form_submit_success', {
+        label: `${firstName.value} ${lastName.value}`,
+        section: 'contact',
+        total_modal_time: totalTime,
+        contact_preference: contactPreference.value,
+        message_category: categorizeMessage(message.value),
+        form_efficiency: calculateFormEfficiency(),
+        value: 10 // Valeur élevée pour une soumission réussie
+      });
+    }
+    
+    // Célébration avec confetti (existant)
     confetti({
       zIndex: 99999,
       particleCount: 150,
@@ -377,7 +599,7 @@ const submitForm = async () => {
       colors: ['#3b82f6', '#60a5fa', '#93c5fd', '#ffffff']
     });
     
-    // Réinitialisation du formulaire
+    // Réinitialisation du formulaire (existant)
     firstName.value = '';
     lastName.value = '';
     email.value = '';
@@ -388,47 +610,180 @@ const submitForm = async () => {
     
     showSuccessModal.value = true;
     emit('submit', formData);
+    
   } catch (error) {
     console.error('Erreur lors de l\'envoi du message :', error);
+    
+    // ✅ AJOUT : Tracking d'erreur
+    if (isGtagEnabled()) {
+      trackEvent('contact_form_submit_error', {
+        label: 'Form Submission Failed',
+        section: 'contact',
+        error_type: error.code || 'unknown_error',
+        error_message: error.message,
+        form_progress: formProgress.value
+      });
+    }
+    
     errors.value.submit = "Une erreur est survenue lors de l'envoi du message. Veuillez réessayer.";
   } finally {
     isSubmitting.value = false;
   }
 };
 
-// Vérifier si le défilement est nécessaire après le montage et les transitions
-onMounted(async () => {
-  nextTick(() => {
-    setTimeout(checkScrollNeeded, 500); // Délai pour permettre le rendu complet
-  });
-});
+// ✅ AJOUT : Fonction pour catégoriser le message
+const categorizeMessage = (messageText) => {
+  const text = messageText.toLowerCase();
+  if (text.includes('projet') || text.includes('développement')) return 'project_inquiry';
+  if (text.includes('devis') || text.includes('prix') || text.includes('coût')) return 'quote_request';
+  if (text.includes('collaboration') || text.includes('partenariat')) return 'collaboration';
+  if (text.includes('question') || text.includes('information')) return 'information_request';
+  return 'general_inquiry';
+};
 
-// Ajouter cette fonction pour vérifier si le contenu nécessite un défilement
+// ✅ AJOUT : Calcul de l'efficacité du formulaire
+const calculateFormEfficiency = () => {
+  if (!formStartTime.value) return 100;
+  
+  const timeSpent = (Date.now() - formStartTime.value) / 1000;
+  const fieldCount = Object.keys(fieldInteractions.value).length;
+  const avgTimePerField = timeSpent / fieldCount;
+  
+  if (avgTimePerField < 10) return 'very_fast';
+  if (avgTimePerField < 30) return 'fast';
+  if (avgTimePerField < 60) return 'normal';
+  if (avgTimePerField < 120) return 'slow';
+  return 'very_slow';
+};
+
+// ✅ AJOUT : Tracking des préférences de contact
+const trackContactPreferenceChange = (newPreference) => {
+  if (isGtagEnabled()) {
+    trackEvent('contact_preference_selected', {
+      label: newPreference,
+      section: 'contact',
+      preference_type: newPreference,
+      form_progress: formProgress.value
+    });
+  }
+  contactPreference.value = newPreference;
+};
+
+// ✅ AJOUT : Tracking du défilement
+const trackScrollBehavior = () => {
+  if (isGtagEnabled()) {
+    trackEvent('contact_modal_scrolled', {
+      label: 'User Scrolled Modal',
+      section: 'contact',
+      scroll_triggered: 'content_overflow'
+    });
+  }
+};
+
+// Vérifier si le défilement est nécessaire (existant avec ajout de tracking)
 const checkScrollNeeded = () => {
   const modalContent = document.querySelector('.modal-content');
   if (modalContent) {
-    // Montrer l'indicateur uniquement si le contenu est plus grand que le container
-    showScrollIndicator.value = modalContent.scrollHeight > modalContent.clientHeight;
+    const needsScroll = modalContent.scrollHeight > modalContent.clientHeight;
+    showScrollIndicator.value = needsScroll;
     
-    // Ajouter un listener pour cacher l'indicateur dès que l'utilisateur défile
+    // ✅ AJOUT : Tracking si le défilement est nécessaire
+    if (needsScroll && isGtagEnabled()) {
+      trackEvent('contact_modal_scroll_required', {
+        label: 'Modal Content Overflow',
+        section: 'contact',
+        content_height: modalContent.scrollHeight,
+        visible_height: modalContent.clientHeight
+      });
+    }
+    
     modalContent.addEventListener('scroll', () => {
-      if (modalContent.scrollTop > 20) { // Si l'utilisateur a défilé de plus de 20px
+      if (modalContent.scrollTop > 20) {
         showScrollIndicator.value = false;
+        trackScrollBehavior();
       }
     }, { passive: true });
   }
 };
 
-// Vérifier à nouveau si l'indicateur est nécessaire quand le modal s'ouvre
+// ✅ AJOUT : Tracking de l'engagement utilisateur
+const startEngagementTracking = () => {
+  if (isGtagEnabled()) {
+    engagementTimer = setInterval(() => {
+      trackEngagement('modal_active', 30);
+    }, 30000); // Tracker toutes les 30 secondes
+  }
+};
+
+// Vérifier à nouveau si l'indicateur est nécessaire (existant avec ajouts)
 watch(() => props.isOpen, (newValue) => {
   if (newValue) {
     document.body.style.overflow = 'hidden';
-    // Réinitialiser et vérifier l'indicateur de défilement
+    
+    // ✅ AJOUT : Tracking d'ouverture du modal
+    modalOpenTime.value = Date.now();
+    if (isGtagEnabled()) {
+      trackEvent('contact_modal_opened', {
+        label: 'Contact Modal Opened',
+        section: 'contact',
+        modal_type: 'contact_form'
+      });
+      
+      trackContactAction('modal_opened', 'contact_modal');
+    }
+    
+    // Démarrer le tracking d'engagement
+    startEngagementTracking();
+    
     nextTick(() => {
       setTimeout(checkScrollNeeded, 500);
     });
   } else {
     document.body.style.overflow = 'auto';
+    resetModalState();
+  }
+});
+
+// ✅ AJOUT : Watchers pour le tracking des changements
+watch(contactPreference, (newPref, oldPref) => {
+  if (oldPref && newPref !== oldPref && isGtagEnabled()) {
+    trackEvent('contact_preference_changed', {
+      label: `${oldPref} to ${newPref}`,
+      section: 'contact',
+      old_preference: oldPref,
+      new_preference: newPref
+    });
+  }
+});
+
+// ✅ AJOUT : Tracking des erreurs de validation en temps réel
+watch(errors, (newErrors, oldErrors) => {
+  if (isGtagEnabled()) {
+    const newErrorCount = Object.keys(newErrors).length;
+    const oldErrorCount = Object.keys(oldErrors || {}).length;
+    
+    if (newErrorCount > oldErrorCount) {
+      trackEvent('contact_validation_errors_increased', {
+        label: 'Validation Errors',
+        section: 'contact',
+        error_count: newErrorCount,
+        form_progress: formProgress.value
+      });
+    }
+  }
+}, { deep: true });
+
+// onMounted existant avec ajouts
+onMounted(async () => {
+  nextTick(() => {
+    setTimeout(checkScrollNeeded, 500);
+  });
+});
+
+// ✅ AJOUT : Nettoyage au démontage
+onUnmounted(() => {
+  if (engagementTimer) {
+    clearInterval(engagementTimer);
   }
 });
 </script>
