@@ -116,7 +116,7 @@ import ScrollTrigger from 'gsap/ScrollTrigger';
 
 // Importation correcte des images
 import baccalaureatImage from '@/assets/images/Baccalauréat.jpeg';
-import cyclePreparatoireImage from '@/assets/images/prepa.png';
+import cyclePreparatoireImage from '@/assets/images/Prepa.png';
 import ingenieurImage from '@/assets/images/Ingenieur.png';
 import esbCertificationImage from '@/assets/images/ESB_logo.png';
 import azureCertificationImage from '@/assets/images/microsoft_logo.jpeg';
