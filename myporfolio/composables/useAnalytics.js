@@ -40,6 +40,28 @@ export function useAnalytics() {
     })
   }
 
+  // ✅ AJOUT : Fonction trackPageView manquante
+  const trackPageView = (pageName, section = 'navigation') => {
+    if (!isGtagEnabled()) {
+      console.log('🔍 Page view désactivé:', { pageName, section })
+      return
+    }
+    
+    // ✅ Push vers dataLayer pour GTM
+    pushToDataLayer({
+      event: 'page_view',
+      page_title: pageName,
+      page_location: window.location.href,
+      page_path: window.location.pathname,
+      portfolio_section: section
+    })
+    
+    trackEvent('page_view', {
+      label: pageName,
+      section: section
+    })
+  }
+
   // ✅ Tracking spécifique services
   const trackServiceView = (serviceName) => {
     trackEvent('service_viewed', {
@@ -80,12 +102,34 @@ export function useAnalytics() {
     })
   }
 
+  // ✅ Tracking des conversions importantes pour GTM
+  const trackConversion = (conversionType, value = 0, details = {}) => {
+    if (!isGtagEnabled()) return
+
+    pushToDataLayer({
+      event: 'conversion',
+      conversion_type: conversionType,
+      conversion_value: value,
+      currency: 'XOF', // Franc CFA
+      ...details
+    })
+
+    trackEvent('conversion', {
+      label: conversionType,
+      value: value,
+      section: 'conversion',
+      ...details
+    })
+  }
+
   return {
     trackEvent,
+    trackPageView, // ✅ IMPORTANT : Export de la fonction
     trackServiceView,
     trackQuoteRequest,
     trackContactAction,
     trackEngagement,
+    trackConversion,
     pushToDataLayer,
     isGtagEnabled
   }

@@ -201,19 +201,33 @@ export default defineNuxtConfig({
     }
   },
 
-  // ✅ Optimisations build
+  // ✅ Optimisations build avec sitemap
   nitro: {
     compressPublicAssets: true,
     minify: true,
-    prerender: { routes: ['/sitemap.xml'] },
+    prerender: { 
+      routes: ['/sitemap.xml', '/robots.txt'],
+      crawlLinks: true
+    },
     experimental: { wasm: false }
   },
 
-  // ✅ Configuration de cache
+  // ✅ Configuration de cache avec SEO
   routeRules: {
-    '/': { prerender: true },
-    '/api/**': { cors: true },
-    '/images/**': { headers: { 'Cache-Control': 'max-age=31536000' } }
+    // Pages principales
+    '/': { prerender: true, index: true, sitemap: { priority: 1.0, changefreq: 'weekly' } },
+    '/about': { prerender: true, index: true, sitemap: { priority: 0.8, changefreq: 'monthly' } },
+    '/privacy': { prerender: true, index: true, sitemap: { priority: 0.3, changefreq: 'yearly' } },
+    
+    // API et fichiers techniques
+    '/api/**': { cors: true, headers: { 'Cache-Control': 'max-age=3600' } },
+    '/sitemap.xml': { headers: { 'Content-Type': 'application/xml', 'Cache-Control': 'max-age=86400' } },
+    '/robots.txt': { headers: { 'Content-Type': 'text/plain', 'Cache-Control': 'max-age=86400' } },
+    
+    // Assets statiques
+    '/images/**': { headers: { 'Cache-Control': 'max-age=31536000' } },
+    '/_nuxt/**': { headers: { 'Cache-Control': 'max-age=31536000' } },
+    '/favicon.ico': { headers: { 'Cache-Control': 'max-age=86400' } }
   },
 
   // ✅ MODIFICATION : Modules sans Google Analytics
@@ -237,19 +251,32 @@ export default defineNuxtConfig({
   // ✅ SUPPRESSION de la configuration googleGtag
   // googleGtag: { ... }
 
-  // ✅ Configuration runtime mise à jour
+  // ✅ Configuration runtime mise à jour avec SEO
   runtimeConfig: {
     public: {
       siteUrl: 'https://azizsere.eveilon.com',
       siteName: 'SERE Abdoul Aziz - Portfolio',
-      siteDescription: 'Portfolio professionnel conforme RGPD',
+      siteDescription: 'Portfolio professionnel conforme RGPD avec optimisations SEO',
       language: 'fr',
-      // ✅ AJOUT : Configuration GTM
+      // ✅ Configuration GTM
       googleTagManager: {
         id: 'GTM-W6X7JWVF' // ✅ Votre vrai ID GTM
       },
       googleAnalytics: {
         id: 'G-XXXXXXXXXX' // ← Ajoutez votre ID GA4 quand vous l'aurez
+      },
+      // ✅ AJOUT : Configuration SEO et sitemap
+      seo: {
+        sitemap: {
+          enabled: true,
+          hostname: 'https://azizsere.eveilon.com',
+          gzip: true,
+          exclude: ['/api/**', '/_nuxt/**', '/admin/**']
+        },
+        robots: {
+          enabled: true,
+          disallow: ['/api/', '/_nuxt/', '/admin/', '/*.json$']
+        }
       }
     }
   },
