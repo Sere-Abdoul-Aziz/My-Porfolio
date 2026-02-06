@@ -8,7 +8,7 @@
       <!-- SEO optimisé avec H1 contenant les mots-clés principaux -->
       <header>
         <h1 class="text-gray-200 text-4xl md:text-6xl lg:text-8xl font-bold leading-tight devant">
-          Bonjour, je suis <span class="text-primary text-blue-400">Sere Aziz</span> (Aziz Sere),
+          Bonjour, je suis <span class="text-primary text-blue-400">Sere Aziz</span>,
         </h1>
         <h2 class="text-gray-200 text-3xl md:text-5xl lg:text-7xl font-bold leading-tight devant mt-4">
           <span class="text-primary">Développeur Fullstack Expert</span> <span class="text-primary text-blue-400">Burkina Faso</span>

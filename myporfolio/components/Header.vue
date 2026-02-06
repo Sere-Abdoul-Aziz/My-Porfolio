@@ -30,6 +30,12 @@
           {{ currentLanguage === 'fr' ? 'Ressources' : 'Resources' }}
         </NuxtLink>
         <NuxtLink 
+          to="/games" 
+          class="text-gray-300 hover:text-white transition-colors font-medium"
+        >
+          {{ currentLanguage === 'fr' ? 'Jeux' : 'Games' }}
+        </NuxtLink>
+        <NuxtLink 
           to="/about" 
           class="text-gray-300 hover:text-white transition-colors font-medium"
         >
