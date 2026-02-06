@@ -95,6 +95,34 @@ import TypographyGenerator from '@/components/tools/TypographyGenerator.vue'
 import PatternGenerator from '@/components/tools/PatternGenerator.vue'
 import FaviconCreator from '@/components/tools/FaviconCreator.vue'
 import MockupGenerator from '@/components/tools/MockupGenerator.vue'
+import CSSMinifier from '@/components/tools/CSSMinifier.vue'
+import JSMinifier from '@/components/tools/JSMinifier.vue'
+import CodeBeautifier from '@/components/tools/CodeBeautifier.vue'
+import JSONValidator from '@/components/tools/JSONValidator.vue'
+import LoremIpsumGenerator from '@/components/tools/LoremIpsumGenerator.vue'
+import Base64Encoder from '@/components/tools/Base64Encoder.vue'
+import URLEncoder from '@/components/tools/URLEncoder.vue'
+import UUIDGenerator from '@/components/tools/UUIDGenerator.vue'
+import DiffChecker from '@/components/tools/DiffChecker.vue'
+import GitignoreGenerator from '@/components/tools/GitignoreGenerator.vue'
+import CaseConverter from '@/components/tools/CaseConverter.vue'
+import TextCounter from '@/components/tools/TextCounter.vue'
+import ImageCompressor from '@/components/tools/ImageCompressor.vue'
+import ImageConverter from '@/components/tools/ImageConverter.vue'
+import ImageResizer from '@/components/tools/ImageResizer.vue'
+import PlaceholderGenerator from '@/components/tools/PlaceholderGenerator.vue'
+import SVGOptimizer from '@/components/tools/SVGOptimizer.vue'
+import QRCodeGenerator from '@/components/tools/QRCodeGenerator.vue'
+import BarcodeGenerator from '@/components/tools/BarcodeGenerator.vue'
+import PasswordGenerator from '@/components/tools/PasswordGenerator.vue'
+import PasswordStrengthTester from '@/components/tools/PasswordStrengthTester.vue'
+import MD5Generator from '@/components/tools/MD5Generator.vue'
+import SHAGenerator from '@/components/tools/SHAGenerator.vue'
+import JWTTool from '@/components/tools/JWTTool.vue'
+import SSHKeyGenerator from '@/components/tools/SSHKeyGenerator.vue'
+import HtaccessGenerator from '@/components/tools/HtaccessGenerator.vue'
+import RobotsTxtGenerator from '@/components/tools/RobotsTxtGenerator.vue'
+import CSPGenerator from '@/components/tools/CSPGenerator.vue'
 
 // SEO Meta tags
 useHead({
@@ -125,7 +153,10 @@ const activeTool = ref(null)
 
 const categories = [
   { id: 'all', name: 'Tous', icon: '🎯' },
-  { id: 'design', name: 'Design & UI/UX', icon: '🎨' }
+  { id: 'design', name: 'Design & UI/UX', icon: '🎨' },
+  { id: 'code', name: 'Code Utilities', icon: '🔧' },
+  { id: 'images', name: 'Images & Médias', icon: '🖼️' },
+  { id: 'security', name: 'Sécurité & Crypto', icon: '🔐' }
 ]
 
 const tools = [
@@ -209,6 +240,258 @@ const tools = [
     category: 'Design & UI/UX',
     categoryId: 'design',
     component: MockupGenerator
+  },
+  {
+    id: 'css-minifier',
+    name: 'Minificateur CSS',
+    description: 'Compression et optimisation de code CSS',
+    icon: '🗜️',
+    category: 'Code Utilities',
+    categoryId: 'code',
+    component: CSSMinifier
+  },
+  {
+    id: 'js-minifier',
+    name: 'Minificateur JavaScript',
+    description: 'Compression de code JavaScript',
+    icon: '📦',
+    category: 'Code Utilities',
+    categoryId: 'code',
+    component: JSMinifier
+  },
+  {
+    id: 'code-beautifier',
+    name: 'Beautifier de Code',
+    description: 'Formatage automatique de code (JS, CSS, HTML, JSON)',
+    icon: '✨',
+    category: 'Code Utilities',
+    categoryId: 'code',
+    component: CodeBeautifier
+  },
+  {
+    id: 'json-validator',
+    name: 'Validateur JSON',
+    description: 'Validation et formatage de JSON',
+    icon: '✅',
+    category: 'Code Utilities',
+    categoryId: 'code',
+    component: JSONValidator
+  },
+  {
+    id: 'lorem-ipsum',
+    name: 'Générateur Lorem Ipsum',
+    description: 'Génération de texte de remplissage',
+    icon: '📄',
+    category: 'Code Utilities',
+    categoryId: 'code',
+    component: LoremIpsumGenerator
+  },
+  {
+    id: 'base64-encoder',
+    name: 'Encodeur/Décodeur Base64',
+    description: 'Conversion Base64 pour texte et fichiers',
+    icon: '🔐',
+    category: 'Code Utilities',
+    categoryId: 'code',
+    component: Base64Encoder
+  },
+  {
+    id: 'url-encoder',
+    name: 'Encodeur/Décodeur URL',
+    description: 'Encodage et décodage d\'URL',
+    icon: '🔗',
+    category: 'Code Utilities',
+    categoryId: 'code',
+    component: URLEncoder
+  },
+  {
+    id: 'uuid-generator',
+    name: 'Générateur UUID/GUID',
+    description: 'Génération d\'identifiants uniques v1 et v4',
+    icon: '🎲',
+    category: 'Code Utilities',
+    categoryId: 'code',
+    component: UUIDGenerator
+  },
+  {
+    id: 'diff-checker',
+    name: 'Diff Checker',
+    description: 'Comparaison de textes ligne par ligne',
+    icon: '🔍',
+    category: 'Code Utilities',
+    categoryId: 'code',
+    component: DiffChecker
+  },
+  {
+    id: 'gitignore-generator',
+    name: 'Générateur .gitignore',
+    description: 'Création de fichiers .gitignore pour différentes stacks',
+    icon: '📋',
+    category: 'Code Utilities',
+    categoryId: 'code',
+    component: GitignoreGenerator
+  },
+  {
+    id: 'case-converter',
+    name: 'Convertisseur de Casse',
+    description: 'camelCase, snake_case, kebab-case et plus',
+    icon: '🔤',
+    category: 'Code Utilities',
+    categoryId: 'code',
+    component: CaseConverter
+  },
+  {
+    id: 'text-counter',
+    name: 'Compteur de Texte',
+    description: 'Statistiques complètes: mots, caractères, temps de lecture',
+    icon: '🔢',
+    category: 'Code Utilities',
+    categoryId: 'code',
+    component: TextCounter
+  },
+  {
+    id: 'image-compressor',
+    name: 'Compresseur d\'Images',
+    description: 'Réduction de poids PNG/JPG/WebP en lot',
+    icon: '🗜️',
+    category: 'Images & Médias',
+    categoryId: 'images',
+    component: ImageCompressor
+  },
+  {
+    id: 'image-converter',
+    name: 'Convertisseur d\'Images',
+    description: 'Conversion PNG ↔ JPG ↔ WebP',
+    icon: '🔄',
+    category: 'Images & Médias',
+    categoryId: 'images',
+    component: ImageConverter
+  },
+  {
+    id: 'image-resizer',
+    name: 'Redimensionneur d\'Images',
+    description: 'Redimensionnement en lot avec presets',
+    icon: '📐',
+    category: 'Images & Médias',
+    categoryId: 'images',
+    component: ImageResizer
+  },
+  {
+    id: 'placeholder-generator',
+    name: 'Générateur de Placeholder',
+    description: 'Images de remplissage personnalisables',
+    icon: '🖼️',
+    category: 'Images & Médias',
+    categoryId: 'images',
+    component: PlaceholderGenerator
+  },
+  {
+    id: 'svg-optimizer',
+    name: 'Optimiseur SVG',
+    description: 'Nettoyage et compression de fichiers SVG',
+    icon: '✨',
+    category: 'Images & Médias',
+    categoryId: 'images',
+    component: SVGOptimizer
+  },
+  {
+    id: 'qrcode-generator',
+    name: 'Générateur de QR Code',
+    description: 'QR codes personnalisés pour URL, email, WiFi',
+    icon: '📱',
+    category: 'Images & Médias',
+    categoryId: 'images',
+    component: QRCodeGenerator
+  },
+  {
+    id: 'barcode-generator',
+    name: 'Générateur de Code-Barres',
+    description: 'Code 128, EAN-13, UPC, Code 39',
+    icon: '〓',
+    category: 'Images & Médias',
+    categoryId: 'images',
+    component: BarcodeGenerator
+  },
+  {
+    id: 'password-generator',
+    name: 'Générateur de Mots de Passe',
+    description: 'Mots de passe sécurisés avec options avancées',
+    icon: '🔑',
+    category: 'Sécurité & Crypto',
+    categoryId: 'security',
+    component: PasswordGenerator
+  },
+  {
+    id: 'password-strength-tester',
+    name: 'Testeur de Force de Mot de Passe',
+    description: 'Analyse de sécurité avec recommandations',
+    icon: '🛡️',
+    category: 'Sécurité & Crypto',
+    categoryId: 'security',
+    component: PasswordStrengthTester
+  },
+  {
+    id: 'md5-generator',
+    name: 'Générateur de Hash MD5',
+    description: 'Hachage MD5 pour vérification d\'intégrité',
+    icon: '🔒',
+    category: 'Sécurité & Crypto',
+    categoryId: 'security',
+    component: MD5Generator
+  },
+  {
+    id: 'sha-generator',
+    name: 'Générateur de Hash SHA',
+    description: 'SHA-256, SHA-512 et autres algorithmes',
+    icon: '🔐',
+    category: 'Sécurité & Crypto',
+    categoryId: 'security',
+    component: SHAGenerator
+  },
+  {
+    id: 'jwt-tool',
+    name: 'Encodeur/Décodeur JWT',
+    description: 'JSON Web Tokens - encoder et décoder',
+    icon: '🎫',
+    category: 'Sécurité & Crypto',
+    categoryId: 'security',
+    component: JWTTool
+  },
+  {
+    id: 'ssh-key-generator',
+    name: 'Générateur de Clés SSH',
+    description: 'Guide pour générer des paires de clés SSH',
+    icon: '🗝️',
+    category: 'Sécurité & Crypto',
+    categoryId: 'security',
+    component: SSHKeyGenerator
+  },
+  {
+    id: 'htaccess-generator',
+    name: 'Générateur .htaccess',
+    description: 'Configuration Apache avec options de sécurité',
+    icon: '⚙️',
+    category: 'Sécurité & Crypto',
+    categoryId: 'security',
+    component: HtaccessGenerator
+  },
+  {
+    id: 'robots-txt-generator',
+    name: 'Générateur Robots.txt',
+    description: 'Fichiers robots.txt pour contrôle SEO',
+    icon: '🤖',
+    category: 'Sécurité & Crypto',
+    categoryId: 'security',
+    component: RobotsTxtGenerator
+  },
+  {
+    id: 'csp-generator',
+    name: 'Générateur CSP Headers',
+    description: 'Content Security Policy pour sécuriser votre site',
+    icon: '🛡️',
+    category: 'Sécurité & Crypto',
+    categoryId: 'security',
+    component: CSPGenerator
   }
 ]
 
