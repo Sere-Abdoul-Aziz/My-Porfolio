@@ -2,7 +2,7 @@ export default defineEventHandler(async (event) => {
   const siteUrl = 'https://azizsere.eveilon.com'
   const currentDate = new Date().toISOString()
 
-  // ✅ Routes principales avec métadonnées SEO complètes
+  // ✅ Routes principales avec métadonnées SEO optimisées pour "Sere Aziz" et "Aziz Sere"
   const routes = [
     // ✅ Page d'accueil - Priorité maximale
     {
@@ -13,13 +13,13 @@ export default defineEventHandler(async (event) => {
       images: [
         {
           url: `${siteUrl}/og-image.jpg`,
-          caption: 'SERE Abdoul Aziz - Portfolio Développeur Fullstack',
-          title: 'Portfolio professionnel - Ingénieur en génie logiciel'
+          caption: 'Sere Aziz (Aziz Sere) - Portfolio Développeur Fullstack Burkina Faso',
+          title: 'Portfolio professionnel - Ingénieur en génie logiciel - Ouagadougou'
         },
         {
           url: `${siteUrl}/images/profil.png`,
-          caption: 'Photo professionnelle de SERE Abdoul Aziz',
-          title: 'SERE Abdoul Aziz - Développeur Expert'
+          caption: 'Photo professionnelle de Sere Aziz, développeur fullstack',
+          title: 'Sere Aziz - Développeur Expert Vue.js, React, Node.js'
         }
       ]
     },
@@ -29,12 +29,12 @@ export default defineEventHandler(async (event) => {
       url: '/about',
       lastmod: currentDate,
       changefreq: 'monthly',
-      priority: '0.8',
+      priority: '0.9',
       images: [
         {
           url: `${siteUrl}/images/about-profile.webp`,
-          caption: 'Présentation professionnelle et parcours',
-          title: 'À propos - SERE Abdoul Aziz'
+          caption: 'À propos de Sere Aziz - Parcours et compétences en développement',
+          title: 'À propos - Sere Aziz développeur fullstack Burkina Faso'
         }
       ]
     },

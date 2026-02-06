@@ -140,6 +140,44 @@ const projectImages = {
 };
 
 const projects = ref([
+    {
+    title: 'Plateforme ONG',
+    year: '2025',
+    client: 'Confidentiel',
+    technologies: ['Laravel', 'Livewire', 'Mysql', 'Php', 'Email Service'],
+    image: ongProjects, 
+    description: "Développement d’une plateforme complète dédiée à la gestion de projets et de missions à impact social, incluant le suivi des initiatives, la planification des activités et la coordination des équipes sur le terrain. La solution propose un système de gestion et de suivi des missions, des outils de reporting détaillés pour évaluer l’avancement et l’impact des actions, ainsi que des fonctionnalités de communication centralisée entre les différents acteurs impliqués.",
+    additionalImages: [
+      ongDashboard,
+      ongDonations,
+      ongReports
+    ],
+  services: [
+  'Gestion des Missions',
+  'Suivi des Projets',
+  'Coordination des Équipes',
+  'Reporting et Analyse d’Impact'
+],
+ },
+
+ {
+    title: 'MyTeach', 
+    year: '2023',
+    // client: 'Moov Africa',
+    partner: 'EPI',
+    technologies: ['Flutter', 'Firebase', 'Dart', 'node Js', 'Android Studio'],
+    image: projet3Image,
+    description: "MyTeach est une application mobile innovante destinée à mettre en relation des enseignants qualifiés avec des apprenants à la recherche de cours particuliers. Conçue pour offrir une expérience fluide et personnalisée, MyTeach permet aux apprenants de choisir parmi un large éventail d'enseignants qualifiés pour des cours à domicile, en fonction de leurs besoins spécifiques. Ils peuvent réserver des séances facilement via l'application. De leur côté, les enseignants ont accès à un espace de gestion des réservations, leur permettant de s'organiser efficacement pour leurs différents apprenants. En complément, MyTeach intègre une plateforme d'échange dans le style des réseaux sociaux, où enseignants et étudiants peuvent interagir, partager des ressources, et collaborer au-delà des cours. L'application vise à simplifier l'accès à l'éducation personnalisée tout en facilitant l'organisation et la communication entre les enseignants et les apprenants.",
+    additionalImages: [
+      connexionmyteach,
+      enseignantmyteach,
+      homemyteach,
+      messagemyteach,
+      profilmyteach,
+      profilprofmyteach
+    ],
+    // link: 'https://anotherexample.com',
+  },
   {
     title: 'EVENT MANAGER',
     year: '2024',
@@ -157,6 +195,7 @@ const projects = ref([
     ],
     // link: 'https://example.com',
   },
+
   {
     title: 'Miss Universités', 
     year: '2023',
@@ -175,24 +214,9 @@ const projects = ref([
     ],
     // link: 'https://anotherexample.com',
   },
-  {
-    title: 'MyTeach', 
-    year: '2023',
-    // client: 'Moov Africa',
-    partner: 'EPI',
-    technologies: ['Flutter', 'Firebase', 'Dart', 'node Js', 'Android Studio'],
-    image: projet3Image,
-    description: "MyTeach est une application mobile innovante destinée à mettre en relation des enseignants qualifiés avec des apprenants à la recherche de cours particuliers. Conçue pour offrir une expérience fluide et personnalisée, MyTeach permet aux apprenants de choisir parmi un large éventail d'enseignants qualifiés pour des cours à domicile, en fonction de leurs besoins spécifiques. Ils peuvent réserver des séances facilement via l'application. De leur côté, les enseignants ont accès à un espace de gestion des réservations, leur permettant de s'organiser efficacement pour leurs différents apprenants. En complément, MyTeach intègre une plateforme d'échange dans le style des réseaux sociaux, où enseignants et étudiants peuvent interagir, partager des ressources, et collaborer au-delà des cours. L'application vise à simplifier l'accès à l'éducation personnalisée tout en facilitant l'organisation et la communication entre les enseignants et les apprenants.",
-    additionalImages: [
-      connexionmyteach,
-      enseignantmyteach,
-      homemyteach,
-      messagemyteach,
-      profilmyteach,
-      profilprofmyteach
-    ],
-    // link: 'https://anotherexample.com',
-  },
+
+
+
   {
     title: 'Plateforme E-commerce',
     year: '2025',
@@ -212,6 +236,7 @@ const projects = ref([
     ],
     services: ['Développement Mobile', 'Développement Web', 'Intégration Paiement', 'UX/UI Design']
   },
+
   {
     title: 'Plateforme de Formation',
     year: '2025',
@@ -228,6 +253,7 @@ const projects = ref([
     ],
     services: ['Plateforme LMS', 'Streaming Vidéo', 'Système Certification', 'Analytics Apprentissage']
   },
+
   {
     title: 'Agrégateur de Paiement',
     year: '2025',
@@ -245,25 +271,8 @@ const projects = ref([
     ],
     services: ['Intégration Multi-Paiement', 'Chat', 'Système de Gestion des Pannes', 'API Gateway']
   },
-  {
-    title: 'Plateforme ONG',
-    year: '2025',
-    client: 'Confidentiel',
-    technologies: ['Laravel', 'Livewire', 'Mysql', 'Php', 'Email Service'],
-    image: ongProjects, 
-    description: "Développement d’une plateforme complète dédiée à la gestion de projets et de missions à impact social, incluant le suivi des initiatives, la planification des activités et la coordination des équipes sur le terrain. La solution propose un système de gestion et de suivi des missions, des outils de reporting détaillés pour évaluer l’avancement et l’impact des actions, ainsi que des fonctionnalités de communication centralisée entre les différents acteurs impliqués.",
-    additionalImages: [
-      ongDashboard,
-      ongDonations,
-      ongReports
-    ],
-  services: [
-  'Gestion des Missions',
-  'Suivi des Projets',
-  'Coordination des Équipes',
-  'Reporting et Analyse d’Impact'
-],
- }
+
+
 ]);
 
 const selectedProject = ref(null);

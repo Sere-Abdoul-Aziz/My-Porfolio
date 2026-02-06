@@ -1,7 +1,7 @@
 export default defineEventHandler(async (event) => {
   const siteUrl = 'https://azizsere.eveilon.com'
   
-  const robotsTxt = `# Robots.txt pour SERE Abdoul Aziz Portfolio
+  const robotsTxt = `# Robots.txt pour Sere Aziz (Aziz Sere) - Portfolio Développeur Fullstack
 # Dernière mise à jour: ${new Date().toISOString().split('T')[0]}
 
 # Règles générales pour tous les robots
@@ -10,6 +10,12 @@ Allow: /
 
 # Sitemap principal
 Sitemap: ${siteUrl}/sitemap.xml
+
+# Pages importantes à crawler en priorité
+Allow: /about
+Allow: /contact
+Allow: /services
+Allow: /privacy
 
 # Interdictions spécifiques
 Disallow: /api/
@@ -24,10 +30,10 @@ Disallow: /*.json$
 Disallow: /*?*debug*
 Disallow: /*?*test*
 
-# Délai d'exploration (optionnel - 1 seconde)
-Crawl-delay: 1
+# Délai d'exploration optimal (pas de limitation)
+Crawl-delay: 0
 
-# Directives spécifiques pour Googlebot
+# Directives spécifiques pour Googlebot (optimisé pour SEO)
 User-agent: Googlebot
 Allow: /
 Crawl-delay: 0
@@ -37,11 +43,13 @@ Allow: /css/
 Allow: /js/
 Allow: /_nuxt/*.css
 Allow: /_nuxt/*.js
+Allow: /_nuxt/*.webp
+Allow: /_nuxt/*.avif
 
 # Directives pour Bingbot
 User-agent: Bingbot
 Allow: /
-Crawl-delay: 1
+Crawl-delay: 0
 
 # Bots de réseaux sociaux - accès complet
 User-agent: facebookexternalhit

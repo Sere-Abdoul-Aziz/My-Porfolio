@@ -17,8 +17,8 @@ export default defineNuxtConfig({
   app: {
     head: {
       htmlAttrs: { lang: 'fr' },
-      title: 'SERE',
-      titleTemplate: '%s | Aziz SERE',
+      title: 'Sere Aziz | Aziz Sere - Développeur Fullstack Expert',
+      titleTemplate: '%s | Sere Aziz - Développeur Fullstack',
 
       meta: [
         { charset: 'utf-8' },
@@ -28,14 +28,14 @@ export default defineNuxtConfig({
         {
           name: 'description',
           content:
-            "SERE Abdoul Aziz, ingénieur en génie logiciel fullstack spécialisé dans le développement web, mobile et solutions SaaS. Création d'applications performantes et innovantes."
+            "Sere Aziz (Aziz Sere) - Développeur Fullstack Expert au Burkina Faso. Ingénieur en génie logiciel spécialisé en développement web, mobile et solutions SaaS. Création d'applications performantes avec Vue.js, React, Node.js et Flutter."
         },
 
         // ✅ Mots-clés SEO
         {
           name: 'keywords',
           content:
-            'SERE Abdoul Aziz, développeur fullstack, ingénieur logiciel, Vue.js, React, Node.js, applications web, développement mobile, portfolio développeur, freelance Mali, solutions SaaS'
+            'Sere Aziz, Aziz Sere, SERE Abdoul Aziz, développeur fullstack Burkina Faso, développeur Ouagadougou, ingénieur logiciel, Vue.js, Nuxt.js, React, Node.js, Flutter, applications web, développement mobile, portfolio développeur, freelance Burkina, solutions SaaS, développeur web Ouagadougou, programmeur Burkina Faso'
         },
 
         // ✅ Informations auteur
@@ -67,6 +67,15 @@ export default defineNuxtConfig({
         { property: 'og:image:height', content: '630' },
         { property: 'og:image:alt', content: 'SERE Abdoul Aziz - Portfolio Développeur Fullstack' },
         { property: 'og:locale', content: 'fr_FR' },
+
+        // ✅ Twitter Cards
+        { name: 'twitter:card', content: 'summary_large_image' },
+        { name: 'twitter:site', content: '@AzizSere' },
+        { name: 'twitter:creator', content: '@AzizSere' },
+        { name: 'twitter:title', content: 'Sere Aziz | Aziz Sere - Développeur Fullstack Expert Burkina Faso' },
+        { name: 'twitter:description', content: 'Développeur Fullstack Expert spécialisé en Vue.js, React, Node.js et Flutter. Basé à Ouagadougou, Burkina Faso.' },
+        { name: 'twitter:image', content: 'https://azizsere.eveilon.com/og-image.jpg' },
+        { name: 'twitter:image:alt', content: 'Sere Aziz - Portfolio Développeur Fullstack' },
 
         // ✅ Couleurs / PWA
         { name: 'theme-color', content: '#3b82f6' },
@@ -120,17 +129,26 @@ export default defineNuxtConfig({
           children: JSON.stringify({
             '@context': 'https://schema.org',
             '@type': 'Person',
-            name: 'SERE Abdoul Aziz',
-            alternateName: 'Aziz SERE',
+            name: 'Sere Aziz',
+            alternateName: ['Aziz Sere', 'SERE Abdoul Aziz', 'Aziz SERE'],
+            givenName: 'Aziz',
+            familyName: 'Sere',
             jobTitle: 'Ingénieur en Génie Logiciel Fullstack',
             description:
-              'Expert en développement web et mobile, spécialisé dans les solutions SaaS et applications performantes',
+              'Développeur Fullstack Expert basé à Ouagadougou, Burkina Faso. Spécialisé dans le développement web et mobile avec Vue.js, React, Node.js et Flutter. Création de solutions SaaS performantes et innovantes.',
             url: 'https://azizsere.eveilon.com',
             image: 'https://azizsere.eveilon.com/profile-image.jpg',
-            sameAs: ['https://www.linkedin.com/in/aziz-sere/', 'https://github.com/Sere-Abdoul-Aziz/'],
+            email: 'contact@azizsere.eveilon.com',
+            telephone: '+226-71-03-73-67',
+            sameAs: [
+              'https://www.linkedin.com/in/aziz-sere/',
+              'https://github.com/Sere-Abdoul-Aziz/',
+              'https://azizsere.eveilon.com'
+            ],
             knowsAbout: [
               'Développement Web',
               'Vue.js',
+              'Nuxt.js',
               'React',
               'Node.js',
               'Flutter',
@@ -139,11 +157,29 @@ export default defineNuxtConfig({
               'JavaScript',
               'TypeScript',
               'PHP',
-              'Laravel'
+              'Laravel',
+              'Firebase',
+              'Tailwind CSS',
+              'GSAP',
+              'Three.js'
             ],
-            worksFor: { '@type': 'Organization', name: 'Freelance' },
-            nationality: { '@type': 'Country', name: 'Burkina' },
-            address: { '@type': 'PostalAddress', addressCountry: 'BF', addressLocality: 'Ouagadougou' }
+            worksFor: { '@type': 'Organization', name: 'Freelance Developer' },
+            nationality: { '@type': 'Country', name: 'Burkina Faso' },
+            address: {
+              '@type': 'PostalAddress',
+              addressCountry: 'BF',
+              addressLocality: 'Ouagadougou',
+              addressRegion: 'Centre'
+            },
+            hasOccupation: {
+              '@type': 'Occupation',
+              name: 'Développeur Fullstack',
+              occupationLocation: {
+                '@type': 'Country',
+                name: 'Burkina Faso'
+              },
+              skills: 'Vue.js, React, Node.js, Flutter, JavaScript, TypeScript, Firebase'
+            }
           })
         },
         {
@@ -151,16 +187,97 @@ export default defineNuxtConfig({
           children: JSON.stringify({
             '@context': 'https://schema.org',
             '@type': 'WebSite',
-            name: 'SERE Abdoul Aziz - Portfolio',
-            alternateName: 'Aziz SERE Portfolio',
+            name: 'Sere Aziz - Portfolio Développeur Fullstack',
+            alternateName: ['Aziz Sere Portfolio', 'SERE Abdoul Aziz Portfolio'],
             url: 'https://azizsere.eveilon.com',
             description:
-              'Portfolio professionnel de SERE Abdoul Aziz, ingénieur fullstack expert en développement web et mobile',
-            author: { '@type': 'Person', name: 'SERE Abdoul Aziz' },
+              'Portfolio professionnel de Sere Aziz (Aziz Sere), développeur fullstack expert en développement web et mobile basé à Ouagadougou, Burkina Faso',
+            author: { '@type': 'Person', name: 'Sere Aziz' },
+            inLanguage: 'fr-FR',
             potentialAction: {
               '@type': 'SearchAction',
               target: 'https://azizsere.eveilon.com/search?q={search_term_string}',
               'query-input': 'required name=search_term_string'
+            }
+          })
+        },
+        {
+          type: 'application/ld+json',
+          children: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'ProfessionalService',
+            name: 'Sere Aziz - Services de Développement Web & Mobile',
+            alternateName: 'Aziz Sere Développeur',
+            description:
+              'Services professionnels de développement web et mobile par Sere Aziz. Création d\'applications sur mesure avec Vue.js, React, Node.js et Flutter.',
+            url: 'https://azizsere.eveilon.com',
+            logo: 'https://azizsere.eveilon.com/logo.png',
+            image: 'https://azizsere.eveilon.com/og-image.jpg',
+            telephone: '+226-71-03-73-67',
+            email: 'contact@azizsere.eveilon.com',
+            address: {
+              '@type': 'PostalAddress',
+              addressCountry: 'BF',
+              addressLocality: 'Ouagadougou',
+              addressRegion: 'Centre'
+            },
+            geo: {
+              '@type': 'GeoCoordinates',
+              latitude: '12.3714',
+              longitude: '-1.5197'
+            },
+            areaServed: [
+              {
+                '@type': 'Country',
+                name: 'Burkina Faso'
+              },
+              {
+                '@type': 'Country',
+                name: 'France'
+              },
+              {
+                '@type': 'Place',
+                name: 'International'
+              }
+            ],
+            priceRange: '$$',
+            hasOfferCatalog: {
+              '@type': 'OfferCatalog',
+              name: 'Services de Développement',
+              itemListElement: [
+                {
+                  '@type': 'Offer',
+                  itemOffered: {
+                    '@type': 'Service',
+                    name: 'Développement Web Fullstack',
+                    description: 'Création d\'applications web performantes avec Vue.js, Nuxt.js, React et Node.js'
+                  }
+                },
+                {
+                  '@type': 'Offer',
+                  itemOffered: {
+                    '@type': 'Service',
+                    name: 'Développement Mobile',
+                    description: 'Applications mobiles cross-platform avec Flutter et React Native'
+                  }
+                },
+                {
+                  '@type': 'Offer',
+                  itemOffered: {
+                    '@type': 'Service',
+                    name: 'Solutions SaaS',
+                    description: 'Développement de plateformes SaaS sur mesure et scalables'
+                  }
+                },
+                {
+                  '@type': 'Offer',
+                  itemOffered: {
+                    '@type': 'Service',
+                    name: 'Consulting Technique',
+                    description: 'Conseil et architecture logicielle pour vos projets'
+                  }
+                }
+              ]
             }
           })
         },

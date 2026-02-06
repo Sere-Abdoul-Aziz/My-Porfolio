@@ -5,13 +5,19 @@
     <AnimatedBackground />
     <IcebergImage />
     <main class="content flex-grow flex flex-col justify-center items-center text-center px-4">
+      <!-- SEO optimisé avec H1 contenant les mots-clés principaux -->
       <header>
         <h1 class="text-gray-200 text-4xl md:text-6xl lg:text-8xl font-bold leading-tight devant">
-          Bonjour, je suis <span class="text-primary text-blue-400">SERE</span>,
+          Bonjour, je suis <span class="text-primary text-blue-400">Sere Aziz</span> (Aziz Sere),
         </h1>
-        <h2 class="text-gray-200 text-4xl md:text-6xl lg:text-8xl font-bold leading-tight devant">
-          <span class="text-primary">Ingénieur en Génie Logiciel</span> <span class="text-primary text-blue-400">Fullstack</span>
+        <h2 class="text-gray-200 text-3xl md:text-5xl lg:text-7xl font-bold leading-tight devant mt-4">
+          <span class="text-primary">Développeur Fullstack Expert</span> <span class="text-primary text-blue-400">Burkina Faso</span>
         </h2>
+        <p class="text-gray-300 text-lg md:text-xl lg:text-2xl mt-6 max-w-4xl mx-auto">
+          Ingénieur en génie logiciel spécialisé en développement web et mobile. 
+          Création d'applications performantes avec <strong>Vue.js</strong>, <strong>Nuxt.js</strong>, <strong>React</strong>, <strong>Node.js</strong> et <strong>Flutter</strong>.
+          Basé à Ouagadougou, je transforme vos idées en solutions digitales innovantes.
+        </p>
       </header>
       
       <!-- Assurer que GlassBox a un conteneur visible -->
