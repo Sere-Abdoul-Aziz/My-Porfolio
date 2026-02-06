@@ -19,13 +19,14 @@
             :key="cat.id"
             @click="selectedCategory = cat.id"
             :class="[
-              'px-6 py-3 rounded-lg font-semibold transition-all transform hover:scale-105',
+              'px-6 py-3 rounded-lg font-semibold transition-all transform hover:scale-105 flex items-center gap-2',
               selectedCategory === cat.id
                 ? 'bg-blue-500 text-white shadow-lg'
                 : 'bg-white/10 text-gray-300 hover:bg-white/20'
             ]"
           >
-            {{ cat.icon }} {{ cat.name }}
+            <component :is="cat.icon" class="w-5 h-5" />
+            {{ cat.name }}
           </button>
         </div>
       </div>
@@ -38,7 +39,9 @@
           @click="openTool(tool)"
           class="bg-white/10 backdrop-blur-lg rounded-xl p-6 cursor-pointer hover:bg-white/20 transition-all transform hover:scale-105 hover:shadow-2xl border border-white/10"
         >
-          <div class="text-4xl mb-4">{{ tool.icon }}</div>
+          <div class="mb-4">
+            <component :is="tool.icon" class="w-12 h-12 text-blue-400" />
+          </div>
           <h3 class="text-xl font-bold text-white mb-2">{{ tool.name }}</h3>
           <p class="text-gray-300 text-sm mb-4">{{ tool.description }}</p>
           <div class="flex items-center justify-between">
@@ -59,7 +62,7 @@
             <!-- Header du modal -->
             <div class="sticky top-0 bg-gray-900 border-b border-white/10 p-6 flex items-center justify-between z-10">
               <div class="flex items-center space-x-4">
-                <span class="text-4xl">{{ activeTool.icon }}</span>
+                <component :is="activeTool.icon" class="w-10 h-10 text-blue-400" />
                 <div>
                   <h2 class="text-2xl font-bold text-white">{{ activeTool.name }}</h2>
                   <p class="text-gray-400 text-sm">{{ activeTool.description }}</p>
@@ -86,6 +89,38 @@
 
 <script setup>
 import { ref, computed } from 'vue'
+import {
+  PaintBrushIcon,
+  WrenchScrewdriverIcon,
+  PhotoIcon,
+  LockClosedIcon,
+  SquaresPlusIcon,
+  ArrowPathIcon,
+  SparklesIcon,
+  FaceSmileIcon,
+  Squares2X2Icon,
+  DocumentTextIcon,
+  StarIcon,
+  DevicePhoneMobileIcon,
+  CodeBracketIcon,
+  ArchiveBoxIcon,
+  CheckBadgeIcon,
+  DocumentIcon,
+  ShieldCheckIcon,
+  LinkIcon,
+  GlobeAltIcon,
+  MagnifyingGlassIcon,
+  ClipboardDocumentListIcon,
+  BarsArrowDownIcon,
+  HashtagIcon,
+  ViewfinderCircleIcon,
+  CalculatorIcon,
+  QrCodeIcon,
+  KeyIcon,
+  FingerPrintIcon,
+  CogIcon,
+  CommandLineIcon
+} from '@heroicons/vue/24/outline'
 import ColorPaletteGenerator from '@/components/tools/ColorPaletteGenerator.vue'
 import ColorConverter from '@/components/tools/ColorConverter.vue'
 import GlassmorphismGenerator from '@/components/tools/GlassmorphismGenerator.vue'
@@ -152,11 +187,11 @@ const selectedCategory = ref('all')
 const activeTool = ref(null)
 
 const categories = [
-  { id: 'all', name: 'Tous', icon: '🎯' },
-  { id: 'design', name: 'Design & UI/UX', icon: '🎨' },
-  { id: 'code', name: 'Code Utilities', icon: '🔧' },
-  { id: 'images', name: 'Images & Médias', icon: '🖼️' },
-  { id: 'security', name: 'Sécurité & Crypto', icon: '🔐' }
+  { id: 'all', name: 'Tous', icon: SquaresPlusIcon },
+  { id: 'design', name: 'Design & UI/UX', icon: PaintBrushIcon },
+  { id: 'code', name: 'Code Utilities', icon: WrenchScrewdriverIcon },
+  { id: 'images', name: 'Images & Médias', icon: PhotoIcon },
+  { id: 'security', name: 'Sécurité & Crypto', icon: LockClosedIcon }
 ]
 
 const tools = [
@@ -164,7 +199,7 @@ const tools = [
     id: 'color-palette-generator',
     name: 'Générateur de Palette',
     description: 'Extrayez des couleurs depuis une image et créez des harmonies',
-    icon: '🎨',
+    icon: PaintBrushIcon,
     category: 'Design & UI/UX',
     categoryId: 'design',
     component: ColorPaletteGenerator
@@ -173,7 +208,7 @@ const tools = [
     id: 'color-converter',
     name: 'Convertisseur de Couleurs',
     description: 'Convertissez entre HEX, RGB, HSL et CMYK',
-    icon: '🔄',
+    icon: ArrowPathIcon,
     category: 'Design & UI/UX',
     categoryId: 'design',
     component: ColorConverter
@@ -182,7 +217,7 @@ const tools = [
     id: 'glassmorphism-generator',
     name: 'Générateur Glassmorphism',
     description: 'Créez des effets de verre moderne avec code CSS',
-    icon: '💎',
+    icon: SparklesIcon,
     category: 'Design & UI/UX',
     categoryId: 'design',
     component: GlassmorphismGenerator
@@ -191,7 +226,7 @@ const tools = [
     id: 'neumorphism-generator',
     name: 'Générateur Neumorphism',
     description: 'Design neumorphique avec preview en temps réel',
-    icon: '🎭',
+    icon: FaceSmileIcon,
     category: 'Design & UI/UX',
     categoryId: 'design',
     component: NeumorphismGenerator
@@ -200,7 +235,7 @@ const tools = [
     id: 'material-design-palette',
     name: 'Palette Material Design',
     description: 'Couleurs officielles Google Material Design',
-    icon: '🌈',
+    icon: Squares2X2Icon,
     category: 'Design & UI/UX',
     categoryId: 'design',
     component: MaterialDesignPalette
@@ -209,7 +244,7 @@ const tools = [
     id: 'typography-generator',
     name: 'Générateur de Typographie',
     description: 'Combinaisons de polices harmonieuses',
-    icon: '📝',
+    icon: DocumentTextIcon,
     category: 'Design & UI/UX',
     categoryId: 'design',
     component: TypographyGenerator
@@ -218,7 +253,7 @@ const tools = [
     id: 'pattern-generator',
     name: 'Générateur de Pattern SVG',
     description: 'Créez des motifs de fond SVG personnalisés',
-    icon: '🔲',
+    icon: Squares2X2Icon,
     category: 'Design & UI/UX',
     categoryId: 'design',
     component: PatternGenerator
@@ -227,7 +262,7 @@ const tools = [
     id: 'favicon-creator',
     name: 'Créateur de Favicon',
     description: 'Convertissez une image en favicon multi-formats',
-    icon: '⭐',
+    icon: StarIcon,
     category: 'Design & UI/UX',
     categoryId: 'design',
     component: FaviconCreator
@@ -236,7 +271,7 @@ const tools = [
     id: 'mockup-generator',
     name: 'Générateur de Mockup',
     description: 'Templates de maquettes pour vos présentations',
-    icon: '📱',
+    icon: DevicePhoneMobileIcon,
     category: 'Design & UI/UX',
     categoryId: 'design',
     component: MockupGenerator
@@ -245,7 +280,7 @@ const tools = [
     id: 'css-minifier',
     name: 'Minificateur CSS',
     description: 'Compression et optimisation de code CSS',
-    icon: '🗜️',
+    icon: BarsArrowDownIcon,
     category: 'Code Utilities',
     categoryId: 'code',
     component: CSSMinifier
@@ -254,7 +289,7 @@ const tools = [
     id: 'js-minifier',
     name: 'Minificateur JavaScript',
     description: 'Compression de code JavaScript',
-    icon: '📦',
+    icon: ArchiveBoxIcon,
     category: 'Code Utilities',
     categoryId: 'code',
     component: JSMinifier
@@ -263,7 +298,7 @@ const tools = [
     id: 'code-beautifier',
     name: 'Beautifier de Code',
     description: 'Formatage automatique de code (JS, CSS, HTML, JSON)',
-    icon: '✨',
+    icon: SparklesIcon,
     category: 'Code Utilities',
     categoryId: 'code',
     component: CodeBeautifier
@@ -272,7 +307,7 @@ const tools = [
     id: 'json-validator',
     name: 'Validateur JSON',
     description: 'Validation et formatage de JSON',
-    icon: '✅',
+    icon: CheckBadgeIcon,
     category: 'Code Utilities',
     categoryId: 'code',
     component: JSONValidator
@@ -281,7 +316,7 @@ const tools = [
     id: 'lorem-ipsum',
     name: 'Générateur Lorem Ipsum',
     description: 'Génération de texte de remplissage',
-    icon: '📄',
+    icon: DocumentIcon,
     category: 'Code Utilities',
     categoryId: 'code',
     component: LoremIpsumGenerator
@@ -290,7 +325,7 @@ const tools = [
     id: 'base64-encoder',
     name: 'Encodeur/Décodeur Base64',
     description: 'Conversion Base64 pour texte et fichiers',
-    icon: '🔐',
+    icon: CodeBracketIcon,
     category: 'Code Utilities',
     categoryId: 'code',
     component: Base64Encoder
@@ -299,7 +334,7 @@ const tools = [
     id: 'url-encoder',
     name: 'Encodeur/Décodeur URL',
     description: 'Encodage et décodage d\'URL',
-    icon: '🔗',
+    icon: LinkIcon,
     category: 'Code Utilities',
     categoryId: 'code',
     component: URLEncoder
@@ -308,7 +343,7 @@ const tools = [
     id: 'uuid-generator',
     name: 'Générateur UUID/GUID',
     description: 'Génération d\'identifiants uniques v1 et v4',
-    icon: '🎲',
+    icon: FingerPrintIcon,
     category: 'Code Utilities',
     categoryId: 'code',
     component: UUIDGenerator
@@ -317,7 +352,7 @@ const tools = [
     id: 'diff-checker',
     name: 'Diff Checker',
     description: 'Comparaison de textes ligne par ligne',
-    icon: '🔍',
+    icon: MagnifyingGlassIcon,
     category: 'Code Utilities',
     categoryId: 'code',
     component: DiffChecker
@@ -326,7 +361,7 @@ const tools = [
     id: 'gitignore-generator',
     name: 'Générateur .gitignore',
     description: 'Création de fichiers .gitignore pour différentes stacks',
-    icon: '📋',
+    icon: ClipboardDocumentListIcon,
     category: 'Code Utilities',
     categoryId: 'code',
     component: GitignoreGenerator
@@ -335,7 +370,7 @@ const tools = [
     id: 'case-converter',
     name: 'Convertisseur de Casse',
     description: 'camelCase, snake_case, kebab-case et plus',
-    icon: '🔤',
+    icon: DocumentTextIcon,
     category: 'Code Utilities',
     categoryId: 'code',
     component: CaseConverter
@@ -344,7 +379,7 @@ const tools = [
     id: 'text-counter',
     name: 'Compteur de Texte',
     description: 'Statistiques complètes: mots, caractères, temps de lecture',
-    icon: '🔢',
+    icon: CalculatorIcon,
     category: 'Code Utilities',
     categoryId: 'code',
     component: TextCounter
@@ -353,7 +388,7 @@ const tools = [
     id: 'image-compressor',
     name: 'Compresseur d\'Images',
     description: 'Réduction de poids PNG/JPG/WebP en lot',
-    icon: '🗜️',
+    icon: BarsArrowDownIcon,
     category: 'Images & Médias',
     categoryId: 'images',
     component: ImageCompressor
@@ -362,7 +397,7 @@ const tools = [
     id: 'image-converter',
     name: 'Convertisseur d\'Images',
     description: 'Conversion PNG ↔ JPG ↔ WebP',
-    icon: '🔄',
+    icon: ArrowPathIcon,
     category: 'Images & Médias',
     categoryId: 'images',
     component: ImageConverter
@@ -371,7 +406,7 @@ const tools = [
     id: 'image-resizer',
     name: 'Redimensionneur d\'Images',
     description: 'Redimensionnement en lot avec presets',
-    icon: '📐',
+    icon: ViewfinderCircleIcon,
     category: 'Images & Médias',
     categoryId: 'images',
     component: ImageResizer
@@ -380,7 +415,7 @@ const tools = [
     id: 'placeholder-generator',
     name: 'Générateur de Placeholder',
     description: 'Images de remplissage personnalisables',
-    icon: '🖼️',
+    icon: PhotoIcon,
     category: 'Images & Médias',
     categoryId: 'images',
     component: PlaceholderGenerator
@@ -389,7 +424,7 @@ const tools = [
     id: 'svg-optimizer',
     name: 'Optimiseur SVG',
     description: 'Nettoyage et compression de fichiers SVG',
-    icon: '✨',
+    icon: SparklesIcon,
     category: 'Images & Médias',
     categoryId: 'images',
     component: SVGOptimizer
@@ -398,7 +433,7 @@ const tools = [
     id: 'qrcode-generator',
     name: 'Générateur de QR Code',
     description: 'QR codes personnalisés pour URL, email, WiFi',
-    icon: '📱',
+    icon: QrCodeIcon,
     category: 'Images & Médias',
     categoryId: 'images',
     component: QRCodeGenerator
@@ -407,7 +442,7 @@ const tools = [
     id: 'barcode-generator',
     name: 'Générateur de Code-Barres',
     description: 'Code 128, EAN-13, UPC, Code 39',
-    icon: '〓',
+    icon: ViewfinderCircleIcon,
     category: 'Images & Médias',
     categoryId: 'images',
     component: BarcodeGenerator
@@ -416,7 +451,7 @@ const tools = [
     id: 'password-generator',
     name: 'Générateur de Mots de Passe',
     description: 'Mots de passe sécurisés avec options avancées',
-    icon: '🔑',
+    icon: KeyIcon,
     category: 'Sécurité & Crypto',
     categoryId: 'security',
     component: PasswordGenerator
@@ -425,7 +460,7 @@ const tools = [
     id: 'password-strength-tester',
     name: 'Testeur de Force de Mot de Passe',
     description: 'Analyse de sécurité avec recommandations',
-    icon: '🛡️',
+    icon: ShieldCheckIcon,
     category: 'Sécurité & Crypto',
     categoryId: 'security',
     component: PasswordStrengthTester
@@ -434,7 +469,7 @@ const tools = [
     id: 'md5-generator',
     name: 'Générateur de Hash MD5',
     description: 'Hachage MD5 pour vérification d\'intégrité',
-    icon: '🔒',
+    icon: LockClosedIcon,
     category: 'Sécurité & Crypto',
     categoryId: 'security',
     component: MD5Generator
@@ -443,7 +478,7 @@ const tools = [
     id: 'sha-generator',
     name: 'Générateur de Hash SHA',
     description: 'SHA-256, SHA-512 et autres algorithmes',
-    icon: '🔐',
+    icon: HashtagIcon,
     category: 'Sécurité & Crypto',
     categoryId: 'security',
     component: SHAGenerator
@@ -452,7 +487,7 @@ const tools = [
     id: 'jwt-tool',
     name: 'Encodeur/Décodeur JWT',
     description: 'JSON Web Tokens - encoder et décoder',
-    icon: '🎫',
+    icon: CodeBracketIcon,
     category: 'Sécurité & Crypto',
     categoryId: 'security',
     component: JWTTool
@@ -461,7 +496,7 @@ const tools = [
     id: 'ssh-key-generator',
     name: 'Générateur de Clés SSH',
     description: 'Guide pour générer des paires de clés SSH',
-    icon: '🗝️',
+    icon: KeyIcon,
     category: 'Sécurité & Crypto',
     categoryId: 'security',
     component: SSHKeyGenerator
@@ -470,7 +505,7 @@ const tools = [
     id: 'htaccess-generator',
     name: 'Générateur .htaccess',
     description: 'Configuration Apache avec options de sécurité',
-    icon: '⚙️',
+    icon: CogIcon,
     category: 'Sécurité & Crypto',
     categoryId: 'security',
     component: HtaccessGenerator
@@ -479,7 +514,7 @@ const tools = [
     id: 'robots-txt-generator',
     name: 'Générateur Robots.txt',
     description: 'Fichiers robots.txt pour contrôle SEO',
-    icon: '🤖',
+    icon: CommandLineIcon,
     category: 'Sécurité & Crypto',
     categoryId: 'security',
     component: RobotsTxtGenerator
@@ -488,7 +523,7 @@ const tools = [
     id: 'csp-generator',
     name: 'Générateur CSP Headers',
     description: 'Content Security Policy pour sécuriser votre site',
-    icon: '🛡️',
+    icon: ShieldCheckIcon,
     category: 'Sécurité & Crypto',
     categoryId: 'security',
     component: CSPGenerator

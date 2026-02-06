@@ -18,7 +18,7 @@
           <div class="text-blue-400 font-semibold mb-2">Ed25519 (Recommandé)</div>
           <div class="bg-gray-800 rounded p-3 flex items-center justify-between">
             <code class="text-green-400 text-sm">ssh-keygen -t ed25519 -C "email@example.com"</code>
-            <button @click="copyCommand('ssh-keygen -t ed25519 -C \"email@example.com\"')" class="ml-2 bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm transition-colors">
+            <button @click="copyCommand('ssh-keygen -t ed25519 -C &quot;email@example.com&quot;')" class="ml-2 bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm transition-colors">
               📋
             </button>
           </div>
@@ -28,7 +28,7 @@
           <div class="text-blue-400 font-semibold mb-2">RSA 4096 bits</div>
           <div class="bg-gray-800 rounded p-3 flex items-center justify-between">
             <code class="text-green-400 text-sm">ssh-keygen -t rsa -b 4096 -C "email@example.com"</code>
-            <button @click="copyCommand('ssh-keygen -t rsa -b 4096 -C \"email@example.com\"')" class="ml-2 bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm transition-colors">
+            <button @click="copyCommand('ssh-keygen -t rsa -b 4096 -C &quot;email@example.com&quot;')" class="ml-2 bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm transition-colors">
               📋
             </button>
           </div>
@@ -38,7 +38,7 @@
           <div class="text-blue-400 font-semibold mb-2">ECDSA</div>
           <div class="bg-gray-800 rounded p-3 flex items-center justify-between">
             <code class="text-green-400 text-sm">ssh-keygen -t ecdsa -b 521 -C "email@example.com"</code>
-            <button @click="copyCommand('ssh-keygen -t ecdsa -b 521 -C \"email@example.com\"')" class="ml-2 bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm transition-colors">
+            <button @click="copyCommand('ssh-keygen -t ecdsa -b 521 -C &quot;email@example.com&quot;')" class="ml-2 bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm transition-colors">
               📋
             </button>
           </div>

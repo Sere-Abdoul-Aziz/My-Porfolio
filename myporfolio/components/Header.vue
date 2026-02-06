@@ -14,7 +14,29 @@
       </h1>
     </div>
     
-    <div class="flex items-center space-x-4">
+    <div class="flex items-center space-x-6">
+      <!-- Navigation Links -->
+      <nav class="flex items-center space-x-6">
+        <NuxtLink 
+          to="/" 
+          class="text-gray-300 hover:text-white transition-colors font-medium"
+        >
+          {{ currentLanguage === 'fr' ? 'Accueil' : 'Home' }}
+        </NuxtLink>
+        <NuxtLink 
+          to="/ressources" 
+          class="text-gray-300 hover:text-white transition-colors font-medium"
+        >
+          {{ currentLanguage === 'fr' ? 'Ressources' : 'Resources' }}
+        </NuxtLink>
+        <NuxtLink 
+          to="/about" 
+          class="text-gray-300 hover:text-white transition-colors font-medium"
+        >
+          {{ currentLanguage === 'fr' ? 'À propos' : 'About' }}
+        </NuxtLink>
+      </nav>
+
       <!-- Language Toggle -->
       <div class="language-toggle-container">
         <button 
