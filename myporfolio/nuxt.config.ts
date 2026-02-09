@@ -27,10 +27,8 @@ export default defineNuxtConfig({
     '/games': { ssr: false },
     '/privacy': { prerender: true },
     
-    // API et fichiers techniques - SSR activé
-    '/api/**': { ssr: true },
-    '/sitemap.xml': { redirect: '/api/sitemap.xml' },
-    '/robots.txt': { redirect: '/api/robots.txt' }
+    // API - SSR activé
+    '/api/**': { ssr: true }
   },
 
   app: {
@@ -349,6 +347,7 @@ export default defineNuxtConfig({
 
   // ✅ Configuration de cache optimisée (sans duplication)
   // routeRules déjà défini plus haut - suppression de la duplication
+
 
   // ✅ MODIFICATION : Modules sans Google Analytics
   modules: [
