@@ -1,7 +1,7 @@
 <template>
   <div class="placeholder-generator">
     <!-- Settings -->
-    <div class="grid md:grid-cols-2 gap-6 mb-6">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-6">
       <!-- Dimensions -->
       <div class="bg-white/10 rounded-xl p-6">
         <h3 class="text-white font-bold mb-4">📐 Dimensions</h3>
@@ -111,10 +111,10 @@
     </div>
 
     <!-- Actions -->
-    <div class="flex items-center justify-center gap-4">
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
       <button
         @click="generatePlaceholder"
-        class="bg-gradient-to-r from-blue-500 to-purple-500 hover:shadow-lg text-white px-8 py-3 rounded-lg font-bold transition-all"
+        class="bg-gradient-to-r from-blue-500 to-purple-500 hover:shadow-lg text-white px-6 sm:px-8 py-2 sm:py-3 rounded-lg font-bold transition-all"
       >
         🎨 Générer Placeholder
       </button>

@@ -1,9 +1,9 @@
 <template>
   <div class="glassmorphism-generator">
-    <div class="grid lg:grid-cols-2 gap-8">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
       <!-- Controls -->
-      <div class="space-y-6">
-        <h3 class="text-xl font-bold text-white mb-4">⚙️ Paramètres</h3>
+      <div class="space-y-4 sm:space-y-6">
+        <h3 class="text-base sm:text-lg lg:text-xl font-bold text-white mb-4">⚙️ Paramètres</h3>
 
         <!-- Background Color -->
         <div>
@@ -17,7 +17,7 @@
             <input
               v-model="bgColor"
               type="text"
-              class="flex-1 bg-gray-800 text-white px-4 py-3 rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none font-mono"
+              class="flex-1 bg-gray-800 text-white px-3 sm:px-4 py-2 sm:py-3 rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none font-mono"
             />
           </div>
         </div>
@@ -77,7 +77,7 @@
             <h4 class="text-white font-semibold">Code CSS</h4>
             <button
               @click="copyCSS"
-              class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors text-sm"
+              class="bg-blue-500 hover:bg-blue-600 text-white px-3 sm:px-4 py-2 rounded-lg transition-colors text-sm"
             >
               📋 Copier
             </button>
@@ -88,7 +88,7 @@
 
       <!-- Preview -->
       <div>
-        <h3 class="text-xl font-bold text-white mb-4">👁️ Aperçu</h3>
+        <h3 class="text-base sm:text-lg lg:text-xl font-bold text-white mb-4">👁️ Aperçu</h3>
         <div
           class="relative w-full h-[600px] rounded-xl overflow-hidden"
           :style="{ background: `linear-gradient(135deg, ${bgColor} 0%, #1e3a8a 100%)` }"
@@ -101,15 +101,15 @@
           </div>
 
           <!-- Glass Card -->
-          <div class="absolute inset-0 flex items-center justify-center p-8">
-            <div :style="glassStyle" class="w-full max-w-md p-8">
-              <h3 class="text-2xl font-bold text-white mb-4">Effet Glassmorphism</h3>
+          <div class="absolute inset-0 flex items-center justify-center p-4 sm:p-6 lg:p-8">
+            <div :style="glassStyle" class="w-full max-w-md p-4 sm:p-6 lg:p-8">
+              <h3 class="text-lg sm:text-xl lg:text-2xl font-bold text-white mb-4">Effet Glassmorphism</h3>
               <p class="text-white/90 mb-6">
                 Cet effet de verre moderne crée une interface élégante avec un arrière-plan flou et semi-transparent.
               </p>
-              <div class="flex space-x-3">
+              <div class="flex gap-2 sm:gap-3">
                 <button
-                  class="px-6 py-3 bg-white/20 text-white rounded-lg hover:bg-white/30 transition-colors backdrop-blur-sm"
+                  class="px-4 sm:px-6 py-2 sm:py-3 bg-white/20 text-white rounded-lg hover:bg-white/30 transition-colors backdrop-blur-sm"
                 >
                   Action
                 </button>

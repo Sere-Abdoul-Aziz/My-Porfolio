@@ -3,13 +3,13 @@
     <!-- Language Selection -->
     <div class="mb-6">
       <label class="block text-white mb-3 font-semibold">Langage</label>
-      <div class="flex gap-3">
+      <div class="flex flex-wrap gap-2 sm:gap-3">
         <button
           v-for="lang in languages"
           :key="lang.id"
           @click="selectedLanguage = lang.id"
           :class="[
-            'px-6 py-3 rounded-lg font-semibold transition-all',
+            'px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-semibold transition-all',
             selectedLanguage === lang.id ? 'bg-blue-500 text-white' : 'bg-white/10 text-gray-300'
           ]"
         >
@@ -18,11 +18,11 @@
       </div>
     </div>
 
-    <div class="grid lg:grid-cols-2 gap-6">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
       <!-- Input -->
       <div>
         <div class="flex items-center justify-between mb-3">
-          <h3 class="text-xl font-bold text-white">📝 Code Non Formaté</h3>
+          <h3 class="text-base sm:text-lg lg:text-xl font-bold text-white">📝 Code Non Formaté</h3>
           <button
             @click="pasteFromClipboard"
             class="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-lg text-sm transition-colors"
@@ -33,7 +33,7 @@
         <textarea
           v-model="inputCode"
           placeholder="Collez votre code ici..."
-          class="w-full h-96 bg-gray-800 text-gray-100 p-4 rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none font-mono text-sm resize-none"
+          class="w-full h-64 sm:h-80 lg:h-96 bg-gray-800 text-gray-100 p-4 rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none font-mono text-sm resize-none"
         ></textarea>
       </div>
 
@@ -59,7 +59,7 @@
     </div>
 
     <!-- Settings -->
-    <div class="mt-6 grid md:grid-cols-2 gap-4">
+    <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
       <div class="bg-white/10 rounded-lg p-4">
         <label class="block text-white mb-2">Indentation</label>
         <select
@@ -89,7 +89,7 @@
     </div>
 
     <!-- Actions -->
-    <div class="mt-6 flex items-center justify-center gap-4">
+    <div class="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
       <button
         @click="beautify"
         :disabled="!inputCode"

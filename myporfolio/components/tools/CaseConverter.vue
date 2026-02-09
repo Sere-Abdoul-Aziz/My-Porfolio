@@ -3,7 +3,7 @@
     <!-- Input -->
     <div class="mb-6">
       <div class="flex items-center justify-between mb-3">
-        <h3 class="text-xl font-bold text-white">📝 Texte à Convertir</h3>
+          <h3 class="text-base sm:text-lg lg:text-xl font-bold text-white">📝 Texte à Convertir</h3>
         <button
           @click="pasteFromClipboard"
           class="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-lg text-sm transition-colors"
@@ -20,11 +20,11 @@
     </div>
 
     <!-- Conversions Grid -->
-    <div class="grid md:grid-cols-2 gap-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
       <div
         v-for="conversion in conversions"
         :key="conversion.id"
-        class="bg-white/10 rounded-xl p-4 border border-gray-600 hover:border-blue-500 transition-colors"
+        class="bg-white/10 rounded-lg sm:rounded-xl p-3 sm:p-4 border border-gray-600 hover:border-blue-500 transition-colors"
       >
         <div class="flex items-center justify-between mb-3">
           <div>
@@ -46,7 +46,7 @@
     </div>
 
     <!-- Actions -->
-    <div class="mt-6 flex items-center justify-center gap-4">
+    <div class="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
       <button
         @click="convertAll"
         :disabled="!inputText"

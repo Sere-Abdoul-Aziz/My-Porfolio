@@ -1,6 +1,6 @@
 <template>
-  <div class="ssh-key-generator space-y-6">
-    <h3 class="text-xl font-bold text-white">🔑 Générateur de Clés SSH</h3>
+  <div class="ssh-key-generator space-y-4 sm:space-y-6">
+    <h3 class="text-base sm:text-lg lg:text-xl font-bold text-white">🔑 Générateur de Clés SSH</h3>
 
     <div class="bg-yellow-500/10 border border-yellow-500/30 rounded-lg p-4">
       <div class="text-yellow-400 font-semibold mb-2">⚠️ Note Importante</div>
@@ -13,7 +13,7 @@
     <div class="bg-gray-900 rounded-xl p-6">
       <h4 class="text-white font-semibold mb-4">💻 Commandes SSH-Keygen</h4>
       
-      <div class="space-y-4">
+      <div class="space-y-3 sm:space-y-4">
         <div>
           <div class="text-blue-400 font-semibold mb-2">Ed25519 (Recommandé)</div>
           <div class="bg-gray-800 rounded p-3 flex items-center justify-between">

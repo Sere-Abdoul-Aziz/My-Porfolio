@@ -1,11 +1,11 @@
 <template>
   <div class="typography-generator">
-    <div class="space-y-8">
+    <div class="space-y-6 sm:space-y-8">
       <!-- Preview Section -->
-      <div class="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl p-8 md:p-12">
+      <div class="bg-gradient-to-br from-gray-800 to-gray-900 rounded-lg sm:rounded-xl p-4 sm:p-6 md:p-8 lg:p-12">
         <div :style="{ fontFamily: selectedPair.heading }">
-          <h1 class="text-5xl md:text-7xl font-bold text-white mb-4">Typography Matters</h1>
-          <h2 class="text-3xl md:text-4xl font-semibold text-blue-400 mb-6">Good Design is Good Business</h2>
+          <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold text-white mb-4">Typography Matters</h1>
+          <h2 class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-blue-400 mb-4 sm:mb-6">Good Design is Good Business</h2>
         </div>
         <div :style="{ fontFamily: selectedPair.body }" class="text-gray-300 text-lg leading-relaxed">
           <p class="mb-4">
@@ -21,14 +21,14 @@
 
       <!-- Font Pairs Grid -->
       <div>
-        <h3 class="text-2xl font-bold text-white mb-6">🎨 Combinaisons de polices populaires</h3>
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <h3 class="text-lg sm:text-xl lg:text-2xl font-bold text-white mb-4 sm:mb-6">🎨 Combinaisons de polices populaires</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           <div
             v-for="pair in fontPairs"
             :key="pair.id"
             @click="selectPair(pair)"
             :class="[
-              'bg-white/10 rounded-xl p-6 cursor-pointer transition-all hover:bg-white/20 border-2',
+              'bg-white/10 rounded-lg sm:rounded-xl p-4 sm:p-6 cursor-pointer transition-all hover:bg-white/20 border-2',
               selectedPair.id === pair.id ? 'border-blue-500' : 'border-transparent'
             ]"
           >
@@ -52,12 +52,12 @@
       </div>
 
       <!-- CSS Code -->
-      <div class="bg-gray-800 rounded-xl p-6">
+      <div class="bg-gray-800 rounded-lg sm:rounded-xl p-4 sm:p-6">
         <div class="flex items-center justify-between mb-4">
-          <h4 class="text-xl font-bold text-white">💻 Code CSS / Import</h4>
+          <h4 class="text-base sm:text-lg lg:text-xl font-bold text-white">💻 Code CSS / Import</h4>
           <button
             @click="copyCode"
-            class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors"
+            class="bg-blue-500 hover:bg-blue-600 text-white px-3 sm:px-4 py-2 rounded-lg transition-colors"
           >
             📋 Copier
           </button>

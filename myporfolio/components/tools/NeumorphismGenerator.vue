@@ -1,9 +1,9 @@
 <template>
   <div class="neumorphism-generator">
-    <div class="grid lg:grid-cols-2 gap-8">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
       <!-- Controls -->
-      <div class="space-y-6">
-        <h3 class="text-xl font-bold text-white mb-4">⚙️ Paramètres</h3>
+      <div class="space-y-4 sm:space-y-6">
+        <h3 class="text-base sm:text-lg lg:text-xl font-bold text-white mb-4">⚙️ Paramètres</h3>
 
         <!-- Background Color -->
         <div>
@@ -17,7 +17,7 @@
             <input
               v-model="bgColor"
               type="text"
-              class="flex-1 bg-gray-800 text-white px-4 py-3 rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none font-mono"
+              class="flex-1 bg-gray-800 text-white px-3 sm:px-4 py-2 sm:py-3 rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none font-mono"
             />
           </div>
         </div>
@@ -29,7 +29,7 @@
             <button
               @click="shapeType = 'flat'"
               :class="[
-                'px-4 py-3 rounded-lg font-semibold transition-all',
+                'px-3 sm:px-4 py-2 sm:py-3 rounded-lg font-semibold transition-all',
                 shapeType === 'flat' ? 'bg-blue-500 text-white' : 'bg-white/10 text-gray-300'
               ]"
             >
@@ -101,7 +101,7 @@
             <h4 class="text-white font-semibold">Code CSS</h4>
             <button
               @click="copyCSS"
-              class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors text-sm"
+              class="bg-blue-500 hover:bg-blue-600 text-white px-3 sm:px-4 py-2 rounded-lg transition-colors text-sm"
             >
               📋 Copier
             </button>
@@ -112,9 +112,9 @@
 
       <!-- Preview -->
       <div>
-        <h3 class="text-xl font-bold text-white mb-4">👁️ Aperçu</h3>
+        <h3 class="text-base sm:text-lg lg:text-xl font-bold text-white mb-4">👁️ Aperçu</h3>
         <div
-          class="w-full h-[600px] rounded-xl flex items-center justify-center p-8"
+          class="w-full h-[400px] sm:h-[500px] lg:h-[600px] rounded-lg sm:rounded-xl flex items-center justify-center p-4 sm:p-6 lg:p-8"
           :style="{ backgroundColor: bgColor }"
         >
           <div :style="neuStyle" class="flex items-center justify-center">

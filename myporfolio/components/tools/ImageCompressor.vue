@@ -4,33 +4,33 @@
     <div
       @drop.prevent="handleDrop"
       @dragover.prevent
-      class="border-2 border-dashed border-blue-400 rounded-xl p-12 text-center hover:border-blue-300 transition-colors cursor-pointer mb-6"
+      class="border-2 border-dashed border-blue-400 rounded-lg sm:rounded-xl p-6 sm:p-8 lg:p-12 text-center hover:border-blue-300 transition-colors cursor-pointer mb-4 sm:mb-6"
       @click="$refs.fileInput.click()"
     >
       <input ref="fileInput" type="file" accept="image/*" multiple @change="handleFileSelect" class="hidden" />
       <div v-if="images.length === 0" class="text-gray-300">
-        <p class="text-4xl mb-4">🖼️</p>
-        <p class="text-xl mb-2">Glissez des images ou cliquez pour choisir</p>
-        <p class="text-sm text-gray-500">PNG, JPG, WebP acceptés • Max 10 images</p>
+        <p class="text-2xl sm:text-3xl lg:text-4xl mb-3 sm:mb-4">🖼️</p>
+        <p class="text-base sm:text-lg lg:text-xl mb-2">Glissez des images ou cliquez pour choisir</p>
+        <p class="text-xs sm:text-sm text-gray-500">PNG, JPG, WebP acceptés • Max 10 images</p>
       </div>
       <div v-else class="text-gray-300">
-        <p class="text-2xl mb-2">✅ {{ images.length }} image(s) chargée(s)</p>
-        <p class="text-sm text-gray-500">Cliquez pour ajouter plus d'images</p>
+        <p class="text-lg sm:text-xl lg:text-2xl mb-2">✅ {{ images.length }} image(s) chargée(s)</p>
+        <p class="text-xs sm:text-sm text-gray-500">Cliquez pour ajouter plus d'images</p>
       </div>
     </div>
 
     <!-- Settings -->
-    <div v-if="images.length > 0" class="grid md:grid-cols-3 gap-4 mb-6">
-      <div class="bg-white/10 rounded-lg p-4">
-        <label class="block text-white mb-2 font-semibold">Qualité: {{ quality }}%</label>
+    <div v-if="images.length > 0" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 mb-4 sm:mb-6">
+      <div class="bg-white/10 rounded-lg p-3 sm:p-4">
+        <label class="block text-white mb-2 font-semibold text-sm sm:text-base">Qualité: {{ quality }}%</label>
         <input v-model.number="quality" type="range" min="10" max="100" class="w-full accent-blue-500" />
       </div>
 
-      <div class="bg-white/10 rounded-lg p-4">
-        <label class="block text-white mb-2 font-semibold">Format de sortie</label>
+      <div class="bg-white/10 rounded-lg p-3 sm:p-4">
+        <label class="block text-white mb-2 font-semibold text-sm sm:text-base">Format de sortie</label>
         <select
           v-model="outputFormat"
-          class="w-full bg-gray-800 text-white px-4 py-2 rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none"
+          class="w-full bg-gray-800 text-white px-3 sm:px-4 py-2 rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none text-sm sm:text-base"
         >
           <option value="original">Format original</option>
           <option value="jpeg">JPEG</option>
@@ -39,8 +39,8 @@
         </select>
       </div>
 
-      <div class="bg-white/10 rounded-lg p-4 flex items-center justify-between">
-        <span class="text-white font-semibold">Redimensionner</span>
+      <div class="bg-white/10 rounded-lg p-3 sm:p-4 flex items-center justify-between">
+        <span class="text-white font-semibold text-sm sm:text-base">Redimensionner</span>
         <button
           @click="enableResize = !enableResize"
           :class="['w-12 h-6 rounded-full transition-colors', enableResize ? 'bg-blue-500' : 'bg-gray-600']"

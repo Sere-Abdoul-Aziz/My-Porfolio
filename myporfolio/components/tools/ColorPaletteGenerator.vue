@@ -1,14 +1,14 @@
 <template>
   <div class="color-palette-generator">
-    <div class="grid lg:grid-cols-2 gap-8">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
       <!-- Section Upload -->
       <div>
-        <h3 class="text-xl font-bold text-white mb-4">📤 Charger une image</h3>
+        <h3 class="text-lg sm:text-xl font-bold text-white mb-3 sm:mb-4">📤 Charger une image</h3>
         <div class="space-y-4">
           <div
             @drop.prevent="handleDrop"
             @dragover.prevent
-            class="border-2 border-dashed border-blue-400 rounded-xl p-8 text-center hover:border-blue-300 transition-colors cursor-pointer"
+            class="border-2 border-dashed border-blue-400 rounded-lg sm:rounded-xl p-4 sm:p-6 lg:p-8 text-center hover:border-blue-300 transition-colors cursor-pointer"
             @click="$refs.fileInput.click()"
           >
             <input
@@ -18,8 +18,8 @@
               @change="handleFileSelect"
               class="hidden"
             />
-            <p class="text-gray-300 mb-2">📁 Glissez une image ou cliquez pour choisir</p>
-            <p class="text-gray-500 text-sm">PNG, JPG, WebP acceptés</p>
+            <p class="text-sm sm:text-base text-gray-300 mb-2">📁 Glissez une image ou cliquez pour choisir</p>
+            <p class="text-gray-500 text-xs sm:text-sm">PNG, JPG, WebP acceptés</p>
           </div>
 
           <!-- Preview Image -->
@@ -51,48 +51,48 @@
 
       <!-- Section Palette Extraite -->
       <div>
-        <h3 class="text-xl font-bold text-white mb-4">🎨 Palette extraite</h3>
+        <h3 class="text-lg sm:text-xl font-bold text-white mb-3 sm:mb-4">🎨 Palette extraite</h3>
         <div v-if="extractedColors.length > 0" class="space-y-4">
           <div
             v-for="(color, index) in extractedColors"
             :key="index"
-            class="flex items-center space-x-4 bg-white/10 rounded-lg p-3"
+            class="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 bg-white/10 rounded-lg p-3"
           >
             <div
               :style="{ backgroundColor: color }"
-              class="w-16 h-16 rounded-lg shadow-lg border-2 border-white/20"
+              class="w-full sm:w-16 h-16 rounded-lg shadow-lg border-2 border-white/20"
             ></div>
-            <div class="flex-1">
-              <div class="text-white font-mono font-bold">{{ color }}</div>
-              <div class="text-gray-400 text-sm">{{ rgbToHsl(color) }}</div>
+            <div class="flex-1 text-center sm:text-left">
+              <div class="text-white font-mono font-bold text-sm sm:text-base">{{ color }}</div>
+              <div class="text-gray-400 text-xs sm:text-sm">{{ rgbToHsl(color) }}</div>
             </div>
             <button
               @click="copyColor(color)"
-              class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors text-sm"
+              class="bg-blue-500 hover:bg-blue-600 text-white px-3 sm:px-4 py-2 rounded-lg transition-colors text-xs sm:text-sm w-full sm:w-auto"
             >
               📋 Copier
             </button>
           </div>
         </div>
-        <div v-else class="text-gray-400 text-center py-12">
-          <p>Aucune couleur extraite</p>
-          <p class="text-sm mt-2">Chargez une image pour commencer</p>
+        <div v-else class="text-gray-400 text-center py-8 sm:py-12">
+          <p class="text-sm sm:text-base">Aucune couleur extraite</p>
+          <p class="text-xs sm:text-sm mt-2">Chargez une image pour commencer</p>
         </div>
       </div>
     </div>
 
     <!-- Harmonies de couleurs -->
-    <div v-if="extractedColors.length > 0" class="mt-8">
-      <h3 class="text-xl font-bold text-white mb-4">🌈 Harmonies de couleurs</h3>
-      <div class="space-y-4">
+    <div v-if="extractedColors.length > 0" class="mt-6 sm:mt-8">
+      <h3 class="text-lg sm:text-xl font-bold text-white mb-3 sm:mb-4">🌈 Harmonies de couleurs</h3>
+      <div class="space-y-3 sm:space-y-4">
         <div v-for="harmony in harmonies" :key="harmony.name">
-          <h4 class="text-white font-semibold mb-2">{{ harmony.name }}</h4>
-          <div class="flex space-x-2">
+          <h4 class="text-sm sm:text-base text-white font-semibold mb-2">{{ harmony.name }}</h4>
+          <div class="flex gap-2">
             <div
               v-for="(color, idx) in harmony.colors"
               :key="idx"
               :style="{ backgroundColor: color }"
-              class="flex-1 h-20 rounded-lg shadow-lg cursor-pointer hover:scale-105 transition-transform"
+              class="flex-1 h-12 sm:h-16 lg:h-20 rounded-lg shadow-lg cursor-pointer hover:scale-105 transition-transform"
               @click="copyColor(color)"
               :title="`Cliquez pour copier ${color}`"
             ></div>
@@ -102,24 +102,24 @@
     </div>
 
     <!-- Export -->
-    <div v-if="extractedColors.length > 0" class="mt-8">
-      <h3 class="text-xl font-bold text-white mb-4">💾 Export</h3>
-      <div class="grid md:grid-cols-3 gap-4">
+    <div v-if="extractedColors.length > 0" class="mt-6 sm:mt-8">
+      <h3 class="text-lg sm:text-xl font-bold text-white mb-3 sm:mb-4">💾 Export</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
         <button
           @click="exportAsCSS"
-          class="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 py-3 rounded-lg font-semibold hover:shadow-lg transition-all"
+          class="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg text-sm sm:text-base font-semibold hover:shadow-lg transition-all"
         >
           📄 Export CSS
         </button>
         <button
           @click="exportAsTailwind"
-          class="bg-gradient-to-r from-cyan-500 to-blue-500 text-white px-6 py-3 rounded-lg font-semibold hover:shadow-lg transition-all"
+          class="bg-gradient-to-r from-cyan-500 to-blue-500 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg text-sm sm:text-base font-semibold hover:shadow-lg transition-all"
         >
           🎨 Export Tailwind
         </button>
         <button
           @click="exportAsJSON"
-          class="bg-gradient-to-r from-green-500 to-emerald-500 text-white px-6 py-3 rounded-lg font-semibold hover:shadow-lg transition-all"
+          class="bg-gradient-to-r from-green-500 to-emerald-500 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg text-sm sm:text-base font-semibold hover:shadow-lg transition-all"
         >
           📦 Export JSON
         </button>

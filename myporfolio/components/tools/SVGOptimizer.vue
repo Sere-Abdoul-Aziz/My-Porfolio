@@ -4,13 +4,13 @@
     <div
       @drop.prevent="handleDrop"
       @dragover.prevent
-      class="border-2 border-dashed border-blue-400 rounded-xl p-12 text-center hover:border-blue-300 transition-colors cursor-pointer mb-6"
+      class="border-2 border-dashed border-blue-400 rounded-lg sm:rounded-xl p-6 sm:p-8 lg:p-12 text-center hover:border-blue-300 transition-colors cursor-pointer mb-6"
       @click="$refs.fileInput.click()"
     >
       <input ref="fileInput" type="file" accept=".svg,image/svg+xml" @change="handleFileSelect" class="hidden" />
       <div v-if="!originalSVG" class="text-gray-300">
-        <p class="text-4xl mb-4">🎨</p>
-        <p class="text-xl mb-2">Glissez un fichier SVG ou cliquez pour choisir</p>
+        <p class="text-2xl sm:text-3xl lg:text-4xl mb-4">🎨</p>
+        <p class="text-base sm:text-lg lg:text-xl mb-2">Glissez un fichier SVG ou cliquez pour choisir</p>
         <p class="text-sm text-gray-500">Optimisation et nettoyage de SVG</p>
       </div>
       <div v-else class="text-gray-300">
@@ -20,7 +20,7 @@
     </div>
 
     <!-- Optimization Options -->
-    <div v-if="originalSVG" class="grid md:grid-cols-2 gap-4 mb-6">
+    <div v-if="originalSVG" class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-6">
       <div class="bg-white/10 rounded-lg p-4 flex items-center justify-between">
         <span class="text-white font-semibold">Supprimer les commentaires</span>
         <button
@@ -83,10 +83,10 @@
     </div>
 
     <!-- Comparison -->
-    <div v-if="originalSVG && optimizedSVG" class="grid lg:grid-cols-2 gap-6 mb-6">
+    <div v-if="originalSVG && optimizedSVG" class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-6">
       <!-- Original -->
       <div>
-        <h3 class="text-xl font-bold text-white mb-3">📄 Original</h3>
+        <h3 class="text-base sm:text-lg lg:text-xl font-bold text-white mb-3">📄 Original</h3>
         <div class="bg-white/10 rounded-xl p-6">
           <div class="bg-white rounded-lg p-4 mb-4 flex items-center justify-center min-h-[200px]" v-html="originalSVG"></div>
           <div class="text-gray-300 text-sm space-y-2">
@@ -126,7 +126,7 @@
     </div>
 
     <!-- Actions -->
-    <div v-if="originalSVG" class="flex items-center justify-center gap-4">
+    <div v-if="originalSVG" class="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
       <button
         @click="optimize"
         class="bg-gradient-to-r from-blue-500 to-purple-500 hover:shadow-lg text-white px-8 py-3 rounded-lg font-bold transition-all"

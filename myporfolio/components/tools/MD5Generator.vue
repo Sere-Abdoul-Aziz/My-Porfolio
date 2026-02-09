@@ -1,9 +1,9 @@
 <template>
   <div class="hash-generator">
-    <div class="grid lg:grid-cols-2 gap-6">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
       <!-- Input -->
       <div class="space-y-6">
-        <h3 class="text-xl font-bold text-white">⚙️ Texte à hacher</h3>
+        <h3 class="text-base sm:text-lg lg:text-xl font-bold text-white">⚙️ Texte à hacher</h3>
 
         <div>
           <label class="block text-white mb-2 font-semibold">Texte d'entrée</label>
@@ -12,7 +12,7 @@
             @input="generateHashes"
             rows="8"
             placeholder="Entrez votre texte ici..."
-            class="w-full bg-gray-800 text-white px-4 py-3 rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none resize-none"
+            class="w-full bg-gray-800 text-white px-3 sm:px-4 py-2 sm:py-3 rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none resize-none"
           ></textarea>
         </div>
 
@@ -27,8 +27,8 @@
       </div>
 
       <!-- Results -->
-      <div class="space-y-6">
-        <h3 class="text-xl font-bold text-white">🔐 Hachages MD5</h3>
+      <div class="space-y-4 sm:space-y-6">
+        <h3 class="text-base sm:text-lg lg:text-xl font-bold text-white">🔐 Hachages MD5</h3>
 
         <div v-if="hashes.md5" class="space-y-4">
           <div class="bg-gray-900 rounded-xl p-4">

@@ -1,10 +1,10 @@
 <template>
   <div class="json-validator">
-    <div class="grid lg:grid-cols-2 gap-6">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
       <!-- Input -->
       <div>
         <div class="flex items-center justify-between mb-3">
-          <h3 class="text-xl font-bold text-white">📝 JSON à Valider</h3>
+          <h3 class="text-base sm:text-lg lg:text-xl font-bold text-white">📝 JSON à Valider</h3>
           <button
             @click="pasteFromClipboard"
             class="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-lg text-sm transition-colors"
@@ -16,7 +16,7 @@
           v-model="inputJSON"
           @input="validate"
           placeholder='{"nom": "Sere Aziz", "métier": "Développeur Fullstack"}'
-          class="w-full h-96 bg-gray-800 text-gray-100 p-4 rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none font-mono text-sm resize-none"
+          class="w-full h-64 sm:h-80 lg:h-96 bg-gray-800 text-gray-100 p-4 rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none font-mono text-sm resize-none"
         ></textarea>
       </div>
 
@@ -66,7 +66,7 @@
     </div>
 
     <!-- Actions -->
-    <div class="mt-6 flex items-center justify-center gap-4">
+    <div class="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
       <button
         @click="validate"
         :disabled="!inputJSON"

@@ -3,7 +3,7 @@
     <!-- Input -->
     <div class="mb-6">
       <div class="flex items-center justify-between mb-3">
-        <h3 class="text-xl font-bold text-white">📝 Texte à Analyser</h3>
+          <h3 class="text-base sm:text-lg lg:text-xl font-bold text-white">📝 Texte à Analyser</h3>
         <button
           @click="pasteFromClipboard"
           class="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-lg text-sm transition-colors"
@@ -15,14 +15,14 @@
         v-model="text"
         @input="analyze"
         placeholder="Entrez ou collez votre texte ici pour l'analyser..."
-        class="w-full h-64 bg-gray-800 text-gray-100 p-4 rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none text-base resize-none"
+        class="w-full h-48 sm:h-56 lg:h-64 bg-gray-800 text-gray-100 p-4 rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none text-base resize-none"
       ></textarea>
     </div>
 
     <!-- Statistics Grid -->
-    <div class="grid md:grid-cols-3 lg:grid-cols-4 gap-4 mb-6">
-      <div class="bg-gradient-to-br from-blue-500/20 to-blue-600/20 border-2 border-blue-500 rounded-xl p-6 text-center">
-        <div class="text-4xl font-bold text-blue-400 mb-2">{{ stats.characters }}</div>
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 mb-6">
+      <div class="bg-gradient-to-br from-blue-500/20 to-blue-600/20 border-2 border-blue-500 rounded-lg sm:rounded-xl p-4 sm:p-6 text-center">
+        <div class="text-2xl sm:text-3xl lg:text-4xl font-bold text-blue-400 mb-2">{{ stats.characters }}</div>
         <div class="text-gray-300 font-semibold">Caractères</div>
       </div>
 
@@ -63,7 +63,7 @@
     </div>
 
     <!-- Detailed Analysis -->
-    <div class="grid md:grid-cols-2 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
       <div class="bg-white/10 rounded-xl p-6">
         <h4 class="text-white font-bold mb-4">📊 Détails Supplémentaires</h4>
         <div class="space-y-3 text-sm">
@@ -118,7 +118,7 @@
     </div>
 
     <!-- Actions -->
-    <div class="mt-6 flex items-center justify-center gap-4">
+    <div class="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
       <button
         @click="exportStats"
         :disabled="!text"

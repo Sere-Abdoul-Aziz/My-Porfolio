@@ -1,9 +1,9 @@
 <template>
-  <div class="robots-generator space-y-6">
-    <h3 class="text-xl font-bold text-white">🤖 Générateur de Robots.txt</h3>
+  <div class="robots-generator space-y-4 sm:space-y-6">
+    <h3 class="text-base sm:text-lg lg:text-xl font-bold text-white">🤖 Générateur de Robots.txt</h3>
 
-    <div class="grid lg:grid-cols-2 gap-6">
-      <div class="space-y-6">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+      <div class="space-y-4 sm:space-y-6">
         <div>
           <label class="block text-white mb-2 font-semibold">Preset</label>
           <select v-model="preset" @change="applyPreset" class="w-full bg-gray-800 text-white px-4 py-2 rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none">
@@ -17,7 +17,7 @@
 
         <div>
           <label class="block text-white mb-2 font-semibold">User-agent</label>
-          <input v-model="userAgent" placeholder="*" class="w-full bg-gray-800 text-white px-4 py-3 rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none" />
+          <input v-model="userAgent" placeholder="*" class="w-full bg-gray-800 text-white px-3 sm:px-4 py-2 sm:py-3 rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none" />
         </div>
 
         <div>

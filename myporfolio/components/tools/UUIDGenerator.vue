@@ -3,7 +3,7 @@
     <!-- Generated UUIDs Display -->
     <div class="mb-6">
       <div class="flex items-center justify-between mb-3">
-        <h3 class="text-xl font-bold text-white">🎲 UUID/GUID Générés</h3>
+          <h3 class="text-base sm:text-lg lg:text-xl font-bold text-white">🎲 UUID/GUID Générés</h3>
         <div class="flex gap-2">
           <button
             @click="generateBatch"
@@ -39,7 +39,7 @@
     </div>
 
     <!-- Settings -->
-    <div class="grid md:grid-cols-3 gap-4 mb-6">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4 mb-6">
       <div class="bg-white/10 rounded-lg p-4">
         <label class="block text-white mb-2 font-semibold">Version</label>
         <select
@@ -93,7 +93,7 @@
     </div>
 
     <!-- Actions -->
-    <div class="mt-6 flex items-center justify-center gap-4">
+    <div class="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
       <button
         @click="generateBatch"
         class="bg-gradient-to-r from-blue-500 to-purple-500 hover:shadow-lg text-white px-8 py-3 rounded-lg font-bold transition-all"

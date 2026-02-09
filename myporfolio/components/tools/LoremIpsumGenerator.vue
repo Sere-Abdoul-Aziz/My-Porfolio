@@ -1,7 +1,7 @@
 <template>
   <div class="lorem-ipsum-generator">
     <!-- Settings -->
-    <div class="grid md:grid-cols-3 gap-4 mb-6">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4 mb-6">
       <div class="bg-white/10 rounded-lg p-4">
         <label class="block text-white mb-2 font-semibold">Type</label>
         <select
@@ -44,7 +44,7 @@
     <!-- Output -->
     <div>
       <div class="flex items-center justify-between mb-3">
-        <h3 class="text-xl font-bold text-white">📝 Texte Généré</h3>
+          <h3 class="text-base sm:text-lg lg:text-xl font-bold text-white">📝 Texte Généré</h3>
         <div class="flex gap-2">
           <button
             @click="copyToClipboard"
@@ -66,7 +66,7 @@
         v-model="generatedText"
         readonly
         placeholder="Cliquez sur 'Générer' pour créer du texte..."
-        class="w-full h-96 bg-gray-800 text-gray-100 p-4 rounded-lg border border-gray-600 font-serif text-base resize-none"
+        class="w-full h-64 sm:h-80 lg:h-96 bg-gray-800 text-gray-100 p-4 rounded-lg border border-gray-600 font-serif text-base resize-none"
       ></textarea>
       <div class="mt-3 text-gray-400 text-sm">
         {{ wordCount }} mots • {{ charCount }} caractères
@@ -74,7 +74,7 @@
     </div>
 
     <!-- Actions -->
-    <div class="mt-6 flex items-center justify-center gap-4">
+    <div class="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
       <button
         @click="generate"
         class="bg-gradient-to-r from-blue-500 to-purple-500 hover:shadow-lg text-white px-8 py-3 rounded-lg font-bold transition-all"

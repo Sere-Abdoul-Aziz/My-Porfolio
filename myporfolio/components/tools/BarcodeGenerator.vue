@@ -1,9 +1,9 @@
 <template>
   <div class="barcode-generator">
-    <div class="grid lg:grid-cols-2 gap-6">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
       <!-- Settings -->
-      <div class="space-y-6">
-        <h3 class="text-xl font-bold text-white">⚙️ Configuration</h3>
+      <div class="space-y-4 sm:space-y-6">
+        <h3 class="text-base sm:text-lg lg:text-xl font-bold text-white">⚙️ Configuration</h3>
 
         <!-- Barcode Type -->
         <div>
@@ -27,7 +27,7 @@
             v-model="content"
             @input="generateBarcode"
             :placeholder="getPlaceholder()"
-            class="w-full bg-gray-800 text-white px-4 py-3 rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none font-mono"
+            class="w-full bg-gray-800 text-white px-3 sm:px-4 py-2 sm:py-3 rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none font-mono"
           />
           <p class="text-gray-400 text-xs mt-2">{{ getHint() }}</p>
         </div>
@@ -85,7 +85,7 @@
 
       <!-- Preview -->
       <div>
-        <h3 class="text-xl font-bold text-white mb-4">👁️ Aperçu</h3>
+        <h3 class="text-base sm:text-lg lg:text-xl font-bold text-white mb-4">👁️ Aperçu</h3>
         <div class="bg-gray-900 rounded-xl p-8 flex flex-col items-center justify-center">
           <div v-if="error" class="text-red-400 mb-4">{{ error }}</div>
           <canvas ref="barcodeCanvas" class="border-2 border-white/20 rounded-lg mb-6"></canvas>

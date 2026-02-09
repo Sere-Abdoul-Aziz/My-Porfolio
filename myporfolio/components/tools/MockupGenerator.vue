@@ -1,9 +1,9 @@
 <template>
   <div class="mockup-generator">
-    <div class="grid lg:grid-cols-2 gap-8">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
       <!-- Controls -->
-      <div class="space-y-6">
-        <h3 class="text-xl font-bold text-white mb-4">⚙️ Configuration</h3>
+      <div class="space-y-4 sm:space-y-6">
+        <h3 class="text-base sm:text-lg lg:text-xl font-bold text-white mb-4">⚙️ Configuration</h3>
 
         <!-- Device Selection -->
         <div>
@@ -14,7 +14,7 @@
               :key="device.id"
               @click="selectedDevice = device.id"
               :class="[
-                'px-4 py-3 rounded-lg font-semibold transition-all',
+                'px-3 sm:px-4 py-2 sm:py-3 rounded-lg font-semibold transition-all',
                 selectedDevice === device.id ? 'bg-blue-500 text-white' : 'bg-white/10 text-gray-300'
               ]"
             >
@@ -29,7 +29,7 @@
           <div
             @drop.prevent="handleDrop"
             @dragover.prevent
-            class="border-2 border-dashed border-blue-400 rounded-xl p-8 text-center hover:border-blue-300 transition-colors cursor-pointer"
+            class="border-2 border-dashed border-blue-400 rounded-lg sm:rounded-xl p-4 sm:p-6 lg:p-8 text-center hover:border-blue-300 transition-colors cursor-pointer"
             @click="$refs.fileInput.click()"
           >
             <input ref="fileInput" type="file" accept="image/*" @change="handleFileSelect" class="hidden" />
@@ -88,7 +88,7 @@
         <button
           @click="downloadMockup"
           :disabled="!screenshot"
-          class="w-full bg-gradient-to-r from-green-500 to-emerald-500 disabled:from-gray-600 disabled:to-gray-700 disabled:cursor-not-allowed text-white px-6 py-4 rounded-lg font-bold text-lg hover:shadow-lg transition-all"
+          class="w-full bg-gradient-to-r from-green-500 to-emerald-500 disabled:from-gray-600 disabled:to-gray-700 disabled:cursor-not-allowed text-white px-4 sm:px-6 py-3 sm:py-4 rounded-lg font-bold text-base sm:text-lg hover:shadow-lg transition-all"
         >
           📥 Télécharger le Mockup
         </button>
@@ -96,10 +96,10 @@
 
       <!-- Preview -->
       <div>
-        <h3 class="text-xl font-bold text-white mb-4">👁️ Aperçu</h3>
+        <h3 class="text-base sm:text-lg lg:text-xl font-bold text-white mb-4">👁️ Aperçu</h3>
         <div
           :style="{ background: currentBackground }"
-          class="w-full min-h-[600px] rounded-xl flex items-center justify-center p-12"
+          class="w-full min-h-[400px] sm:min-h-[500px] lg:min-h-[600px] rounded-lg sm:rounded-xl flex items-center justify-center p-6 sm:p-8 lg:p-12"
         >
           <div ref="mockupContainer" class="relative" :style="deviceStyle">
             <!-- Device Frame -->

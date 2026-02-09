@@ -1,10 +1,10 @@
 <template>
   <div class="js-minifier">
-    <div class="grid lg:grid-cols-2 gap-6">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
       <!-- Input -->
       <div>
         <div class="flex items-center justify-between mb-3">
-          <h3 class="text-xl font-bold text-white">📝 JavaScript Original</h3>
+          <h3 class="text-base sm:text-lg lg:text-xl font-bold text-white">📝 JavaScript Original</h3>
           <button
             @click="pasteFromClipboard"
             class="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-lg text-sm transition-colors"
@@ -15,7 +15,7 @@
         <textarea
           v-model="inputJS"
           placeholder="Collez votre JavaScript ici..."
-          class="w-full h-96 bg-gray-800 text-gray-100 p-4 rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none font-mono text-sm resize-none"
+          class="w-full h-64 sm:h-80 lg:h-96 bg-gray-800 text-gray-100 p-4 rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none font-mono text-sm resize-none"
         ></textarea>
         <div class="mt-3 text-gray-400 text-sm">
           Taille: {{ inputSize }} caractères ({{ (inputSize / 1024).toFixed(2) }} KB)
@@ -25,7 +25,7 @@
       <!-- Output -->
       <div>
         <div class="flex items-center justify-between mb-3">
-          <h3 class="text-xl font-bold text-white">✨ JavaScript Minifié</h3>
+          <h3 class="text-base sm:text-lg lg:text-xl font-bold text-white">✨ JavaScript Minifié</h3>
           <button
             @click="copyToClipboard"
             :disabled="!minifiedJS"
@@ -52,11 +52,11 @@
     </div>
 
     <!-- Actions -->
-    <div class="mt-6 flex items-center justify-center gap-4">
+    <div class="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
       <button
         @click="minify"
         :disabled="!inputJS"
-        class="bg-gradient-to-r from-blue-500 to-purple-500 hover:shadow-lg disabled:from-gray-600 disabled:to-gray-700 disabled:cursor-not-allowed text-white px-8 py-3 rounded-lg font-bold transition-all"
+        class="bg-gradient-to-r from-blue-500 to-purple-500 hover:shadow-lg disabled:from-gray-600 disabled:to-gray-700 disabled:cursor-not-allowed text-white px-6 sm:px-8 py-2 sm:py-3 rounded-lg font-bold transition-all"
       >
         🚀 Minifier JavaScript
       </button>

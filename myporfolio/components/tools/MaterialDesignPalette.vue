@@ -1,26 +1,26 @@
 <template>
   <div class="material-design-palette">
-    <div class="space-y-8">
-      <div class="text-center">
-        <h3 class="text-2xl font-bold text-white mb-2">🌈 Palette Material Design</h3>
-        <p class="text-gray-300">Couleurs officielles Google Material Design 3.0</p>
+    <div class="space-y-6 sm:space-y-8">
+      <div class="text-center px-4">
+        <h3 class="text-xl sm:text-2xl font-bold text-white mb-2">🌈 Palette Material Design</h3>
+        <p class="text-sm sm:text-base text-gray-300">Couleurs officielles Google Material Design 3.0</p>
       </div>
 
       <!-- Search -->
-      <div class="max-w-2xl mx-auto">
+      <div class="max-w-2xl mx-auto px-4">
         <input
           v-model="searchQuery"
           type="text"
           placeholder="🔍 Rechercher une couleur..."
-          class="w-full bg-gray-800 text-white px-6 py-4 rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none"
+          class="w-full bg-gray-800 text-white px-4 sm:px-6 py-3 sm:py-4 rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none text-sm sm:text-base"
         />
       </div>
 
       <!-- Color Grid -->
-      <div class="space-y-8">
-        <div v-for="color in filteredColors" :key="color.name" class="bg-white/10 rounded-xl p-6">
-          <h4 class="text-xl font-bold text-white mb-4">{{color.name }}</h4>
-          <div class="grid grid-cols-2 md:grid-cols-5 lg:grid-cols-10 gap-2">
+      <div class="space-y-6 sm:space-y-8 px-2 sm:px-4">
+        <div v-for="color in filteredColors" :key="color.name" class="bg-white/10 rounded-lg sm:rounded-xl p-4 sm:p-6">
+          <h4 class="text-base sm:text-lg lg:text-xl font-bold text-white mb-3 sm:mb-4">{{color.name }}</h4>
+          <div class="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-10 gap-2">
             <div
               v-for="(shade, key) in color.shades"
               :key="key"
@@ -46,30 +46,30 @@
       </div>
 
       <!-- Export Section -->
-      <div class="bg-white/10 rounded-xl p-6">
-        <h4 class="text-xl font-bold text-white mb-4">💾 Export</h4>
-        <div class="grid md:grid-cols-4 gap-4">
+      <div class="bg-white/10 rounded-lg sm:rounded-xl p-4 sm:p-6 mx-2 sm:mx-4">
+        <h4 class="text-base sm:text-lg lg:text-xl font-bold text-white mb-3 sm:mb-4">💾 Export</h4>
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
           <button
             @click="exportAsCSS"
-            class="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 py-3 rounded-lg font-semibold hover:shadow-lg transition-all"
+            class="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg text-sm sm:text-base font-semibold hover:shadow-lg transition-all"
           >
             📄 CSS
           </button>
           <button
             @click="exportAsTailwind"
-            class="bg-gradient-to-r from-cyan-500 to-blue-500 text-white px-6 py-3 rounded-lg font-semibold hover:shadow-lg transition-all"
+            class="bg-gradient-to-r from-cyan-500 to-blue-500 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg text-sm sm:text-base font-semibold hover:shadow-lg transition-all"
           >
             🎨 Tailwind
           </button>
           <button
             @click="exportAsJSON"
-            class="bg-gradient-to-r from-green-500 to-emerald-500 text-white px-6 py-3 rounded-lg font-semibold hover:shadow-lg transition-all"
+            class="bg-gradient-to-r from-green-500 to-emerald-500 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg text-sm sm:text-base font-semibold hover:shadow-lg transition-all"
           >
             📦 JSON
           </button>
           <button
             @click="exportAsSCSS"
-            class="bg-gradient-to-r from-pink-500 to-rose-500 text-white px-6 py-3 rounded-lg font-semibold hover:shadow-lg transition-all"
+            class="bg-gradient-to-r from-pink-500 to-rose-500 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg text-sm sm:text-base font-semibold hover:shadow-lg transition-all"
           >
             💅 SCSS
           </button>

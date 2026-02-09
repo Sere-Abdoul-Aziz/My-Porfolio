@@ -1,6 +1,6 @@
 <template>
   <div class="url-encoder">
-    <div class="mb-6 flex justify-center gap-4">
+    <div class="mb-6 flex flex-col sm:flex-row justify-center gap-3 sm:gap-4">
       <button
         @click="mode = 'encode'"
         :class="[
@@ -21,7 +21,7 @@
       </button>
     </div>
 
-    <div class="space-y-6">
+    <div class="space-y-4 sm:space-y-6">
       <!-- Input -->
       <div>
         <div class="flex items-center justify-between mb-3">
@@ -68,7 +68,7 @@
       <!-- Examples -->
       <div class="bg-white/10 rounded-xl p-6">
         <h4 class="text-white font-bold mb-4">💡 Exemples de caractères encodés</h4>
-        <div class="grid md:grid-cols-3 gap-4 text-sm">
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4 text-sm">
           <div class="bg-gray-800 rounded-lg p-3">
             <div class="text-gray-400 mb-1">Espace</div>
             <div class="text-white font-mono">%20</div>
@@ -98,7 +98,7 @@
     </div>
 
     <!-- Actions -->
-    <div class="mt-6 flex items-center justify-center gap-4">
+    <div class="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
       <button
         @click="process"
         :disabled="!input"

@@ -4,13 +4,13 @@
     <div
       @drop.prevent="handleDrop"
       @dragover.prevent
-      class="border-2 border-dashed border-blue-400 rounded-xl p-12 text-center hover:border-blue-300 transition-colors cursor-pointer mb-6"
+      class="border-2 border-dashed border-blue-400 rounded-lg sm:rounded-xl p-6 sm:p-8 lg:p-12 text-center hover:border-blue-300 transition-colors cursor-pointer mb-6"
       @click="$refs.fileInput.click()"
     >
       <input ref="fileInput" type="file" accept="image/*" @change="handleFileSelect" class="hidden" />
       <div v-if="!originalImage" class="text-gray-300">
-        <p class="text-4xl mb-4">🖼️</p>
-        <p class="text-xl mb-2">Glissez une image ou cliquez pour choisir</p>
+        <p class="text-2xl sm:text-3xl lg:text-4xl mb-4">🖼️</p>
+        <p class="text-base sm:text-lg lg:text-xl mb-2">Glissez une image ou cliquez pour choisir</p>
         <p class="text-sm text-gray-500">PNG, JPG, WebP, BMP, GIF acceptés</p>
       </div>
       <div v-else class="relative">
@@ -26,15 +26,15 @@
 
     <!-- Conversion Options -->
     <div v-if="originalImage" class="mb-6">
-      <h3 class="text-xl font-bold text-white mb-4">🔄 Formats de Conversion</h3>
-      <div class="grid md:grid-cols-3 gap-4">
+      <h3 class="text-base sm:text-lg lg:text-xl font-bold text-white mb-4">🔄 Formats de Conversion</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
         <button
           v-for="format in formats"
           :key="format.id"
           @click="convertTo(format.id)"
           :disabled="converting"
           :class="[
-            'p-6 rounded-xl border-2 transition-all',
+            'p-4 sm:p-6 rounded-lg sm:rounded-xl border-2 transition-all',
             converting ? 'bg-gray-700 border-gray-600 cursor-not-allowed' : 'bg-white/10 border-blue-500 hover:bg-white/20'
           ]"
         >
@@ -57,7 +57,7 @@
       <div
         v-for="(converted, index) in convertedImages"
         :key="index"
-        class="bg-white/10 rounded-xl p-4 flex items-center gap-4"
+        class="bg-white/10 rounded-lg sm:rounded-xl p-3 sm:p-4 flex items-center gap-3 sm:gap-4"
       >
         <img :src="converted.url" class="w-24 h-24 object-cover rounded-lg" />
         <div class="flex-1">
@@ -68,7 +68,7 @@
         </div>
         <button
           @click="downloadConverted(converted)"
-          class="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-lg font-semibold transition-colors"
+          class="bg-green-500 hover:bg-green-600 text-white px-4 sm:px-6 py-2 rounded-lg font-semibold transition-colors"
         >
           💾 Télécharger
         </button>
@@ -76,9 +76,9 @@
     </div>
 
     <!-- Original Info -->
-    <div v-if="originalImage" class="mt-6 bg-blue-500/20 border-2 border-blue-500 rounded-xl p-6">
+    <div v-if="originalImage" class="mt-6 bg-blue-500/20 border-2 border-blue-500 rounded-lg sm:rounded-xl p-4 sm:p-6">
       <h4 class="text-blue-400 font-bold mb-3">ℹ️ Image Originale</h4>
-      <div class="grid md:grid-cols-2 gap-4 text-sm">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 text-sm">
         <div class="flex justify-between text-gray-300">
           <span>Format:</span>
           <span class="text-white font-mono">{{ originalImage.type }}</span>

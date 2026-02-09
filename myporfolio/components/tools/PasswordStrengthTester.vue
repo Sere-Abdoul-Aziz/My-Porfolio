@@ -1,7 +1,7 @@
 <template>
   <div class="password-strength-tester">
-    <div class="space-y-6">
-      <h3 class="text-xl font-bold text-white">🔐 Testeur de Force de Mot de Passe</h3>
+    <div class="space-y-4 sm:space-y-6">
+      <h3 class="text-base sm:text-lg lg:text-xl font-bold text-white">🔐 Testeur de Force de Mot de Passe</h3>
 
       <!-- Input -->
       <div>
@@ -11,7 +11,7 @@
             v-model="password"
             :type="showPassword ? 'text' : 'password'"
             placeholder="Tapez votre mot de passe..."
-            class="w-full bg-gray-800 text-white px-4 py-3 pr-12 rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none font-mono"
+            class="w-full bg-gray-800 text-white px-3 sm:px-4 py-2 sm:py-3 pr-12 rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none font-mono"
           />
           <button @click="showPassword = !showPassword" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white">
             {{ showPassword ? '🙈' : '👁️' }}
@@ -32,7 +32,7 @@
         </div>
 
         <!-- Score Details -->
-        <div class="grid md:grid-cols-2 gap-4 mb-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 mb-4 sm:mb-6">
           <div class="bg-gray-800 rounded-lg p-4">
             <div class="text-gray-400 text-sm mb-1">Score global</div>
             <div class="text-white text-2xl font-bold">{{ strength }}/100</div>

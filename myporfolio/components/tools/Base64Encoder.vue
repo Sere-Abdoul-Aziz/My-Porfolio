@@ -1,10 +1,10 @@
 <template>
   <div class="base64-encoder">
-    <div class="mb-6 flex justify-center gap-4">
+    <div class="mb-4 sm:mb-6 flex justify-center gap-2 sm:gap-4 px-4">
       <button
         @click="mode = 'encode'"
         :class="[
-          'px-8 py-3 rounded-lg font-bold transition-all',
+          'px-4 sm:px-6 lg:px-8 py-2 sm:py-3 rounded-lg font-bold transition-all text-sm sm:text-base',
           mode === 'encode' ? 'bg-blue-500 text-white' : 'bg-white/10 text-gray-300'
         ]"
       >
@@ -13,7 +13,7 @@
       <button
         @click="mode = 'decode'"
         :class="[
-          'px-8 py-3 rounded-lg font-bold transition-all',
+          'px-4 sm:px-6 lg:px-8 py-2 sm:py-3 rounded-lg font-bold transition-all text-sm sm:text-base',
           mode === 'decode' ? 'bg-blue-500 text-white' : 'bg-white/10 text-gray-300'
         ]"
       >
@@ -21,14 +21,14 @@
       </button>
     </div>
 
-    <div class="grid lg:grid-cols-2 gap-6">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
       <!-- Input -->
       <div>
         <div class="flex items-center justify-between mb-3">
-          <h3 class="text-xl font-bold text-white">📝 {{ mode === 'encode' ? 'Texte Original' : 'Base64' }}</h3>
+          <h3 class="text-base sm:text-lg lg:text-xl font-bold text-white">📝 {{ mode === 'encode' ? 'Texte Original' : 'Base64' }}</h3>
           <button
             @click="pasteFromClipboard"
-            class="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-lg text-sm transition-colors"
+            class="bg-gray-700 hover:bg-gray-600 text-white px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm transition-colors"
           >
             📋 Coller
           </button>
@@ -37,18 +37,18 @@
           v-model="input"
           @input="process"
           :placeholder="mode === 'encode' ? 'Entrez le texte à encoder...' : 'Entrez le Base64 à décoder...'"
-          class="w-full h-96 bg-gray-800 text-gray-100 p-4 rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none font-mono text-sm resize-none"
+          class="w-full h-64 sm:h-80 lg:h-96 bg-gray-800 text-gray-100 p-3 sm:p-4 rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none font-mono text-xs sm:text-sm resize-none"
         ></textarea>
       </div>
 
       <!-- Output -->
       <div>
         <div class="flex items-center justify-between mb-3">
-          <h3 class="text-xl font-bold text-white">✨ {{ mode === 'encode' ? 'Base64' : 'Texte Décodé' }}</h3>
+          <h3 class="text-base sm:text-lg lg:text-xl font-bold text-white">✨ {{ mode === 'encode' ? 'Base64' : 'Texte Décodé' }}</h3>
           <button
             @click="copyToClipboard"
             :disabled="!output"
-            class="bg-blue-500 hover:bg-blue-600 disabled:bg-gray-600 disabled:cursor-not-allowed text-white px-4 py-2 rounded-lg text-sm transition-colors"
+            class="bg-blue-500 hover:bg-blue-600 disabled:bg-gray-600 disabled:cursor-not-allowed text-white px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm transition-colors"
           >
             📋 Copier
           </button>
@@ -58,7 +58,7 @@
           readonly
           :placeholder="mode === 'encode' ? 'Le Base64 apparaîtra ici...' : 'Le texte décodé apparaîtra ici...'"
           :class="[
-            'w-full h-96 p-4 rounded-lg border font-mono text-sm resize-none',
+            'w-full h-64 sm:h-80 lg:h-96 p-3 sm:p-4 rounded-lg border font-mono text-xs sm:text-sm resize-none',
             error ? 'bg-gray-800 text-red-400 border-red-500' : 'bg-gray-800 text-green-400 border-gray-600'
           ]"
         ></textarea>

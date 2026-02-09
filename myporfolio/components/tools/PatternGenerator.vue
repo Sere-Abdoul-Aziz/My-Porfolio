@@ -1,9 +1,9 @@
 <template>
   <div class="pattern-generator">
-    <div class="grid lg:grid-cols-2 gap-8">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
       <!-- Controls -->
-      <div class="space-y-6">
-        <h3 class="text-xl font-bold text-white mb-4">⚙️ Paramètres</h3>
+      <div class="space-y-4 sm:space-y-6">
+        <h3 class="text-base sm:text-lg lg:text-xl font-bold text-white mb-4">⚙️ Paramètres</h3>
 
         <!-- Pattern Type -->
         <div>
@@ -14,7 +14,7 @@
               :key="pattern.id"
               @click="selectedPattern = pattern.id"
               :class="[
-                'px-4 py-3 rounded-lg font-semibold transition-all',
+                'px-3 sm:px-4 py-2 sm:py-3 rounded-lg font-semibold transition-all',
                 selectedPattern === pattern.id ? 'bg-blue-500 text-white' : 'bg-white/10 text-gray-300'
               ]"
             >
@@ -76,10 +76,10 @@
         </div>
 
         <!-- Download -->
-        <div class="flex space-x-3">
+        <div class="flex flex-col sm:flex-row gap-2 sm:gap-3">
           <button
             @click="downloadSVG"
-            class="flex-1 bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-6 py-3 rounded-lg font-semibold hover:shadow-lg transition-all"
+            class="flex-1 bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-semibold hover:shadow-lg transition-all"
           >
             📥 Télécharger SVG
           </button>
@@ -94,8 +94,8 @@
 
       <!-- Preview -->
       <div>
-        <h3 class="text-xl font-bold text-white mb-4">👁️ Aperçu</h3>
-        <div class="bg-white rounded-xl p-8 min-h-[500px]" v-html="svgPattern"></div>
+        <h3 class="text-base sm:text-lg lg:text-xl font-bold text-white mb-4">👁️ Aperçu</h3>
+        <div class="bg-white rounded-lg sm:rounded-xl p-4 sm:p-6 lg:p-8 min-h-[300px] sm:min-h-[400px] lg:min-h-[500px]" v-html="svgPattern"></div>
       </div>
     </div>
   </div>

@@ -1,23 +1,23 @@
 <template>
   <div class="color-converter">
-    <div class="grid lg:grid-cols-2 gap-8">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
       <!-- Section Input -->
       <div>
-        <h3 class="text-xl font-bold text-white mb-4">🎨 Entrez une couleur</h3>
+        <h3 class="text-lg sm:text-xl font-bold text-white mb-3 sm:mb-4">🎨 Entrez une couleur</h3>
         
         <!-- Color Picker -->
-        <div class="bg-white/10 rounded-xl p-6 space-y-4">
-          <div class="flex items-center space-x-4">
+        <div class="bg-white/10 rounded-lg sm:rounded-xl p-4 sm:p-6 space-y-4">
+          <div class="flex flex-col sm:flex-row items-center gap-4">
             <input
               v-model="currentColor"
               type="color"
-              class="w-24 h-24 rounded-lg cursor-pointer border-4 border-white/20"
+              class="w-20 h-20 sm:w-24 sm:h-24 rounded-lg cursor-pointer border-4 border-white/20"
             />
-            <div class="flex-1">
-              <label class="block text-white mb-2 font-semibold">Couleur sélectionnée</label>
+            <div class="flex-1 w-full">
+              <label class="block text-white mb-2 font-semibold text-sm sm:text-base">Couleur sélectionnée</label>
               <div
                 :style="{ backgroundColor: currentColor }"
-                class="w-full h-24 rounded-lg shadow-lg border-2 border-white/20"
+                class="w-full h-20 sm:h-24 rounded-lg shadow-lg border-2 border-white/20"
               ></div>
             </div>
           </div>
@@ -25,18 +25,18 @@
           <!-- Input Methods -->
           <div class="space-y-3">
             <div>
-              <label class="block text-white mb-2">HEX</label>
+              <label class="block text-white mb-2 text-sm sm:text-base">HEX</label>
               <input
                 v-model="hexInput"
                 @input="convertFromHex"
                 type="text"
                 placeholder="#FF5733"
-                class="w-full bg-gray-800 text-white px-4 py-3 rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none font-mono"
+                class="w-full bg-gray-800 text-white px-3 sm:px-4 py-2 sm:py-3 rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none font-mono text-sm sm:text-base"
               />
             </div>
 
             <div>
-              <label class="block text-white mb-2">RGB</label>
+              <label class="block text-white mb-2 text-sm sm:text-base">RGB</label>
               <div class="grid grid-cols-3 gap-2">
                 <input
                   v-model.number="rgb.r"
@@ -45,7 +45,7 @@
                   min="0"
                   max="255"
                   placeholder="R"
-                  class="bg-gray-800 text-white px-3 py-3 rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none text-center"
+                  class="bg-gray-800 text-white px-2 sm:px-3 py-2 sm:py-3 rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none text-center text-sm sm:text-base"
                 />
                 <input
                   v-model.number="rgb.g"
@@ -54,7 +54,7 @@
                   min="0"
                   max="255"
                   placeholder="G"
-                  class="bg-gray-800 text-white px-3 py-3 rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none text-center"
+                  class="bg-gray-800 text-white px-2 sm:px-3 py-2 sm:py-3 rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none text-center text-sm sm:text-base"
                 />
                 <input
                   v-model.number="rgb.b"
@@ -63,13 +63,13 @@
                   min="0"
                   max="255"
                   placeholder="B"
-                  class="bg-gray-800 text-white px-3 py-3 rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none text-center"
+                  class="bg-gray-800 text-white px-2 sm:px-3 py-2 sm:py-3 rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none text-center text-sm sm:text-base"
                 />
               </div>
             </div>
 
             <div>
-              <label class="block text-white mb-2">HSL</label>
+              <label class="block text-white mb-2 text-sm sm:text-base">HSL</label>
               <div class="grid grid-cols-3 gap-2">
                 <input
                   v-model.number="hsl.h"
@@ -78,7 +78,7 @@
                   min="0"
                   max="360"
                   placeholder="H"
-                  class="bg-gray-800 text-white px-3 py-3 rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none text-center"
+                  class="bg-gray-800 text-white px-2 sm:px-3 py-2 sm:py-3 rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none text-center text-sm sm:text-base"
                 />
                 <input
                   v-model.number="hsl.s"
@@ -87,7 +87,7 @@
                   min="0"
                   max="100"
                   placeholder="S%"
-                  class="bg-gray-800 text-white px-3 py-3 rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none text-center"
+                  class="bg-gray-800 text-white px-2 sm:px-3 py-2 sm:py-3 rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none text-center text-sm sm:text-base"
                 />
                 <input
                   v-model.number="hsl.l"
@@ -96,7 +96,7 @@
                   min="0"
                   max="100"
                   placeholder="L%"
-                  class="bg-gray-800 text-white px-3 py-3 rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none text-center"
+                  class="bg-gray-800 text-white px-2 sm:px-3 py-2 sm:py-3 rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none text-center text-sm sm:text-base"
                 />
               </div>
             </div>
@@ -106,9 +106,9 @@
 
       <!-- Section Output -->
       <div>
-        <h3 class="text-xl font-bold text-white mb-4">📋 Formats de sortie</h3>
+        <h3 class="text-lg sm:text-xl font-bold text-white mb-3 sm:mb-4">📋 Formats de sortie</h3>
         
-        <div class="space-y-3">
+        <div class="space-y-2 sm:space-y-3">
           <!-- HEX -->
           <div class="bg-white/10 rounded-lg p-4 flex items-center justify-between">
             <div>

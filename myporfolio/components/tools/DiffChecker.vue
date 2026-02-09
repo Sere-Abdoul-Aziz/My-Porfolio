@@ -1,10 +1,10 @@
 <template>
   <div class="diff-checker">
-    <div class="grid lg:grid-cols-2 gap-6 mb-6">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-6">
       <!-- Text 1 -->
       <div>
         <div class="flex items-center justify-between mb-3">
-          <h3 class="text-xl font-bold text-white">📝 Texte Original</h3>
+          <h3 class="text-base sm:text-lg lg:text-xl font-bold text-white">📝 Texte Original</h3>
           <button
             @click="pasteFromClipboard('text1')"
             class="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-lg text-sm transition-colors"
@@ -41,7 +41,7 @@
     </div>
 
     <!-- Statistics -->
-    <div v-if="stats" class="grid md:grid-cols-4 gap-4 mb-6">
+    <div v-if="stats" class="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mb-6">
       <div class="bg-green-500/20 border-2 border-green-500 rounded-lg p-4 text-center">
         <div class="text-3xl font-bold text-green-400">{{ stats.additions }}</div>
         <div class="text-gray-300 text-sm">Ajouts</div>
@@ -133,7 +133,7 @@
     </div>
 
     <!-- Actions -->
-    <div class="mt-6 flex items-center justify-center gap-4">
+    <div class="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
       <button
         @click="compareDiff"
         :disabled="!text1 || !text2"

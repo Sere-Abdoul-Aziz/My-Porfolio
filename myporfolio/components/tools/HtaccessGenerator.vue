@@ -1,9 +1,9 @@
 <template>
-  <div class="htaccess-generator space-y-6">
-    <h3 class="text-xl font-bold text-white">⚙️ Générateur de .htaccess</h3>
+  <div class="htaccess-generator space-y-4 sm:space-y-6">
+    <h3 class="text-base sm:text-lg lg:text-xl font-bold text-white">⚙️ Générateur de .htaccess</h3>
 
-    <div class="grid lg:grid-cols-2 gap-6">
-      <div class="space-y-4">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+      <div class="space-y-3 sm:space-y-4">
         <h4 class="text-white font-semibold">Options</h4>
         
         <label class="flex items-center justify-between bg-white/10 rounded-lg p-4 cursor-pointer hover:bg-white/20 transition-colors">

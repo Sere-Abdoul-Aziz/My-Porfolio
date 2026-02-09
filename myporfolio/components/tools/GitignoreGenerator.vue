@@ -2,14 +2,14 @@
   <div class="gitignore-generator">
     <!-- Template Selection -->
     <div class="mb-6">
-      <h3 class="text-xl font-bold text-white mb-4">🎯 Sélectionnez des templates</h3>
-      <div class="grid md:grid-cols-3 lg:grid-cols-4 gap-3">
+      <h3 class="text-base sm:text-lg lg:text-xl font-bold text-white mb-4">🎯 Sélectionnez des templates</h3>
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-3">
         <button
           v-for="template in templates"
           :key="template.id"
           @click="toggleTemplate(template.id)"
           :class="[
-            'px-4 py-3 rounded-lg font-semibold transition-all border-2',
+            'px-3 sm:px-4 py-2 sm:py-3 rounded-lg font-semibold transition-all border-2',
             selectedTemplates.includes(template.id)
               ? 'bg-blue-500 text-white border-blue-500'
               : 'bg-white/10 text-gray-300 border-transparent hover:border-blue-500'
@@ -22,17 +22,17 @@
 
     <!-- Custom Rules -->
     <div class="mb-6">
-      <h3 class="text-xl font-bold text-white mb-3">➕ Règles Personnalisées</h3>
+      <h3 class="text-base sm:text-lg lg:text-xl font-bold text-white mb-3">➕ Règles Personnalisées</h3>
       <div class="flex gap-2">
         <input
           v-model="customRule"
           @keyup.enter="addCustomRule"
           placeholder="Ex: .env, *.log, node_modules/"
-          class="flex-1 bg-gray-800 text-white px-4 py-3 rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none"
+          class="flex-1 bg-gray-800 text-white px-3 sm:px-4 py-2 sm:py-3 rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none"
         />
         <button
           @click="addCustomRule"
-          class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
+          class="bg-blue-500 hover:bg-blue-600 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-semibold transition-colors"
         >
           Ajouter
         </button>
@@ -52,7 +52,7 @@
     <!-- Generated .gitignore -->
     <div>
       <div class="flex items-center justify-between mb-3">
-        <h3 class="text-xl font-bold text-white">📄 .gitignore Généré</h3>
+          <h3 class="text-base sm:text-lg lg:text-xl font-bold text-white">📄 .gitignore Généré</h3>
         <div class="flex gap-2">
           <button
             @click="copyToClipboard"
@@ -74,13 +74,13 @@
         v-model="generatedContent"
         readonly
         placeholder="Sélectionnez des templates pour générer le fichier .gitignore..."
-        class="w-full h-96 bg-gray-800 text-green-400 p-4 rounded-lg border border-gray-600 font-mono text-sm resize-none"
+        class="w-full h-64 sm:h-80 lg:h-96 bg-gray-800 text-green-400 p-4 rounded-lg border border-gray-600 font-mono text-sm resize-none"
       ></textarea>
       <div class="mt-3 text-gray-400 text-sm">{{ lineCount }} lignes</div>
     </div>
 
     <!-- Actions -->
-    <div class="mt-6 flex items-center justify-center gap-4">
+    <div class="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
       <button
         @click="generateGitignore"
         class="bg-gradient-to-r from-blue-500 to-purple-500 hover:shadow-lg text-white px-8 py-3 rounded-lg font-bold transition-all"

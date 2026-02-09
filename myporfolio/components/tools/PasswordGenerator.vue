@@ -1,9 +1,9 @@
 <template>
   <div class="password-generator">
-    <div class="grid lg:grid-cols-2 gap-6">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
       <!-- Settings -->
-      <div class="space-y-6">
-        <h3 class="text-xl font-bold text-white">⚙️ Configuration</h3>
+      <div class="space-y-4 sm:space-y-6">
+        <h3 class="text-base sm:text-lg lg:text-xl font-bold text-white">⚙️ Configuration</h3>
 
         <!-- Length -->
         <div>
@@ -44,7 +44,7 @@
 
       <!-- Results -->
       <div>
-        <h3 class="text-xl font-bold text-white mb-4">🔑 Résultats</h3>
+        <h3 class="text-base sm:text-lg lg:text-xl font-bold text-white mb-4">🔑 Résultats</h3>
         <div class="space-y-4">
           <div v-for="(pwd, index) in passwords" :key="index" class="bg-gray-900 rounded-xl p-4">
             <div class="flex items-center justify-between mb-2">

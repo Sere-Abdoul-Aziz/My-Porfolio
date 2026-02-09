@@ -1,10 +1,10 @@
 <template>
   <div class="jwt-tools">
     <div class="mb-6">
-      <div class="flex gap-2">
+      <div class="flex flex-col sm:flex-row gap-2">
         <button
           @click="mode = 'encode'"
-          :class="['flex-1 px-6 py-3 rounded-lg font-semibold transition-colors', mode === 'encode' ? 'bg-blue-500 text-white' : 'bg-white/10 text-gray-300 hover:bg-white/20']"
+          :class="['flex-1 px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-semibold transition-colors', mode === 'encode' ? 'bg-blue-500 text-white' : 'bg-white/10 text-gray-300 hover:bg-white/20']"
         >
           🔐 Encoder JWT
         </button>
@@ -18,9 +18,9 @@
     </div>
 
     <!-- Encode Mode -->
-    <div v-if="mode === 'encode'" class="grid lg:grid-cols-2 gap-6">
+    <div v-if="mode === 'encode'" class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
       <div class="space-y-6">
-        <h3 class="text-xl font-bold text-white">📝 Données du Token</h3>
+        <h3 class="text-base sm:text-lg lg:text-xl font-bold text-white">📝 Données du Token</h3>
 
         <div>
           <label class="block text-white mb-2 font-semibold">Header (JSON)</label>
@@ -93,7 +93,7 @@
     </div>
 
     <!-- Decode Mode -->
-    <div v-if="mode === 'decode'" class="grid lg:grid-cols-2 gap-6">
+    <div v-if="mode === 'decode'" class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
       <div class="space-y-6">
         <h3 class="text-xl font-bold text-white">🔓 Token à Décoder</h3>
 

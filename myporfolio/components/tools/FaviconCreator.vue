@@ -1,14 +1,14 @@
 <template>
   <div class="favicon-creator">
-    <div class="grid lg:grid-cols-2 gap-8">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
       <!-- Upload Section -->
-      <div class="space-y-6">
-        <h3 class="text-xl font-bold text-white mb-4">📤 Charger une image</h3>
+      <div class="space-y-4 sm:space-y-6">
+        <h3 class="text-base sm:text-lg lg:text-xl font-bold text-white mb-4">📤 Charger une image</h3>
 
         <div
           @drop.prevent="handleDrop"
           @dragover.prevent
-          class="border-2 border-dashed border-blue-400 rounded-xl p-12 text-center hover:border-blue-300 transition-colors cursor-pointer"
+          class="border-2 border-dashed border-blue-400 rounded-lg sm:rounded-xl p-6 sm:p-8 lg:p-12 text-center hover:border-blue-300 transition-colors cursor-pointer"
           @click="$refs.fileInput.click()"
         >
           <input ref="fileInput" type="file" accept="image/*" @change="handleFileSelect" class="hidden" />
@@ -42,7 +42,7 @@
               <input
                 v-model="bgColor"
                 type="text"
-                class="flex-1 bg-gray-800 text-white px-4 py-3 rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none font-mono"
+                class="flex-1 bg-gray-800 text-white px-3 sm:px-4 py-2 sm:py-3 rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none font-mono"
               />
               <button
                 @click="bgColor = 'transparent'"
@@ -62,7 +62,7 @@
           <!-- Download All -->
           <button
             @click="downloadAll"
-            class="w-full bg-gradient-to-r from-green-500 to-emerald-500 text-white px-6 py-4 rounded-lg font-bold text-lg hover:shadow-lg transition-all"
+            class="w-full bg-gradient-to-r from-green-500 to-emerald-500 text-white px-4 sm:px-6 py-3 sm:py-4 rounded-lg font-bold text-base sm:text-lg hover:shadow-lg transition-all"
           >
             📥 Télécharger tous les formats
           </button>
@@ -71,10 +71,10 @@
 
       <!-- Preview Section -->
       <div>
-        <h3 class="text-xl font-bold text-white mb-4">👁️ Aperçus</h3>
+        <h3 class="text-base sm:text-lg lg:text-xl font-bold text-white mb-4">👁️ Aperçus</h3>
 
-        <div v-if="imageUrl" class="space-y-6">
-          <div v-for="format in faviconFormats" :key="format.size" class="bg-white/10 rounded-xl p-6">
+        <div v-if="imageUrl" class="space-y-4 sm:space-y-6">
+          <div v-for="format in faviconFormats" :key="format.size" class="bg-white/10 rounded-lg sm:rounded-xl p-4 sm:p-6">
             <div class="flex items-center justify-between mb-4">
               <div>
                 <h4 class="text-white font-semibold">{{ format.name }}</h4>

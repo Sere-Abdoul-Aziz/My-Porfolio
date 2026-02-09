@@ -18,51 +18,50 @@
       <div class="absolute inset-0 bg-noise opacity-5"></div>
     </div>
 
-    <div class="max-w-7xl mx-auto px-4 py-20 relative">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20 relative">
       <!-- Header with glassmorphism -->
-      <header class="text-center mb-16 relative">
+      <header class="text-center mb-12 sm:mb-16 relative">
        
         
-        <h1 class="text-6xl md:text-8xl font-black text-white mb-6 leading-tight">
+        <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-black text-white mb-4 sm:mb-6 leading-tight px-2">
           <span class="bg-clip-text text-transparent bg-gradient-to-r from-green-400 via-emerald-500 to-teal-500 animate-gradient">
             Outils Gratuits
           </span>
           <br />
-          <span class="text-5xl md:text-7xl">pour Développeurs</span>
+          <span class="text-3xl sm:text-4xl md:text-5xl lg:text-7xl">pour Développeurs</span>
         </h1>
         
-        <p class="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+        <p class="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-300 max-w-3xl mx-auto leading-relaxed px-4">
           Collection de <span class="text-yellow-400 font-bold">39 mini-outils</span> puissants pour 
           <span class="text-green-400 font-bold"> booster</span> votre productivité 
         
         </p>
 
         <!-- Stats badges -->
-        <div class="flex flex-wrap gap-4 justify-center mt-8">
-          <div class="px-6 py-3 bg-white/10 backdrop-blur-lg rounded-full border border-white/20">
-            <span class="text-yellow-400 font-bold text-lg">39</span>
-            <span class="text-gray-300 text-sm ml-2">Outils</span>
+        <div class="flex flex-wrap gap-2 sm:gap-4 justify-center mt-6 sm:mt-8 px-4">
+          <div class="px-4 sm:px-6 py-2 sm:py-3 bg-white/10 backdrop-blur-lg rounded-full border border-white/20">
+            <span class="text-yellow-400 font-bold text-base sm:text-lg">39</span>
+            <span class="text-gray-300 text-xs sm:text-sm ml-2">Outils</span>
           </div>
-          <div class="px-6 py-3 bg-white/10 backdrop-blur-lg rounded-full border border-white/20">
-            <span class="text-green-400 font-bold text-lg">100%</span>
-            <span class="text-gray-300 text-sm ml-2">Gratuit</span>
+          <div class="px-4 sm:px-6 py-2 sm:py-3 bg-white/10 backdrop-blur-lg rounded-full border border-white/20">
+            <span class="text-green-400 font-bold text-base sm:text-lg">100%</span>
+            <span class="text-gray-300 text-xs sm:text-sm ml-2">Gratuit</span>
           </div>
-          <div class="px-6 py-3 bg-white/10 backdrop-blur-lg rounded-full border border-white/20">
-           
-            <span class="text-gray-300 text-sm ml-2">Instantané</span>
+          <div class="px-4 sm:px-6 py-2 sm:py-3 bg-white/10 backdrop-blur-lg rounded-full border border-white/20">
+            <span class="text-gray-300 text-xs sm:text-sm ml-2">⚡ Instantané</span>
           </div>
         </div>
       </header>
 
       <!-- Navigation par catégories avec nouveau design -->
-      <div class="mb-12">
-        <div class="flex flex-wrap gap-3 justify-center">
+      <div class="mb-8 sm:mb-12 px-2">
+        <div class="flex flex-wrap gap-2 sm:gap-3 justify-center">
           <button
             v-for="cat in categories"
             :key="cat.id"
             @click="selectedCategory = cat.id"
             :class="[
-              'group relative px-8 py-4 rounded-2xl font-bold transition-all duration-300 transform hover:scale-105 flex items-center gap-3 overflow-hidden',
+              'group relative px-4 sm:px-6 lg:px-8 py-2 sm:py-3 lg:py-4 rounded-xl sm:rounded-2xl font-bold transition-all duration-300 transform hover:scale-105 flex items-center gap-2 sm:gap-3 overflow-hidden text-sm sm:text-base',
               selectedCategory === cat.id
                 ? 'bg-gradient-to-r from-green-600 to-emerald-600 text-white shadow-2xl shadow-green-500/50'
                 : 'bg-white/5 backdrop-blur-lg text-gray-300 hover:bg-white/10 border border-white/10'
@@ -74,7 +73,7 @@
             <component 
               :is="cat.icon" 
               :class="[
-                'w-6 h-6 transition-transform group-hover:rotate-12',
+                'w-5 h-5 sm:w-6 sm:h-6 transition-transform group-hover:rotate-12',
                 selectedCategory === cat.id ? 'text-white' : 'text-green-400'
               ]" 
             />
@@ -97,13 +96,13 @@
       </div>
 
       <!-- Grille d'outils avec cartes améliorées -->
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 px-2">
         <div
           v-for="(tool, index) in filteredTools"
           :key="tool.id"
           @click="openTool(tool)"
           :style="{ animationDelay: `${index * 50}ms` }"
-          class="tool-card group relative bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl rounded-2xl p-6 cursor-pointer transition-all duration-500 transform hover:scale-105 hover:-translate-y-2 border border-white/20 hover:border-purple-500/50 overflow-hidden animate-fadeInUp"
+          class="tool-card group relative bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl rounded-xl sm:rounded-2xl p-4 sm:p-6 cursor-pointer transition-all duration-500 transform hover:scale-105 hover:-translate-y-2 border border-white/20 hover:border-purple-500/50 overflow-hidden animate-fadeInUp"
         >
           <!-- Gradient overlay on hover -->
           <div class="absolute inset-0 bg-gradient-to-br from-green-600/0 via-emerald-600/0 to-teal-600/0 group-hover:from-green-600/10 group-hover:via-emerald-600/10 group-hover:to-teal-600/10 transition-all duration-500 rounded-2xl"></div>
@@ -113,30 +112,30 @@
           
           <div class="relative z-10">
             <!-- Icon with animated background -->
-            <div class="mb-4 relative inline-block">
-              <div :class="['absolute -inset-2 bg-gradient-to-r rounded-xl blur opacity-0 group-hover:opacity-75 transition-opacity duration-500', getColorClasses(tool.color).glow]"></div>
-              <div :class="['relative p-3 bg-gradient-to-br rounded-xl transition-all duration-300', getColorClasses(tool.color).bg, getColorClasses(tool.color).bgHover]">
-                <component :is="tool.icon" :class="['w-10 h-10 transition-colors duration-300', getColorClasses(tool.color).icon, getColorClasses(tool.color).iconHover]" />
+            <div class="mb-3 sm:mb-4 relative inline-block">
+              <div :class="['absolute -inset-1 sm:-inset-2 bg-gradient-to-r rounded-lg sm:rounded-xl blur opacity-0 group-hover:opacity-75 transition-opacity duration-500', getColorClasses(tool.color).glow]"></div>
+              <div :class="['relative p-2 sm:p-3 bg-gradient-to-br rounded-lg sm:rounded-xl transition-all duration-300', getColorClasses(tool.color).bg, getColorClasses(tool.color).bgHover]">
+                <component :is="tool.icon" :class="['w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 transition-colors duration-300', getColorClasses(tool.color).icon, getColorClasses(tool.color).iconHover]" />
               </div>
             </div>
             
-            <h3 :class="['text-xl font-bold text-white mb-2 transition-colors duration-300', getColorClasses(tool.color).title]">
+            <h3 :class="['text-lg sm:text-xl lg:text-2xl font-bold text-white mb-2 transition-colors duration-300', getColorClasses(tool.color).title]">
               {{ tool.name }}
             </h3>
             
-            <p class="text-gray-400 text-sm mb-4 leading-relaxed group-hover:text-gray-300 transition-colors duration-300">
+            <p class="text-gray-400 text-xs sm:text-sm lg:text-base mb-3 sm:mb-4 leading-relaxed group-hover:text-gray-300 transition-colors duration-300">
               {{ tool.description }}
             </p>
             
             <div class="flex items-center justify-between">
-              <span :class="['inline-flex items-center gap-2 px-3 py-1 text-xs font-bold rounded-full', getColorClasses(tool.color).badge]">
-                <span :class="['w-2 h-2 rounded-full animate-pulse', getColorClasses(tool.color).dot]"></span>
+              <span :class="['inline-flex items-center gap-1 sm:gap-2 px-2 sm:px-3 py-1 text-xs font-bold rounded-full', getColorClasses(tool.color).badge]">
+                <span :class="['w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full animate-pulse', getColorClasses(tool.color).dot]"></span>
                 {{ tool.category }}
               </span>
               
-              <div class="flex items-center gap-2 text-emerald-400 text-sm font-semibold opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-2 group-hover:translate-x-0">
-                <span>Ouvrir</span>
-                <svg class="w-4 h-4 animate-bounce-x" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div class="flex items-center gap-1 sm:gap-2 text-emerald-400 text-xs sm:text-sm font-semibold opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-2 group-hover:translate-x-0">
+                <span class="hidden sm:inline">Ouvrir</span>
+                <svg class="w-3 h-3 sm:w-4 sm:h-4 animate-bounce-x" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
                 </svg>
               </div>
@@ -153,11 +152,11 @@
       </div>
 
       <!-- Empty state si filtré -->
-      <div v-if="filteredTools.length === 0" class="text-center py-20">
-        <div class="inline-block p-6 bg-white/5 backdrop-blur-lg rounded-3xl border border-white/10">
-          <div class="text-6xl mb-4">🔍</div>
-          <h3 class="text-2xl font-bold text-white mb-2">Aucun outil trouvé</h3>
-          <p class="text-gray-400">Essayez une autre catégorie</p>
+      <div v-if="filteredTools.length === 0" class="text-center py-12 sm:py-16 lg:py-20">
+        <div class="inline-block p-4 sm:p-6 bg-white/5 backdrop-blur-lg rounded-2xl sm:rounded-3xl border border-white/10">
+          <div class="text-4xl sm:text-5xl lg:text-6xl mb-3 sm:mb-4">🔍</div>
+          <h3 class="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2">Aucun outil trouvé</h3>
+          <p class="text-sm sm:text-base lg:text-lg text-gray-400">Essayez une autre catégorie</p>
         </div>
       </div>
     </div>
@@ -167,35 +166,35 @@
       <Transition name="modal">
         <div
           v-if="activeTool"
-          class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 flex items-center justify-center p-4"
+          class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 flex items-center justify-center p-2 sm:p-4"
           @click.self="closeTool"
         >
-          <div class="modal-content relative bg-gradient-to-br from-gray-900 to-gray-800 rounded-3xl max-w-6xl w-full max-h-[90vh] overflow-hidden shadow-2xl border border-green-500/30">
+          <div class="modal-content relative bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl sm:rounded-3xl max-w-full sm:max-w-3xl lg:max-w-6xl w-full max-h-[95vh] sm:max-h-[90vh] overflow-hidden shadow-2xl border border-green-500/30">
             <!-- Animated gradient border -->
             <div class="absolute -inset-[2px] bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 rounded-3xl opacity-75 blur animate-gradient-rotate -z-10"></div>
             
             <!-- Header du modal -->
-            <div class="sticky top-0 bg-gradient-to-r from-gray-900/95 to-gray-800/95 backdrop-blur-xl border-b border-white/10 p-6 flex items-center justify-between z-20">
-              <div class="flex items-center space-x-4">
+            <div class="sticky top-0 bg-gradient-to-r from-gray-900/95 to-gray-800/95 backdrop-blur-xl border-b border-white/10 p-4 sm:p-6 flex items-center justify-between z-20">
+              <div class="flex items-center space-x-3 sm:space-x-4">
                 <div class="relative">
-                  <div class="absolute -inset-1 bg-gradient-to-r from-green-600 to-emerald-600 rounded-xl blur opacity-75"></div>
-                  <div class="relative p-3 bg-gray-800 rounded-xl">
-                    <component :is="activeTool.icon" class="w-8 h-8 text-green-400" />
+                  <div class="absolute -inset-1 bg-gradient-to-r from-green-600 to-emerald-600 rounded-lg sm:rounded-xl blur opacity-75"></div>
+                  <div class="relative p-2 sm:p-3 bg-gray-800 rounded-lg sm:rounded-xl">
+                    <component :is="activeTool.icon" class="w-6 h-6 sm:w-8 sm:h-8 text-green-400" />
                   </div>
                 </div>
                 <div>
-                  <h2 class="text-3xl font-black text-white bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-emerald-400">
+                  <h2 class="text-xl sm:text-2xl lg:text-3xl font-black text-white bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-emerald-400">
                     {{ activeTool.name }}
                   </h2>
-                  <p class="text-gray-400 text-sm mt-1">{{ activeTool.description }}</p>
+                  <p class="text-gray-400 text-xs sm:text-sm mt-1 hidden sm:block">{{ activeTool.description }}</p>
                 </div>
               </div>
               
               <button
                 @click="closeTool"
-                class="group relative p-3 bg-white/5 hover:bg-red-500/20 border border-white/10 hover:border-red-500/50 rounded-xl transition-all duration-300 transform hover:scale-110 hover:rotate-90"
+                class="group relative p-2 sm:p-3 bg-white/5 hover:bg-red-500/20 border border-white/10 hover:border-red-500/50 rounded-lg sm:rounded-xl transition-all duration-300 transform hover:scale-110 hover:rotate-90"
               >
-                <svg class="w-6 h-6 text-gray-400 group-hover:text-red-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="w-5 h-5 sm:w-6 sm:h-6 text-gray-400 group-hover:text-red-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                 </svg>
               </button>
