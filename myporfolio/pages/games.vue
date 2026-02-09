@@ -178,6 +178,8 @@ import Minesweeper from '@/components/games/Minesweeper.vue'
 import TypingSpeed from '@/components/games/TypingSpeed.vue'
 import CodeQuiz from '@/components/games/CodeQuiz.vue'
 import Breakout from '@/components/games/Breakout.vue'
+import DoodleJump from '@/components/games/DoodleJump.vue'
+import TempleRun from '@/components/games/TempleRun.vue'
 
 // SEO Meta tags
 useHead({
@@ -286,6 +288,24 @@ const games = [
     category: 'Adresse',
     categoryId: 'skill',
     component: Breakout
+  },
+  {
+    id: 'doodlejump',
+    name: 'Doodle Jump',
+    description: 'Sautez de plateforme en plateforme !',
+    icon: RocketLaunchIcon,
+    category: 'Adresse',
+    categoryId: 'skill',
+    component: DoodleJump
+  },
+  {
+    id: 'templerun',
+    name: 'Temple Run',
+    description: 'Courez dans le temple et évitez les obstacles',
+    icon: RocketLaunchIcon,
+    category: 'Adresse',
+    categoryId: 'skill',
+    component: TempleRun
   }
 ]
 

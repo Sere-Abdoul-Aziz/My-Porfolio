@@ -388,6 +388,6 @@ function downloadFile(filename, content) {
 
 <style scoped>
 input[type='range'] {
-  @apply accent-blue-500;
+  accent-color: #3b82f6;
 }
 </style>
