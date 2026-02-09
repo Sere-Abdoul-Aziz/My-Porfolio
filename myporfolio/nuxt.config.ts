@@ -7,7 +7,7 @@ export default defineNuxtConfig({
     port: 3005
   },
 
-  css: ['~/assets/css/main.css'],
+  css: ['~/assets/css/main.css', '~/assets/css/tools-responsive.css'],
 
   postcss: {
     plugins: {

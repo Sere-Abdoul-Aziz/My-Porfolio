@@ -1,0 +1,731 @@
+/* 
+ * Styles globaux pour tous les composants d'outils développeur
+ * Applique automatiquement la responsive sur mobile/tablette
+ */
+
+/* Container principal des outils */
+.color-palette-generator,
+.color-converter,
+.glassmorphism-generator,
+.neumorphism-generator,
+.material-design-palette,
+.pattern-generator,
+.favicon-creator,
+.mockup-generator,
+.css-minifier,
+.js-minifier,
+.code-beautifier,
+.json-validator,
+.lorem-ipsum-generator,
+.base64-encoder,
+.url-encoder,
+.uuid-generator,
+.diff-checker,
+.gitignore-generator,
+.case-converter,
+.text-counter,
+.image-compressor,
+.image-converter,
+.image-resizer,
+.placeholder-generator,
+.svg-optimizer,
+.qrcode-generator,
+.barcode-generator,
+.password-generator,
+.password-strength-tester,
+.md5-generator,
+.sha-generator,
+.jwt-tool,
+.ssh-key-generator,
+.htaccess-generator,
+.robots-txt-generator,
+.csp-generator {
+  @apply w-full max-w-full overflow-x-hidden;
+}
+
+/* Grilles responsive */
+.color-palette-generator .grid,
+.color-converter .grid,
+.glassmorphism-generator .grid,
+.neumorphism-generator .grid,
+.pattern-generator .grid,
+.mockup-generator .grid,
+.jwt-tool .grid {
+  @apply grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6 lg:gap-8;
+}
+
+/* Textareas et inputs responsive */
+.color-palette-generator textarea,
+.color-converter textarea,
+.css-minifier textarea,
+.js-minifier textarea,
+.code-beautifier textarea,
+.json-validator textarea,
+.lorem-ipsum-generator textarea,
+.base64-encoder textarea,
+.url-encoder textarea,
+.diff-checker textarea,
+.gitignore-generator textarea,
+.case-converter textarea,
+.text-counter textarea,
+.md5-generator textarea,
+.sha-generator textarea,
+.jwt-tool textarea,
+.robots-txt-generator textarea {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  height: 12rem;
+}
+
+@media (min-width: 768px) {
+  .color-palette-generator textarea,
+  .color-converter textarea,
+  .css-minifier textarea,
+  .js-minifier textarea,
+  .code-beautifier textarea,
+  .json-validator textarea,
+  .lorem-ipsum-generator textarea,
+  .base64-encoder textarea,
+  .url-encoder textarea,
+  .diff-checker textarea,
+  .gitignore-generator textarea,
+  .case-converter textarea,
+  .text-counter textarea,
+  .md5-generator textarea,
+  .sha-generator textarea,
+  .jwt-tool textarea,
+  .robots-txt-generator textarea {
+    font-size: 1rem;
+    line-height: 1.5rem;
+    height: 16rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .color-palette-generator textarea,
+  .color-converter textarea,
+  .css-minifier textarea,
+  .js-minifier textarea,
+  .code-beautifier textarea,
+  .json-validator textarea,
+  .lorem-ipsum-generator textarea,
+  .base64-encoder textarea,
+  .url-encoder textarea,
+  .diff-checker textarea,
+  .gitignore-generator textarea,
+  .case-converter textarea,
+  .text-counter textarea,
+  .md5-generator textarea,
+  .sha-generator textarea,
+  .jwt-tool textarea,
+  .robots-txt-generator textarea {
+    height: 24rem;
+  }
+}
+
+/* Inputs et selects */
+.color-palette-generator input,
+.color-palette-generator select,
+.color-converter input,
+.color-converter select,
+.image-compressor input,
+.image-compressor select,
+.image-converter input,
+.image-converter select,
+.image-resizer input,
+.image-resizer select,
+.placeholder-generator input,
+.placeholder-generator select,
+.qrcode-generator input,
+.qrcode-generator select,
+.barcode-generator input,
+.barcode-generator select,
+.password-generator input,
+.password-generator select,
+.uuid-generator input,
+.uuid-generator select,
+.csp-generator input,
+.csp-generator select,
+.htaccess-generator input,
+.htaccess-generator select {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+@media (min-width: 768px) {
+  .color-palette-generator input,
+  .color-palette-generator select,
+  .color-converter input,
+  .color-converter select,
+  .image-compressor input,
+  .image-compressor select,
+  .image-converter input,
+  .image-converter select,
+  .image-resizer input,
+  .image-resizer select,
+  .placeholder-generator input,
+  .placeholder-generator select,
+  .qrcode-generator input,
+  .qrcode-generator select,
+  .barcode-generator input,
+  .barcode-generator select,
+  .password-generator input,
+  .password-generator select,
+  .uuid-generator input,
+  .uuid-generator select,
+  .csp-generator input,
+  .csp-generator select,
+  .htaccess-generator input,
+  .htaccess-generator select {
+    font-size: 1rem;
+    line-height: 1.5rem;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+  }
+}
+
+/* Boutons responsive */
+.color-palette-generator button,
+.color-converter button,
+.glassmorphism-generator button,
+.neumorphism-generator button,
+.pattern-generator button,
+.favicon-creator button,
+.mockup-generator button,
+.css-minifier button,
+.js-minifier button,
+.code-beautifier button,
+.json-validator button,
+.lorem-ipsum-generator button,
+.base64-encoder button,
+.url-encoder button,
+.uuid-generator button,
+.diff-checker button,
+.gitignore-generator button,
+.case-converter button,
+.image-compressor button,
+.image-converter button,
+.image-resizer button,
+.placeholder-generator button,
+.svg-optimizer button,
+.qrcode-generator button,
+.barcode-generator button,
+.password-generator button,
+.password-strength-tester button,
+.md5-generator button,
+.sha-generator button,
+.jwt-tool button,
+.ssh-key-generator button,
+.htaccess-generator button,
+.robots-txt-generator button,
+.csp-generator button {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+@media (min-width: 768px) {
+  .color-palette-generator button,
+  .color-converter button,
+  .glassmorphism-generator button,
+  .neumorphism-generator button,
+  .pattern-generator button,
+  .favicon-creator button,
+  .mockup-generator button,
+  .css-minifier button,
+  .js-minifier button,
+  .code-beautifier button,
+  .json-validator button,
+  .lorem-ipsum-generator button,
+  .base64-encoder button,
+  .url-encoder button,
+  .uuid-generator button,
+  .diff-checker button,
+  .gitignore-generator button,
+  .case-converter button,
+  .image-compressor button,
+  .image-converter button,
+  .image-resizer button,
+  .placeholder-generator button,
+  .svg-optimizer button,
+  .qrcode-generator button,
+  .barcode-generator button,
+  .password-generator button,
+  .password-strength-tester button,
+  .md5-generator button,
+  .sha-generator button,
+  .jwt-tool button,
+  .ssh-key-generator button,
+  .htaccess-generator button,
+  .robots-txt-generator button,
+  .csp-generator button {
+    font-size: 1rem;
+    line-height: 1.5rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .color-palette-generator button,
+  .color-converter button,
+  .glassmorphism-generator button,
+  .neumorphism-generator button,
+  .pattern-generator button,
+  .favicon-creator button,
+  .mockup-generator button,
+  .css-minifier button,
+  .js-minifier button,
+  .code-beautifier button,
+  .json-validator button,
+  .lorem-ipsum-generator button,
+  .base64-encoder button,
+  .url-encoder button,
+  .uuid-generator button,
+  .diff-checker button,
+  .gitignore-generator button,
+  .case-converter button,
+  .image-compressor button,
+  .image-converter button,
+  .image-resizer button,
+  .placeholder-generator button,
+  .svg-optimizer button,
+  .qrcode-generator button,
+  .barcode-generator button,
+  .password-generator button,
+  .password-strength-tester button,
+  .md5-generator button,
+  .sha-generator button,
+  .jwt-tool button,
+  .ssh-key-generator button,
+  .htaccess-generator button,
+  .robots-txt-generator button,
+  .csp-generator button {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+  }
+}
+
+/* Titres responsive */
+.color-palette-generator h3,
+.color-converter h3,
+.glassmorphism-generator h3,
+.neumorphism-generator h3,
+.pattern-generator h3,
+.favicon-creator h3,
+.mockup-generator h3,
+.css-minifier h3,
+.js-minifier h3,
+.code-beautifier h3,
+.json-validator h3,
+.lorem-ipsum-generator h3,
+.base64-encoder h3,
+.url-encoder h3,
+.uuid-generator h3,
+.diff-checker h3,
+.gitignore-generator h3,
+.case-converter h3,
+.text-counter h3,
+.image-compressor h3,
+.image-converter h3,
+.image-resizer h3,
+.placeholder-generator h3,
+.svg-optimizer h3,
+.qrcode-generator h3,
+.barcode-generator h3,
+.password-generator h3,
+.password-strength-tester h3,
+.md5-generator h3,
+.sha-generator h3,
+.jwt-tool h3,
+.ssh-key-generator h3,
+.htaccess-generator h3,
+.robots-txt-generator h3,
+.csp-generator h3 {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+  margin-bottom: 0.75rem;
+}
+
+@media (min-width: 768px) {
+  .color-palette-generator h3,
+  .color-converter h3,
+  .glassmorphism-generator h3,
+  .neumorphism-generator h3,
+  .pattern-generator h3,
+  .favicon-creator h3,
+  .mockup-generator h3,
+  .css-minifier h3,
+  .js-minifier h3,
+  .code-beautifier h3,
+  .json-validator h3,
+  .lorem-ipsum-generator h3,
+  .base64-encoder h3,
+  .url-encoder h3,
+  .uuid-generator h3,
+  .diff-checker h3,
+  .gitignore-generator h3,
+  .case-converter h3,
+  .text-counter h3,
+  .image-compressor h3,
+  .image-converter h3,
+  .image-resizer h3,
+  .placeholder-generator h3,
+  .svg-optimizer h3,
+  .qrcode-generator h3,
+  .barcode-generator h3,
+  .password-generator h3,
+  .password-strength-tester h3,
+  .md5-generator h3,
+  .sha-generator h3,
+  .jwt-tool h3,
+  .ssh-key-generator h3,
+  .htaccess-generator h3,
+  .robots-txt-generator h3,
+  .csp-generator h3 {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+    margin-bottom: 1rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .color-palette-generator h3,
+  .color-converter h3,
+  .glassmorphism-generator h3,
+  .neumorphism-generator h3,
+  .pattern-generator h3,
+  .favicon-creator h3,
+  .mockup-generator h3,
+  .css-minifier h3,
+  .js-minifier h3,
+  .code-beautifier h3,
+  .json-validator h3,
+  .lorem-ipsum-generator h3,
+  .base64-encoder h3,
+  .url-encoder h3,
+  .uuid-generator h3,
+  .diff-checker h3,
+  .gitignore-generator h3,
+  .case-converter h3,
+  .text-counter h3,
+  .image-compressor h3,
+  .image-converter h3,
+  .image-resizer h3,
+  .placeholder-generator h3,
+  .svg-optimizer h3,
+  .qrcode-generator h3,
+  .barcode-generator h3,
+  .password-generator h3,
+  .password-strength-tester h3,
+  .md5-generator h3,
+  .sha-generator h3,
+  .jwt-tool h3,
+  .ssh-key-generator h3,
+  .htaccess-generator h3,
+  .robots-txt-generator h3,
+  .csp-generator h3 {
+    font-size: 1.5rem;
+    line-height: 2rem;
+  }
+}
+
+/* Espacements responsive */
+.color-palette-generator .space-y-4,
+.color-converter .space-y-4,
+.glassmorphism-generator .space-y-4,
+.neumorphism-generator .space-y-4,
+.pattern-generator .space-y-4,
+.mockup-generator .space-y-4,
+.jwt-tool .space-y-4 {
+  /* Using plain CSS instead of @apply for responsive spacing to avoid circular dependency */
+}
+
+.color-palette-generator .space-y-4 > * + *,
+.color-converter .space-y-4 > * + *,
+.glassmorphism-generator .space-y-4 > * + *,
+.neumorphism-generator .space-y-4 > * + *,
+.pattern-generator .space-y-4 > * + *,
+.mockup-generator .space-y-4 > * + *,
+.jwt-tool .space-y-4 > * + * {
+  margin-top: 0.75rem;
+}
+
+@media (min-width: 768px) {
+  .color-palette-generator .space-y-4 > * + *,
+  .color-converter .space-y-4 > * + *,
+  .glassmorphism-generator .space-y-4 > * + *,
+  .neumorphism-generator .space-y-4 > * + *,
+  .pattern-generator .space-y-4 > * + *,
+  .mockup-generator .space-y-4 > * + *,
+  .jwt-tool .space-y-4 > * + * {
+    margin-top: 1rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .color-palette-generator .space-y-4 > * + *,
+  .color-converter .space-y-4 > * + *,
+  .glassmorphism-generator .space-y-4 > * + *,
+  .neumorphism-generator .space-y-4 > * + *,
+  .pattern-generator .space-y-4 > * + *,
+  .mockup-generator .space-y-4 > * + *,
+  .jwt-tool .space-y-4 > * + * {
+    margin-top: 1.5rem;
+  }
+}
+
+/* Preview containers responsive */
+.glassmorphism-generator [class*="h-[600px]"],
+.neumorphism-generator [class*="h-[600px]"],
+.mockup-generator [class*="h-[600px]"] {
+  height: 300px;
+}
+
+@media (min-width: 768px) {
+  .glassmorphism-generator [class*="h-[600px]"],
+  .neumorphism-generator [class*="h-[600px]"],
+  .mockup-generator [class*="h-[600px]"] {
+    height: 400px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .glassmorphism-generator [class*="h-[600px]"],
+  .neumorphism-generator [class*="h-[600px]"],
+  .mockup-generator [class*="h-[600px]"] {
+    height: 600px;
+  }
+}
+
+/* Images responsive */
+.color-palette-generator img,
+.color-converter img,
+.favicon-creator img,
+.mockup-generator img,
+.image-compressor img,
+.image-converter img,
+.image-resizer img,
+.placeholder-generator img {
+  @apply max-w-full h-auto;
+}
+
+/* Canvas et SVG responsive */
+.qrcode-generator canvas,
+.barcode-generator svg,
+.pattern-generator svg {
+  @apply max-w-full h-auto mx-auto;
+}
+
+/* Stats et cartes responsive */
+.text-counter .grid,
+.password-strength-tester .grid {
+  @apply grid-cols-1 gap-3;
+}
+
+@media (min-width: 640px) {
+  .text-counter .grid,
+  .password-strength-tester .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 768px) {
+  .text-counter .grid,
+  .password-strength-tester .grid {
+    gap: 1rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .text-counter .grid,
+  .password-strength-tester .grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+/* Labels et textes responsive */
+.color-palette-generator label,
+.color-converter label,
+.glassmorphism-generator label,
+.neumorphism-generator label,
+.pattern-generator label,
+.image-compressor label,
+.image-converter label,
+.qrcode-generator label,
+.barcode-generator label,
+.password-generator label,
+.csp-generator label,
+.htaccess-generator label {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+@media (min-width: 768px) {
+  .color-palette-generator label,
+  .color-converter label,
+  .glassmorphism-generator label,
+  .neumorphism-generator label,
+  .pattern-generator label,
+  .image-compressor label,
+  .image-converter label,
+  .qrcode-generator label,
+  .barcode-generator label,
+  .password-generator label,
+  .csp-generator label,
+  .htaccess-generator label {
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+}
+
+/* Padding responsive pour conteneurs */
+.color-palette-generator > div,
+.color-converter > div,
+.glassmorphism-generator > div,
+.neumorphism-generator > div {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+@media (min-width: 768px) {
+  .color-palette-generator > div,
+  .color-converter > div,
+  .glassmorphism-generator > div,
+  .neumorphism-generator > div {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .color-palette-generator > div,
+  .color-converter > div,
+  .glassmorphism-generator > div,
+  .neumorphism-generator > div {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+/* Range sliders responsive */
+input[type="range"] {
+  height: 0.5rem;
+}
+
+@media (min-width: 768px) {
+  input[type="range"] {
+    height: 0.625rem;
+  }
+}
+
+/* Flexbox responsive */
+.color-palette-generator .flex,
+.color-converter .flex,
+.password-generator .flex,
+.uuid-generator .flex {
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+@media (min-width: 640px) {
+  .color-palette-generator .flex,
+  .color-converter .flex,
+  .password-generator .flex,
+  .uuid-generator .flex {
+    flex-direction: row;
+    gap: 1rem;
+  }
+}
+
+/* Override pour forcer le responsive sur certains composants */
+@media (max-width: 768px) {
+  /* Grilles en une colonne sur mobile */
+  .grid.lg\\:grid-cols-2 {
+    @apply grid-cols-1;
+  }
+  
+  /* Textareas plus petites sur mobile */
+  textarea {
+    min-height: 200px !important;
+  }
+  
+  /* Boutons pleine largeur sur mobile */
+  button:not(.absolute):not([class*="w-8"]):not([class*="w-10"]) {
+    @apply w-full;
+  }
+  
+  /* Images et previews adaptées */
+  img, canvas, svg {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+/* Tablette (768px - 1024px) */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .grid.lg\\:grid-cols-2 {
+    @apply grid-cols-1;
+  }
+}
+
+/* Desktop (>1024px) */
+@media (min-width: 1024px) {
+  .grid.lg\\:grid-cols-2 {
+    @apply grid-cols-2;
+  }
+}
+
+/* Scroll horizontal prevention */
+* {
+  @apply overflow-x-hidden;
+}
+
+/* Container fluide */
+.color-palette-generator,
+.color-converter,
+.glassmorphism-generator,
+.neumorphism-generator,
+.material-design-palette,
+.pattern-generator,
+.favicon-creator,
+.mockup-generator {
+  @apply container mx-auto max-w-7xl;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+@media (min-width: 640px) {
+  .color-palette-generator,
+  .color-converter,
+  .glassmorphism-generator,
+  .neumorphism-generator,
+  .material-design-palette,
+  .pattern-generator,
+  .favicon-creator,
+  .mockup-generator {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .color-palette-generator,
+  .color-converter,
+  .glassmorphism-generator,
+  .neumorphism-generator,
+  .material-design-palette,
+  .pattern-generator,
+  .favicon-creator,
+  .mockup-generator {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
