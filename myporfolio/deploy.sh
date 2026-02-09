@@ -34,10 +34,10 @@ echo -e "${GREEN}✅ Code mis à jour${NC}"
 echo ""
 
 # Étape 3 : Installation des dépendances
-echo -e "${YELLOW}📦 Étape 3/6 : Installation des dépendances...${NC}"
-npm install || { echo -e "${RED}❌ Erreur lors de l'installation des dépendances${NC}"; exit 1; }
-echo -e "${GREEN}✅ Dépendances installées${NC}"
-echo ""
+# echo -e "${YELLOW}📦 Étape 3/6 : Installation des dépendances...${NC}"
+# npm install || { echo -e "${RED}❌ Erreur lors de l'installation des dépendances${NC}"; exit 1; }
+# echo -e "${GREEN}✅ Dépendances installées${NC}"
+# echo ""
 
 # Étape 4 : Build de l'application
 echo -e "${YELLOW}🔨 Étape 4/6 : Build de l'application...${NC}"
