@@ -1,93 +1,139 @@
 <template>
-  <div class="bg-gray-800 text-white flex items-center justify-between p-4">
-    <div class="flex items-center">
-      <div
-        class="w-12 h-12 bg-gray-700 rounded-full flex items-center justify-center mr-4 logo-container"
-        @mouseover="hoverLogo"
-        @mouseleave="leaveLogo"
-      >
-        <!-- Logo or Icon -->
-        <i class="fas fa-code text-blue-400"></i>
-      </div>
-      <h1 class="text-xl font-bold transition-transform transform hover:scale-105">
-        {{ currentLanguage === 'fr' ? 'Tableau de bord' : 'Dashboard' }}
-      </h1>
-    </div>
-    
-    <div class="flex items-center space-x-6">
-      <!-- Navigation Links -->
-      <nav class="flex items-center space-x-6">
-        <NuxtLink 
-          to="/" 
-          class="text-gray-300 hover:text-white transition-colors font-medium"
-        >
-          {{ currentLanguage === 'fr' ? 'Accueil' : 'Home' }}
-        </NuxtLink>
-        <NuxtLink 
-          to="/ressources" 
-          class="text-gray-300 hover:text-white transition-colors font-medium"
-        >
-          {{ currentLanguage === 'fr' ? 'Ressources' : 'Resources' }}
-        </NuxtLink>
-        <NuxtLink 
-          to="/games" 
-          class="text-gray-300 hover:text-white transition-colors font-medium"
-        >
-          {{ currentLanguage === 'fr' ? 'Jeux' : 'Games' }}
-        </NuxtLink>
-        <NuxtLink 
-          to="/about" 
-          class="text-gray-300 hover:text-white transition-colors font-medium"
-        >
-          {{ currentLanguage === 'fr' ? 'À propos' : 'About' }}
-        </NuxtLink>
-      </nav>
-
-      <!-- Language Toggle -->
-      <div class="language-toggle-container">
-        <button 
-          @click="toggleLanguage" 
-          class="language-toggle-btn"
-          :title="currentLanguage === 'fr' ? 'Switch to English' : 'Passer au français'"
-        >
-          <div class="language-toggle">
-            <div class="language-option" :class="{ active: currentLanguage === 'fr' }">
-              <img src="@/assets/images/france_flag.jpeg" alt="Français" class="flag-mini">
-              <span class="lang-text">FR</span>
-            </div>
-            <div class="language-option" :class="{ active: currentLanguage === 'en' }">
-              <img src="@/assets/images/uk_flag.jpeg" alt="English" class="flag-mini">
-              <span class="lang-text">EN</span>
-            </div>
-            <div class="toggle-slider" :class="{ 'slide-right': currentLanguage === 'en' }"></div>
-          </div>
-        </button>
-      </div>
-
-      <!-- MacOS Window Buttons -->
-      <div class="flex space-x-1">
+  <div class="bg-gray-800 text-white">
+    <!-- Header principal -->
+    <div class="flex items-center justify-between p-3 sm:p-4">
+      <!-- Logo et titre -->
+      <div class="flex items-center">
         <div
-          class="w-3.5 h-3.5 bg-red-500 rounded-full transition-transform transform hover:scale-110"
-        ></div>
-        <div
-          class="w-3.5 h-3.5 bg-yellow-500 rounded-full transition-transform transform hover:scale-110"
-        ></div>
-        <div
-          class="w-3.5 h-3.5 bg-green-500 rounded-full transition-transform transform hover:scale-110"
-        ></div>
+          class="w-10 h-10 sm:w-12 sm:h-12 bg-gray-700 rounded-full flex items-center justify-center mr-2 sm:mr-4 logo-container"
+          @mouseover="hoverLogo"
+          @mouseleave="leaveLogo"
+        >
+          <i class="fas fa-code text-blue-400 text-sm sm:text-base"></i>
+        </div>
+        <h1 class="text-base sm:text-lg lg:text-xl font-bold transition-transform transform hover:scale-105 hidden sm:block">
+          {{ currentLanguage === 'fr' ? 'Tableau de bord' : 'Dashboard' }}
+        </h1>
       </div>
       
-      <!-- Avatar/Easter Egg Button -->
-      <div
-        class="bg-blue-600 p-2 rounded-full avatar-container transition-transform transform hover:scale-105 hover:bg-blue-500"
-        @click="toggleEasterEgg"
-        @mouseover="hoverAvatar"
-        @mouseleave="leaveAvatar"
-        :title="currentLanguage === 'fr' ? 'Easter Egg caché ici 🥚' : 'Hidden Easter Egg here 🥚'"
-      >
-        <i class="fas fa-user text-white"></i>
+      <!-- Actions desktop + mobile toggle -->
+      <div class="flex items-center gap-2 sm:gap-4 lg:gap-6">
+        <!-- Navigation Desktop uniquement -->
+        <nav class="hidden lg:flex items-center gap-4 xl:gap-6">
+          <NuxtLink 
+            to="/" 
+            class="text-gray-300 hover:text-white transition-colors font-medium text-sm"
+          >
+            {{ currentLanguage === 'fr' ? 'Accueil' : 'Home' }}
+          </NuxtLink>
+          <NuxtLink 
+            to="/ressources" 
+            class="text-gray-300 hover:text-white transition-colors font-medium text-sm"
+          >
+            {{ currentLanguage === 'fr' ? 'Ressources' : 'Resources' }}
+          </NuxtLink>
+          <NuxtLink 
+            to="/games" 
+            class="text-gray-300 hover:text-white transition-colors font-medium text-sm"
+          >
+            {{ currentLanguage === 'fr' ? 'Jeux' : 'Games' }}
+          </NuxtLink>
+          <NuxtLink 
+            to="/about" 
+            class="text-gray-300 hover:text-white transition-colors font-medium text-sm"
+          >
+            {{ currentLanguage === 'fr' ? 'À propos' : 'About' }}
+          </NuxtLink>
+        </nav>
+
+        <!-- Language Toggle -->
+        <div class="language-toggle-container">
+          <button 
+            @click="toggleLanguage" 
+            class="language-toggle-btn"
+            :title="currentLanguage === 'fr' ? 'Switch to English' : 'Passer au français'"
+          >
+            <div class="language-toggle">
+              <div class="language-option" :class="{ active: currentLanguage === 'fr' }">
+                <img src="@/assets/images/france_flag.jpeg" alt="Français" class="flag-mini">
+                <span class="lang-text">FR</span>
+              </div>
+              <div class="language-option" :class="{ active: currentLanguage === 'en' }">
+                <img src="@/assets/images/uk_flag.jpeg" alt="English" class="flag-mini">
+                <span class="lang-text">EN</span>
+              </div>
+              <div class="toggle-slider" :class="{ 'slide-right': currentLanguage === 'en' }"></div>
+            </div>
+          </button>
+        </div>
+
+        <!-- MacOS Window Buttons - masqués sur mobile -->
+        <div class="hidden sm:flex space-x-1">
+          <div class="w-3 h-3 sm:w-3.5 sm:h-3.5 bg-red-500 rounded-full transition-transform transform hover:scale-110"></div>
+          <div class="w-3 h-3 sm:w-3.5 sm:h-3.5 bg-yellow-500 rounded-full transition-transform transform hover:scale-110"></div>
+          <div class="w-3 h-3 sm:w-3.5 sm:h-3.5 bg-green-500 rounded-full transition-transform transform hover:scale-110"></div>
+        </div>
+        
+        <!-- Avatar/Easter Egg Button -->
+        <div
+          class="bg-blue-600 p-1.5 sm:p-2 rounded-full avatar-container transition-transform transform hover:scale-105 hover:bg-blue-500"
+          @click="toggleEasterEgg"
+          @mouseover="hoverAvatar"
+          @mouseleave="leaveAvatar"
+          :title="currentLanguage === 'fr' ? 'Easter Egg caché ici 🥚' : 'Hidden Easter Egg here 🥚'"
+        >
+          <i class="fas fa-user text-white text-xs sm:text-sm"></i>
+        </div>
+
+        <!-- Burger menu mobile -->
+        <button 
+          @click="toggleMobileMenu" 
+          class="lg:hidden p-2 text-gray-300 hover:text-white transition-colors"
+          :aria-label="currentLanguage === 'fr' ? 'Menu' : 'Menu'"
+        >
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path v-if="!isMobileMenuOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            <path v-else stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
       </div>
     </div>
+
+    <!-- Menu mobile -->
+    <Transition name="slide-down">
+      <nav v-if="isMobileMenuOpen" class="lg:hidden border-t border-gray-700 bg-gray-800">
+        <div class="flex flex-col space-y-1 p-4">
+          <NuxtLink 
+            to="/" 
+            @click="closeMobileMenu"
+            class="text-gray-300 hover:text-white hover:bg-gray-700 transition-colors font-medium py-3 px-4 rounded-lg"
+          >
+            {{ currentLanguage === 'fr' ? 'Accueil' : 'Home' }}
+          </NuxtLink>
+          <NuxtLink 
+            to="/ressources" 
+            @click="closeMobileMenu"
+            class="text-gray-300 hover:text-white hover:bg-gray-700 transition-colors font-medium py-3 px-4 rounded-lg"
+          >
+            {{ currentLanguage === 'fr' ? 'Ressources' : 'Resources' }}
+          </NuxtLink>
+          <NuxtLink 
+            to="/games" 
+            @click="closeMobileMenu"
+            class="text-gray-300 hover:text-white hover:bg-gray-700 transition-colors font-medium py-3 px-4 rounded-lg"
+          >
+            {{ currentLanguage === 'fr' ? 'Jeux' : 'Games' }}
+          </NuxtLink>
+          <NuxtLink 
+            to="/about" 
+            @click="closeMobileMenu"
+            class="text-gray-300 hover:text-white hover:bg-gray-700 transition-colors font-medium py-3 px-4 rounded-lg"
+          >
+            {{ currentLanguage === 'fr' ? 'À propos' : 'About' }}
+          </NuxtLink>
+        </div>
+      </nav>
+    </Transition>
   </div>
   
   <EasterEggModal :isOpen="isEasterEggOpen" @close="toggleEasterEgg" />
@@ -104,10 +150,19 @@ export default {
   },
   setup() {
     const isEasterEggOpen = ref(false);
+    const isMobileMenuOpen = ref(false);
     const currentLanguage = ref('fr'); // Langue par défaut
 
     const toggleEasterEgg = () => {
       isEasterEggOpen.value = !isEasterEggOpen.value;
+    };
+
+    const toggleMobileMenu = () => {
+      isMobileMenuOpen.value = !isMobileMenuOpen.value;
+    };
+
+    const closeMobileMenu = () => {
+      isMobileMenuOpen.value = false;
     };
 
     const toggleLanguage = () => {
@@ -132,8 +187,11 @@ export default {
 
     return {
       isEasterEggOpen,
+      isMobileMenuOpen,
       currentLanguage,
       toggleEasterEgg,
+      toggleMobileMenu,
+      closeMobileMenu,
       toggleLanguage,
       hoverLogo() {
         const logo = document.querySelector('.logo-container');
@@ -248,13 +306,33 @@ export default {
   box-shadow: 0 4px 15px rgba(59, 130, 246, 0.6);
 }
 
-/* Animation de transition */
 .language-toggle-btn:active .language-toggle {
   transform: scale(0.95);
 }
 
+/* Animation du menu mobile */
+.slide-down-enter-active,
+.slide-down-leave-active {
+  transition: all 0.3s ease;
+  max-height: 300px;
+}
+
+.slide-down-enter-from,
+.slide-down-leave-to {
+  max-height: 0;
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+.slide-down-enter-to,
+.slide-down-leave-from {
+  max-height: 300px;
+  opacity: 1;
+  transform: translateY(0);
+}
+
 /* Responsive */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .language-toggle {
     min-width: 70px;
     height: 28px;
@@ -275,9 +353,25 @@ export default {
   }
 }
 
+@media (max-width: 640px) {
+  .language-toggle {
+    min-width: 60px;
+    height: 26px;
+  }
+  
+  .flag-mini {
+    width: 12px;
+    height: 12px;
+  }
+  
+  .lang-text {
+    font-size: 0.6rem;
+  }
+}
+
 @media (max-width: 480px) {
   .lang-text {
-    display: none; /* Masquer le texte sur très petits écrans */
+    display: none;
   }
   
   .language-toggle {
