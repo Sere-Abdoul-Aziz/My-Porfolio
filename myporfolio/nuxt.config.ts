@@ -18,6 +18,21 @@ export default defineNuxtConfig({
 
   ssr: false,
 
+  // ✅ Routes rules pour activer SSR sur les routes API uniquement
+  routeRules: {
+    // Pages principales
+    '/': { prerender: true },
+    '/about': { prerender: true },
+    '/ressources': { ssr: false },
+    '/games': { ssr: false },
+    '/privacy': { prerender: true },
+    
+    // API et fichiers techniques - SSR activé
+    '/api/**': { ssr: true },
+    '/sitemap.xml': { redirect: '/api/sitemap.xml' },
+    '/robots.txt': { redirect: '/api/robots.txt' }
+  },
+
   app: {
     head: {
       htmlAttrs: { lang: 'fr' },
@@ -327,29 +342,13 @@ export default defineNuxtConfig({
     compressPublicAssets: true,
     minify: true,
     prerender: { 
-      routes: ['/sitemap.xml', '/robots.txt'],
+      routes: ['/'],
       crawlLinks: true
-    },
-    experimental: { wasm: false }
+    }
   },
 
-  // ✅ Configuration de cache avec SEO
-  routeRules: {
-    // Pages principales
-    '/': { prerender: true, index: true, sitemap: { priority: 1.0, changefreq: 'weekly' } },
-    '/about': { prerender: true, index: true, sitemap: { priority: 0.8, changefreq: 'monthly' } },
-    '/privacy': { prerender: true, index: true, sitemap: { priority: 0.3, changefreq: 'yearly' } },
-    
-    // API et fichiers techniques
-    '/api/**': { cors: true, headers: { 'Cache-Control': 'max-age=3600' } },
-    '/sitemap.xml': { headers: { 'Content-Type': 'application/xml', 'Cache-Control': 'max-age=86400' } },
-    '/robots.txt': { headers: { 'Content-Type': 'text/plain', 'Cache-Control': 'max-age=86400' } },
-    
-    // Assets statiques
-    '/images/**': { headers: { 'Cache-Control': 'max-age=31536000' } },
-    '/_nuxt/**': { headers: { 'Cache-Control': 'max-age=31536000' } },
-    '/favicon.ico': { headers: { 'Cache-Control': 'max-age=86400' } }
-  },
+  // ✅ Configuration de cache optimisée (sans duplication)
+  // routeRules déjà défini plus haut - suppression de la duplication
 
   // ✅ MODIFICATION : Modules sans Google Analytics
   modules: [
