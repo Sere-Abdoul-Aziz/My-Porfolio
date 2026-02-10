@@ -32,7 +32,7 @@
         </h1>
         
         <p class="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-300 max-w-3xl mx-auto leading-relaxed px-4">
-          Collection de <span class="text-yellow-400 font-bold">39 mini-outils</span> puissants pour 
+          Collection de <span class="text-yellow-400 font-bold">40 mini-outils</span> puissants pour 
           <span class="text-green-400 font-bold"> booster</span> votre productivité 
         
         </p>
@@ -40,7 +40,7 @@
         <!-- Stats badges -->
         <div class="flex flex-wrap gap-2 sm:gap-4 justify-center mt-6 sm:mt-8 px-4">
           <div class="px-4 sm:px-6 py-2 sm:py-3 bg-white/10 backdrop-blur-lg rounded-full border border-white/20">
-            <span class="text-yellow-400 font-bold text-base sm:text-lg">39</span>
+            <span class="text-yellow-400 font-bold text-base sm:text-lg">40</span>
             <span class="text-gray-300 text-xs sm:text-sm ml-2">Outils</span>
           </div>
           <div class="px-4 sm:px-6 py-2 sm:py-3 bg-white/10 backdrop-blur-lg rounded-full border border-white/20">
@@ -300,6 +300,7 @@ const SSHKeyGenerator = defineAsyncComponent(() => import('@/components/tools/SS
 const HtaccessGenerator = defineAsyncComponent(() => import('@/components/tools/HtaccessGenerator.vue'))
 const RobotsTxtGenerator = defineAsyncComponent(() => import('@/components/tools/RobotsTxtGenerator.vue'))
 const CSPGenerator = defineAsyncComponent(() => import('@/components/tools/CSPGenerator.vue'))
+const TestDataGenerator = defineAsyncComponent(() => import('@/components/tools/TestDataGenerator.vue'))
 
 // SEO Meta tags
 useHead({
@@ -706,6 +707,16 @@ const tools = [
     categoryId: 'security',
     component: CSPGenerator,
     color: 'cyan'
+  },
+  {
+    id: 'test-data-generator',
+    name: 'Générateur d\'Identités de Test',
+    description: 'Créez des profils factices pour vos tests de développement',
+    icon: FingerPrintIcon,
+    category: 'Code Utilities',
+    categoryId: 'code',
+    component: TestDataGenerator,
+    color: 'violet'
   }
 ]
 
