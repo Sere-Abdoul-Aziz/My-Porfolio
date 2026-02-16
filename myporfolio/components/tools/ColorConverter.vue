@@ -103,36 +103,65 @@
 
             <div>
               <label class="block text-white mb-2 text-sm sm:text-base">OKLCH <span class="text-xs text-gray-400">(Moderne)</span></label>
-              <div class="grid grid-cols-3 gap-2">
+              
+              <!-- Lightness -->
+              <div class="mb-3">
+                <div class="flex justify-between items-center mb-1">
+                  <span class="text-xs text-gray-400">Lightness (L)</span>
+                  <span class="text-sm text-white font-mono">{{ oklch.l.toFixed(2) }}</span>
+                </div>
                 <input
                   v-model.number="oklch.l"
                   @input="convertFromOKLCH"
-                  type="number"
+                  type="range"
                   min="0"
                   max="1"
                   step="0.01"
-                  placeholder="L"
-                  class="bg-gray-800 text-white px-2 sm:px-3 py-2 sm:py-3 rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none text-center text-sm sm:text-base"
+                  class="w-full h-2 bg-gradient-to-r from-black to-white rounded-lg appearance-none cursor-pointer slider"
                 />
+              </div>
+
+              <!-- Chroma -->
+              <div class="mb-3">
+                <div class="flex justify-between items-center mb-1">
+                  <span class="text-xs text-gray-400">Chroma (C)</span>
+                  <span class="text-sm text-white font-mono">{{ oklch.c.toFixed(2) }}</span>
+                </div>
                 <input
                   v-model.number="oklch.c"
                   @input="convertFromOKLCH"
-                  type="number"
+                  type="range"
                   min="0"
                   max="0.4"
                   step="0.01"
-                  placeholder="C"
-                  class="bg-gray-800 text-white px-2 sm:px-3 py-2 sm:py-3 rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none text-center text-sm sm:text-base"
+                  class="w-full h-2 bg-gradient-to-r from-gray-500 via-red-500 to-pink-500 rounded-lg appearance-none cursor-pointer slider"
                 />
+              </div>
+
+              <!-- Hue -->
+              <div class="mb-3">
+                <div class="flex justify-between items-center mb-1">
+                  <span class="text-xs text-gray-400">Hue (H)</span>
+                  <span class="text-sm text-white font-mono">{{ Math.round(oklch.h) }}°</span>
+                </div>
                 <input
                   v-model.number="oklch.h"
                   @input="convertFromOKLCH"
-                  type="number"
+                  type="range"
                   min="0"
                   max="360"
-                  placeholder="H"
-                  class="bg-gray-800 text-white px-2 sm:px-3 py-2 sm:py-3 rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none text-center text-sm sm:text-base"
+                  step="1"
+                  class="w-full h-2 rounded-lg appearance-none cursor-pointer slider hue-slider"
                 />
+              </div>
+
+              <!-- Preview de la couleur OKLCH -->
+              <div class="mt-4 p-4 rounded-lg border border-gray-600" :style="{ backgroundColor: currentColor }">
+                <div class="text-center">
+                  <div class="text-xs font-mono text-white bg-black/50 px-2 py-1 rounded inline-block">
+                    oklch({{ oklch.l.toFixed(2) }} {{ oklch.c.toFixed(2) }} {{ Math.round(oklch.h) }})
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -524,3 +553,40 @@ function copy(text) {
   alert(`Copié: ${text}`)
 }
 </script>
+
+<style scoped>
+/* Slider personnalisé */
+.slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: white;
+  cursor: pointer;
+  border: 3px solid #3b82f6;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: white;
+  cursor: pointer;
+  border: 3px solid #3b82f6;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* Gradient de teinte pour le slider Hue */
+.hue-slider {
+  background: linear-gradient(to right, 
+    hsl(0, 100%, 50%),
+    hsl(60, 100%, 50%),
+    hsl(120, 100%, 50%),
+    hsl(180, 100%, 50%),
+    hsl(240, 100%, 50%),
+    hsl(300, 100%, 50%),
+    hsl(360, 100%, 50%)
+  );
+}
+</style>
