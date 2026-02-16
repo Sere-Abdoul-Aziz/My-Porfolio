@@ -100,6 +100,41 @@
                 />
               </div>
             </div>
+
+            <div>
+              <label class="block text-white mb-2 text-sm sm:text-base">OKLCH <span class="text-xs text-gray-400">(Moderne)</span></label>
+              <div class="grid grid-cols-3 gap-2">
+                <input
+                  v-model.number="oklch.l"
+                  @input="convertFromOKLCH"
+                  type="number"
+                  min="0"
+                  max="1"
+                  step="0.01"
+                  placeholder="L"
+                  class="bg-gray-800 text-white px-2 sm:px-3 py-2 sm:py-3 rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none text-center text-sm sm:text-base"
+                />
+                <input
+                  v-model.number="oklch.c"
+                  @input="convertFromOKLCH"
+                  type="number"
+                  min="0"
+                  max="0.4"
+                  step="0.01"
+                  placeholder="C"
+                  class="bg-gray-800 text-white px-2 sm:px-3 py-2 sm:py-3 rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none text-center text-sm sm:text-base"
+                />
+                <input
+                  v-model.number="oklch.h"
+                  @input="convertFromOKLCH"
+                  type="number"
+                  min="0"
+                  max="360"
+                  placeholder="H"
+                  class="bg-gray-800 text-white px-2 sm:px-3 py-2 sm:py-3 rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none text-center text-sm sm:text-base"
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -159,6 +194,22 @@
             </div>
             <button
               @click="copy(formats.cmyk)"
+              class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors"
+            >
+              📋
+            </button>
+          </div>
+
+          <!-- OKLCH -->
+          <div class="bg-white/10 rounded-lg p-4 flex items-center justify-between">
+            <div class="flex-1">
+              <div class="text-gray-400 text-sm flex items-center gap-2">
+                OKLCH 
+              </div>
+              <div class="text-white font-mono font-bold text-sm sm:text-base">{{ formats.oklch }}</div>
+            </div>
+            <button
+              @click="copy(formats.oklch)"
               class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors"
             >
               📋
@@ -226,6 +277,7 @@ const currentColor = ref('#3B82F6')
 const hexInput = ref('#3B82F6')
 const rgb = ref({ r: 59, g: 130, b: 246 })
 const hsl = ref({ h: 217, s: 91, l: 60 })
+const oklch = ref({ l: 0.62, c: 0.22, h: 250 })
 
 // Initialiser depuis la couleur par défaut
 watch(
@@ -236,6 +288,8 @@ watch(
       rgb.value = result
       const hslResult = rgbToHsl(result.r, result.g, result.b)
       hsl.value = hslResult
+      const oklchResult = rgbToOklch(result.r, result.g, result.b)
+      oklch.value = oklchResult
       hexInput.value = newColor
     }
   },
@@ -258,6 +312,8 @@ function convertFromRGB() {
   currentColor.value = hex
   const hslResult = rgbToHsl(rgb.value.r, rgb.value.g, rgb.value.b)
   hsl.value = hslResult
+  const oklchResult = rgbToOklch(rgb.value.r, rgb.value.g, rgb.value.b)
+  oklch.value = oklchResult
 }
 
 function convertFromHSL() {
@@ -266,6 +322,18 @@ function convertFromHSL() {
   const hex = rgbToHex(rgbResult.r, rgbResult.g, rgbResult.b)
   hexInput.value = hex
   currentColor.value = hex
+  const oklchResult = rgbToOklch(rgbResult.r, rgbResult.g, rgbResult.b)
+  oklch.value = oklchResult
+}
+
+function convertFromOKLCH() {
+  const rgbResult = oklchToRgb(oklch.value.l, oklch.value.c, oklch.value.h)
+  rgb.value = rgbResult
+  const hex = rgbToHex(rgbResult.r, rgbResult.g, rgbResult.b)
+  hexInput.value = hex
+  currentColor.value = hex
+  const hslResult = rgbToHsl(rgbResult.r, rgbResult.g, rgbResult.b)
+  hsl.value = hslResult
 }
 
 function hexToRgb(hex) {
@@ -350,6 +418,75 @@ function rgbToCmyk(r, g, b) {
   }
 }
 
+// Conversion RGB vers OKLCH
+function rgbToOklch(r, g, b) {
+  // RGB linéaire
+  const toLinear = (c) => {
+    c = c / 255
+    return c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4)
+  }
+  
+  const rLin = toLinear(r)
+  const gLin = toLinear(g)
+  const bLin = toLinear(b)
+  
+  // RGB linéaire vers OKLab
+  const l = 0.4122214708 * rLin + 0.5363325363 * gLin + 0.0514459929 * bLin
+  const m = 0.2119034982 * rLin + 0.6806995451 * gLin + 0.1073969566 * bLin
+  const s = 0.0883024619 * rLin + 0.2817188376 * gLin + 0.6299787005 * bLin
+  
+  const l_ = Math.cbrt(l)
+  const m_ = Math.cbrt(m)
+  const s_ = Math.cbrt(s)
+  
+  const L = 0.2104542553 * l_ + 0.7936177850 * m_ - 0.0040720468 * s_
+  const a = 1.9779984951 * l_ - 2.4285922050 * m_ + 0.4505937099 * s_
+  const b_ = 0.0259040371 * l_ + 0.7827717662 * m_ - 0.8086757660 * s_
+  
+  // OKLab vers OKLCH
+  const C = Math.sqrt(a * a + b_ * b_)
+  let H = Math.atan2(b_, a) * 180 / Math.PI
+  if (H < 0) H += 360
+  
+  return {
+    l: Math.round(L * 100) / 100,
+    c: Math.round(C * 100) / 100,
+    h: Math.round(H)
+  }
+}
+
+// Conversion OKLCH vers RGB
+function oklchToRgb(L, C, H) {
+  // OKLCH vers OKLab
+  const a = C * Math.cos(H * Math.PI / 180)
+  const b = C * Math.sin(H * Math.PI / 180)
+  
+  // OKLab vers RGB linéaire
+  const l_ = L + 0.3963377774 * a + 0.2158037573 * b
+  const m_ = L - 0.1055613458 * a - 0.0638541728 * b
+  const s_ = L - 0.0894841775 * a - 1.2914855480 * b
+  
+  const l = l_ * l_ * l_
+  const m = m_ * m_ * m_
+  const s = s_ * s_ * s_
+  
+  const rLin = +4.0767416621 * l - 3.3077115913 * m + 0.2309699292 * s
+  const gLin = -1.2684380046 * l + 2.6097574011 * m - 0.3413193965 * s
+  const bLin = -0.0041960863 * l - 0.7034186147 * m + 1.7076147010 * s
+  
+  // RGB linéaire vers sRGB
+  const fromLinear = (c) => {
+    c = Math.max(0, Math.min(1, c))
+    return c <= 0.0031308 ? 12.92 * c : 1.055 * Math.pow(c, 1 / 2.4) - 0.055
+  }
+  
+  return {
+    r: Math.round(fromLinear(rLin) * 255),
+    g: Math.round(fromLinear(gLin) * 255),
+    b: Math.round(fromLinear(bLin) * 255)
+  }
+}
+
 const formats = computed(() => {
   const cmyk = rgbToCmyk(rgb.value.r, rgb.value.g, rgb.value.b)
   return {
@@ -357,6 +494,7 @@ const formats = computed(() => {
     rgb: `rgb(${rgb.value.r}, ${rgb.value.g}, ${rgb.value.b})`,
     hsl: `hsl(${hsl.value.h}, ${hsl.value.s}%, ${hsl.value.l}%)`,
     cmyk: `cmyk(${cmyk.c}%, ${cmyk.m}%, ${cmyk.y}%, ${cmyk.k}%)`,
+    oklch: `oklch(${oklch.value.l} ${oklch.value.c} ${oklch.value.h})`,
     cssVar: `--primary-color: ${hexInput.value};`,
     tailwind: `bg-[${hexInput.value}]`
   }
