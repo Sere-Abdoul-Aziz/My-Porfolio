@@ -14,25 +14,25 @@ echo ""
 
 # 2. Arrêter l'app problématique
 echo "🛑 Arrêt de portfolio..."
-pm2 stop portfolio 2>/dev/null || echo "Portfolio n'était pas lancé"
+pm2 stop portfolio
 echo ""
 
 # 3. Identifier le processus qui bloque le port
 echo "🔍 Processus utilisant le port 3003 :"
-lsof -ti:3003 2>/dev/null || fuser 3003/tcp 2>/dev/null || echo "Aucun processus sur le port 3003"
+lsof -ti:3003 2>/dev/null || fuser 3003/tcp 2>/dev/null
 echo ""
 
 # 4. Tuer les processus bloquants
 echo "💀 Libération du port 3003..."
-lsof -ti:3003 | xargs kill -9 2>/dev/null || fuser -k 3003/tcp 2>/dev/null || echo "Aucun processus à tuer"
+lsof -ti:3003 | xargs kill -9 2>/dev/null || fuser -k 3003/tcp 2>/dev/null
 sleep 2
 echo ""
 
 # 5. Vérifier que le port est libre
 echo "✅ Vérification port 3003 :"
-if netstat -tulpn 2>/dev/null | grep -q 3003 || ss -tulpn 2>/dev/null | grep -q 3003; then
+if netstat -tulpn | grep -q 3003; then
     echo "❌ ERREUR : Port 3003 toujours occupé !"
-    netstat -tulpn 2>/dev/null | grep 3003 || ss -tulpn 2>/dev/null | grep 3003
+    netstat -tulpn | grep 3003
     exit 1
 else
     echo "✅ Port 3003 libre"
@@ -41,21 +41,19 @@ echo ""
 
 # 6. Supprimer l'app PM2
 echo "🗑️  Suppression de l'ancienne config PM2..."
-pm2 delete portfolio 2>/dev/null || echo "Portfolio déjà supprimé"
+pm2 delete portfolio 2>/dev/null || true
 echo ""
 
-# 7. Redémarrer avec ecosystem.config.cjs
-echo "🚀 Redémarrage avec ecosystem.config.cjs..."
+# 7. Redémarrer avec ecosystem.config.js
+echo "🚀 Redémarrage avec ecosystem.config.js..."
 cd /srv/Dev/Perso/My-Porfolio/myporfolio
 
-if [ ! -f "ecosystem.config.cjs" ]; then
-    echo "❌ ERREUR : ecosystem.config.cjs introuvable !"
-    echo "📋 Vérification des fichiers disponibles :"
-    ls -la ecosystem.* 2>/dev/null || echo "Aucun fichier ecosystem trouvé"
+if [ ! -f "ecosystem.config.js" ]; then
+    echo "❌ ERREUR : ecosystem.config.js introuvable !"
     exit 1
 fi
 
-pm2 start ecosystem.config.cjs
+pm2 start ecosystem.config.js
 pm2 save
 echo ""
 
@@ -80,12 +78,6 @@ if pm2 status | grep -q "portfolio.*online"; then
     echo ""
     echo "🌐 Vérifier l'application :"
     echo "   curl http://localhost:3003"
-    echo ""
-    echo "🔧 Commandes utiles :"
-    echo "   pm2 logs portfolio           # Voir les logs en temps réel"
-    echo "   pm2 monit                    # Monitoring CPU/RAM"
-    echo "   pm2 restart portfolio        # Redémarrer"
-    echo "   pm2 stop portfolio           # Arrêter"
 else
     echo "❌ ERREUR : Portfolio n'a pas démarré correctement"
     echo ""
@@ -93,5 +85,4 @@ else
     echo "   1. Vérifier les logs : pm2 logs portfolio"
     echo "   2. Vérifier le port : netstat -tulpn | grep 3003"
     echo "   3. Vérifier le build : cd /srv/Dev/Perso/My-Porfolio/myporfolio && npm run build"
-    echo "   4. Tester manuellement : node .output/server/index.mjs"
 fi
