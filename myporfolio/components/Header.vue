@@ -39,6 +39,12 @@
             {{ currentLanguage === 'fr' ? 'Jeux' : 'Games' }}
           </NuxtLink>
           <NuxtLink 
+            to="/blog" 
+            class="text-gray-300 hover:text-white transition-colors font-medium text-sm"
+          >
+            {{ currentLanguage === 'fr' ? 'Blog' : 'Blog' }}
+          </NuxtLink>
+          <NuxtLink 
             to="/about" 
             class="text-gray-300 hover:text-white transition-colors font-medium text-sm"
           >
@@ -123,6 +129,13 @@
             class="text-gray-300 hover:text-white hover:bg-gray-700 transition-colors font-medium py-3 px-4 rounded-lg"
           >
             {{ currentLanguage === 'fr' ? 'Jeux' : 'Games' }}
+          </NuxtLink>
+          <NuxtLink 
+            to="/blog" 
+            @click="closeMobileMenu"
+            class="text-gray-300 hover:text-white hover:bg-gray-700 transition-colors font-medium py-3 px-4 rounded-lg"
+          >
+            {{ currentLanguage === 'fr' ? 'Blog' : 'Blog' }}
           </NuxtLink>
           <NuxtLink 
             to="/about" 
