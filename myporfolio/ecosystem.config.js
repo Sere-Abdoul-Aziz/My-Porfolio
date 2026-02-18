@@ -3,15 +3,15 @@ module.exports = {
     {
       name: 'portfolio',
       script: './.output/server/index.mjs',
-      instances: 1,
-      exec_mode: 'cluster',
+      instances: 1,                      // ← IMPORTANT : 1 seule instance pour éviter conflits de port
+      exec_mode: 'fork',               // ← fork au lieu de cluster (1 instance = pas besoin cluster)
       
       // ✅ Variables d'environnement
       env: {
         NODE_ENV: 'production',
-        PORT: 3000,
+        PORT: 3003,                    // ← Port utilisé par ton serveur
         HOST: '0.0.0.0',
-        NITRO_PORT: 3000,
+        NITRO_PORT: 3003,              // ← Nuxt utilise NITRO_PORT
         NITRO_HOST: '0.0.0.0'
       },
       
