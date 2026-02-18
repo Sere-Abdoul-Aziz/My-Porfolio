@@ -55,18 +55,18 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
-import { collection, getDocs, query, orderBy, limit, onSnapshot } from 'firebase/firestore';
-import { db } from '@/firebase';
+// ✅ Firebase supprimé - blog statique maintenant
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const posts = ref([]);
-const loading = ref(true);
-const linkedinProfileUrl = "https://www.linkedin.com/in/aziz-sere/"; // Remplacez par votre URL LinkedIn
+const loading = ref(false);
+const linkedinProfileUrl = "https://www.linkedin.com/in/aziz-sere/";
 
-let unsubscribe = null;
+// ✅ Pas de Firebase - posts statiques vides pour l'instant
+// Pour afficher des articles, utilisez le lien /blog
 
 // Format de la date
 const formatDate = (timestamp) => {

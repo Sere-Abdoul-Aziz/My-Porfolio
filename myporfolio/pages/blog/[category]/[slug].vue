@@ -200,7 +200,6 @@
 import { ref, computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useBlog } from '@/composables/useBlog'
-import { marked } from 'marked'
 
 const route = useRoute()
 const { article, loading, fetchArticle, incrementViews } = useBlog()
@@ -223,7 +222,8 @@ onMounted(async () => {
 
 const renderedContent = computed(() => {
   if (!article.value?.content) return ''
-  return marked(article.value.content)
+  // ✅ Contenu déjà en HTML (converti dans useBlog)
+  return article.value.content
 })
 
 function getCategoryName(categoryId) {

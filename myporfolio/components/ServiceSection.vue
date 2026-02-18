@@ -368,8 +368,7 @@
 import { ref, onMounted, computed, nextTick, onUnmounted, reactive, watch } from 'vue';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { db } from '@/firebase'; 
-import { collection, addDoc } from 'firebase/firestore';
+// ✅ Firebase supprimé - formulaires désactivés temporairement
 import confetti from 'canvas-confetti';
 // ✅ AJOUT : Import du composable analytics
 import { useAnalytics } from '~/composables/useAnalytics';
@@ -801,9 +800,11 @@ const submitQuoteRequest = async () => {
     
     console.log("Tentative d'enregistrement dans Firestore:", quoteData);
     
-    // Enregistrement dans Firestore dans une collection "devis"
-    const docRef = await addDoc(collection(db, 'devis'), quoteData);
-    console.log("Document enregistré avec l'ID:", docRef.id);
+    // ✅ Firebase supprimé - Formulaire temporairement désactivé
+    // const docRef = await addDoc(collection(db, 'devis'), quoteData);
+    // console.log("Document enregistré avec l'ID:", docRef.id);
+    
+    console.log('⚠️ Formulaire de devis désactivé (Firebase supprimé). Contactez-moi via LinkedIn ou email.');
     
     // Affichage de l'animation de confettis
     confetti({

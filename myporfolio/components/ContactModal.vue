@@ -231,8 +231,7 @@
 
 <script setup>
 import { ref, watch, computed, onMounted, nextTick, onUnmounted } from 'vue';
-import { db } from '@/firebase'; 
-import { collection, addDoc } from 'firebase/firestore';
+// ✅ Firebase supprimé - formulaires désactivés temporairement
 import confetti from 'canvas-confetti';
 // ✅ AJOUT : Import du composable analytics
 import { useAnalytics } from '~/composables/useAnalytics';
@@ -570,7 +569,11 @@ const submitForm = async () => {
   };
 
   try {
-    await addDoc(collection(db, 'messages'), formData);
+    // ✅ Firebase supprimé - Formulaire temporairement désactivé
+    // await addDoc(collection(db, 'messages'), formData);
+    
+    console.log('⚠️ Formulaire de contact désactivé (Firebase supprimé). Contactez-moi via LinkedIn ou email.');
+    console.log('Données du formulaire:', formData);
     
     // ✅ AJOUT : Tracking de succès
     if (isGtagEnabled()) {
