@@ -373,6 +373,7 @@ export default defineNuxtConfig({
   // ✅ Configuration runtime mise à jour avec SEO
   runtimeConfig: {
     public: {
+      web3formsKey: '',
       siteUrl: 'https://azizsere.eveilon.com',
       siteName: 'SERE Abdoul Aziz - Portfolio',
       siteDescription: 'Portfolio professionnel conforme RGPD avec optimisations SEO',

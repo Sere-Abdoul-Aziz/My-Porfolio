@@ -211,151 +211,158 @@
               
             </div>
             
-            <!-- Formulaire de devis -->
+            <!-- Formulaire simplifié -->
             <div v-else class="quote-form-container">
-              <div class="form-header">
-                <h3>
-                  <i class="fas fa-file-invoice"></i>
-                  Demande de devis pour "{{ modalService.title }}"
-                </h3>
-                <button @click="showQuoteForm = false" class="back-to-details">
-                  <i class="fas fa-arrow-left"></i> Retour aux détails
+              <!-- Header -->
+              <div class="qf-header">
+                <button @click="showQuoteForm = false" class="qf-back">
+                  <i class="fas fa-arrow-left"></i>
                 </button>
+                <div>
+                  <p class="qf-service-label">{{ modalService.title }}</p>
+                  <h3 class="qf-title">Demande rapide</h3>
+                </div>
               </div>
-              
+
+              <!-- Contact rapide WhatsApp -->
+              <a
+                href="https://wa.me/22671037367?text=Bonjour%20Aziz%2C%20je%20suis%20int%C3%A9ress%C3%A9%20par%20votre%20service%20"
+                target="_blank"
+                rel="noopener"
+                class="whatsapp-quick-btn"
+              >
+                <i class="fab fa-whatsapp"></i>
+                <span>
+                  <strong>Réponse immédiate sur WhatsApp</strong>
+                  <small>+226 71 03 73 67</small>
+                </span>
+                <i class="fas fa-external-link-alt qf-ext"></i>
+              </a>
+
+              <div class="qf-divider"><span>ou laissez vos coordonnées</span></div>
+
+              <!-- Formulaire -->
               <form @submit.prevent="submitQuoteRequest" class="quote-form">
-                <div class="form-row">
-                  <div class="form-group">
-                    <label for="name">Nom complet *</label>
-                    <input type="text" id="name" v-model="quoteForm.name" required placeholder="Votre nom et prénom">
-                  </div>
-                  <div class="form-group">
-                    <label for="email">Email *</label>
-                    <input type="email" id="email" v-model="quoteForm.email" required placeholder="votre@email.com">
+                <!-- Nom -->
+                <div class="qf-group">
+                  <label for="qf-name">Votre nom *</label>
+                  <input
+                    id="qf-name"
+                    type="text"
+                    v-model="quoteForm.name"
+                    required
+                    placeholder="Jean Dupont"
+                    autocomplete="name"
+                  />
+                </div>
+
+                <!-- Téléphone + indicatif -->
+                <div class="qf-group">
+                  <label for="qf-phone">
+                    Téléphone *
+                    <span class="qf-hint">On vous rappelle sous 24h</span>
+                  </label>
+                  <div class="phone-row">
+                    <!-- Sélecteur pays -->
+                    <div class="country-trigger" @click.stop="toggleCountryDropdown">
+                      <span>{{ selectedCountry.flag }}</span>
+                      <span class="dial-code">{{ selectedCountry.code }}</span>
+                      <i class="fas fa-chevron-down" :class="{ 'rotated': showCountryDropdown }"></i>
+                      <!-- Dropdown -->
+                      <div v-if="showCountryDropdown" class="country-dropdown" @click.stop>
+                        <div
+                          v-for="c in countryCodes"
+                          :key="c.code + c.name"
+                          class="country-opt"
+                          :class="{ active: selectedCountry.code === c.code && selectedCountry.name === c.name }"
+                          @click="selectCountry(c)"
+                        >
+                          <span>{{ c.flag }}</span>
+                          <span class="opt-name">{{ c.name }}</span>
+                          <span class="opt-code">{{ c.code }}</span>
+                        </div>
+                      </div>
+                    </div>
+                    <input
+                      id="qf-phone"
+                      type="tel"
+                      v-model="quoteForm.phone"
+                      required
+                      placeholder="71 03 73 67"
+                      class="phone-number"
+                    />
                   </div>
                 </div>
-                
-                <div class="form-row">
-                  <div class="form-group">
-                    <label for="phone">Téléphone</label>
-                    <input type="tel" id="phone" v-model="quoteForm.phone" placeholder="Facultatif">
-                  </div>
-                  <!-- <div class="form-group">
-                    <label for="company">Entreprise</label>
-                    <input type="text" id="company" v-model="quoteForm.company" placeholder="Nom de votre entreprise">
-                  </div> -->
+
+                <!-- Email optionnel -->
+                <div class="qf-group">
+                  <label for="qf-email">
+                    Email
+                    <span class="optional-tag">Optionnel</span>
+                  </label>
+                  <input
+                    id="qf-email"
+                    type="email"
+                    v-model="quoteForm.email"
+                    placeholder="votre@email.com"
+                    autocomplete="email"
+                  />
                 </div>
-                
-                <div class="form-group full-width">
-                  <label for="project-description">Description de votre projet *</label>
-                  <textarea 
-                    id="project-description" 
-                    v-model="quoteForm.description" 
-                    required 
-                    rows="4"
-                    :placeholder="`Décrivez votre projet ${modalService.title} en quelques lignes...`"
+
+                <!-- Description courte + presets -->
+                <div class="qf-group">
+                  <label for="qf-desc">Décrivez brièvement votre besoin *</label>
+                  <!-- Chips de cas courants -->
+                  <div v-if="currentPresets.length" class="desc-presets">
+                    <button
+                      v-for="(preset, i) in currentPresets"
+                      :key="i"
+                      type="button"
+                      class="preset-chip"
+                      :class="{ 'preset-chip--active': quoteForm.description === preset }"
+                      @click="quoteForm.description = preset"
+                    >
+                      {{ preset }}
+                    </button>
+                  </div>
+                  <textarea
+                    id="qf-desc"
+                    v-model="quoteForm.description"
+                    required
+                    rows="3"
+                    :placeholder="`Ex : Je veux un ${modalService.title.toLowerCase()} pour...`"
                   ></textarea>
                 </div>
-                
-                <!-- Options spécifiques au service -->
-                <div v-if="serviceSpecificFields.length > 0" class="form-group full-width">
-                  <label>Options spécifiques à ce service</label>
-                  <div class="service-options">
-                    <div 
-                      v-for="(option, index) in serviceSpecificFields" 
-                      :key="index" 
-                      class="option-checkbox"
-                    >
-                      <input 
-                        type="checkbox" 
-                        :id="`option-${index}`" 
-                        v-model="quoteForm.options[option.id]" 
-                        :value="true"
-                      >
-                      <label :for="`option-${index}`">
-                        {{ option.label }}
-                        <span v-if="option.info" class="option-info" :title="option.info">
-                          <i class="fas fa-info-circle"></i>
-                        </span>
-                      </label>
-                    </div>
-                  </div>
-                </div>
-                
-                               <!-- Délai souhaité - version améliorée -->
-                <div class="form-group full-width">
-                  <label for="deadline">Délai souhaité</label>
-                  <div class="select-wrapper">
-                    <select id="deadline" v-model="quoteForm.deadline" required>
-                      <option value="" disabled selected>Sélectionnez un délai</option>
-                      <option value="flexible">Flexible - Pas d'urgence</option>
-                      <option value="soon">Dans le mois</option>
-                      <option value="urgent">Urgent - Dès que possible</option>
-                      <option value="specific">Date spécifique</option>
-                    </select>
-                  </div>
-                  <div v-if="quoteForm.deadline === 'specific'" class="date-input-container">
-                    <label for="specific-date">Date exacte:</label>
-                    <input 
-                      id="specific-date"
-                      type="date" 
-                      v-model="quoteForm.specificDate"
-                      class="date-input"
-                      required
-                    >
-                  </div>
-                </div>
-                
-                <!-- Budget approximatif - version améliorée -->
-                <!-- <div class="form-group full-width">
-                  <label for="budget">Budget approximatif</label>
-                  <div class="select-wrapper">
-                    <select id="budget" v-model="quoteForm.budget" required>
-                      <option value="" disabled selected>Choisissez une fourchette de budget</option>
-                      <option value="unknown">Je ne sais pas encore</option>
-                      <option value="small">Moins de 1000€</option>
-                      <option value="medium">Entre 1000€ et 5000€</option>
-                      <option value="large">Plus de 5000€</option>
-                    </select>
-                  </div>
-                </div> -->
-                
-                <div class="form-group checkbox-group">
-                  <input type="checkbox" id="terms" v-model="quoteForm.terms" required>
-                  <label for="terms">
-                    J'accepte que mes données soient utilisées pour me recontacter *
-                  </label>
-                </div>
-                
-                <div class="form-actions">
-                                  <button 
-                    type="submit" 
-                    class="submit-quote-btn" 
-                    :class="{ submitting: isSubmitting }" 
-                    :disabled="isSubmitting"
-                  >
-                    <i class="fas fa-paper-plane" v-if="!isSubmitting"></i>
-                    {{ isSubmitting ? '' : 'Envoyer ma demande de devis' }}
-                  </button>
-                </div>
-                
-                <p class="form-notice">
-                  <i class="fas fa-shield-alt"></i>
-                  Vos données sont sécurisées et ne seront jamais partagées avec des tiers.
+
+                <!-- Submit -->
+                <button type="submit" class="qf-submit" :disabled="isSubmitting">
+                  <template v-if="!isSubmitting">
+                    <i class="fas fa-paper-plane"></i>
+                    Envoyer ma demande
+                  </template>
+                  <template v-else>
+                    <span class="qf-spinner"></span>
+                    Envoi en cours…
+                  </template>
+                </button>
+
+                <p class="qf-privacy">
+                  <i class="fas fa-lock"></i>
+                  Informations confidentielles · Jamais partagées
                 </p>
               </form>
-                            <!-- Message de succès animé -->
-              <div v-if="showSuccessModal" class="success-message-container">
-                <div class="success-message">
-                  <div class="success-icon">
-                    <i class="fas fa-check-circle"></i>
-                  </div>
-                  <h3>Demande envoyée avec succès!</h3>
-                  <p>Nous avons bien reçu votre demande de devis pour "{{ modalService.title }}".</p>
-                  <p>Un mail de confirmation vous a été envoyé à l'adresse {{ quoteForm.email }}.</p>
-                  <p class="contact-timing">Nous vous contacterons dans les 24h.</p>
+
+              <!-- Succès -->
+              <Transition name="qf-fade">
+                <div v-if="showSuccessModal" class="qf-success">
+                  <div class="qf-success-icon"><i class="fas fa-check"></i></div>
+                  <h3>Demande reçue !</h3>
+                  <p>
+                    Je vous contacte dans les <strong>24h</strong> au
+                    <strong>{{ selectedCountry.code }} {{ quoteForm.phone }}</strong>
+                  </p>
                 </div>
-              </div>
+              </Transition>
             </div>
           </div>
         </div>
@@ -366,6 +373,7 @@
 
 <script setup>
 import { ref, onMounted, computed, nextTick, onUnmounted, reactive, watch } from 'vue';
+const { public: { web3formsKey } } = useRuntimeConfig();
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 // ✅ Firebase supprimé - formulaires désactivés temporairement
@@ -585,17 +593,103 @@ const isSubmissionSuccessful = ref(false);
 // États pour le formulaire de devis
 const showQuoteForm = ref(false);
 const isSubmitting = ref(false);
+const showCountryDropdown = ref(false);
+
+const countryCodes = [
+  { flag: '🇧🇫', code: '+226', name: 'Burkina Faso' },
+  { flag: '🇨🇮', code: '+225', name: 'Côte d\'Ivoire' },
+  { flag: '🇲🇱', code: '+223', name: 'Mali' },
+  { flag: '🇸🇳', code: '+221', name: 'Sénégal' },
+  { flag: '🇳🇪', code: '+227', name: 'Niger' },
+  { flag: '🇬🇳', code: '+224', name: 'Guinée' },
+  { flag: '🇹🇬', code: '+228', name: 'Togo' },
+  { flag: '🇧🇯', code: '+229', name: 'Bénin' },
+  { flag: '🇫🇷', code: '+33',  name: 'France' },
+  { flag: '🇧🇪', code: '+32',  name: 'Belgique' },
+  { flag: '🇨🇦', code: '+1',   name: 'Canada' },
+];
+const selectedCountry = ref(countryCodes[0]);
+
+const selectCountry = (c) => {
+  selectedCountry.value = c;
+  showCountryDropdown.value = false;
+};
+const toggleCountryDropdown = () => {
+  showCountryDropdown.value = !showCountryDropdown.value;
+};
+
+const descriptionPresets = {
+  'Site Web': [
+    "Site vitrine pour présenter mon activité et attirer des clients.",
+    "Refonte de mon site actuel avec un design moderne et responsive.",
+    "Site avec blog pour publier du contenu et booster mon SEO.",
+    "Landing page pour promouvoir un produit ou lancer une offre.",
+  ],
+  'Applications Web': [
+    "Dashboard de gestion (utilisateurs, données, rapports).",
+    "Plateforme avec authentification, rôles et base de données.",
+    "Outil interne pour automatiser un processus métier de mon équipe.",
+    "Application de réservation ou prise de rendez-vous en ligne.",
+  ],
+  'Applications Mobiles': [
+    "Application iOS et Android pour mon service ou business.",
+    "App de marketplace ou livraison pour mes clients.",
+    "Application de suivi (commandes, livraisons, abonnements).",
+    "Nouveau concept d'application mobile innovante à développer.",
+  ],
+  'Portfolio personnalisé': [
+    "Portfolio développeur / designer pour décrocher des missions freelance.",
+    "CV en ligne avec mes projets, compétences et formulaire contact.",
+    "Site portfolio artistique avec galerie et présentation créative.",
+    "Page personnelle pour candidature ou personal branding.",
+  ],
+  'Développement Backend': [
+    "API REST sécurisée pour alimenter mon app frontend ou mobile.",
+    "Système d'authentification avec JWT, OAuth et gestion des rôles.",
+    "Architecture microservices pour un projet scalable et maintenable.",
+    "Optimisation des performances et des requêtes de ma base de données.",
+  ],
+  'Solutions SaaS': [
+    "Plateforme SaaS avec abonnements et gestion des clients.",
+    "Ajout d'un paiement récurrent et d'une facturation à mon application.",
+    "SaaS B2B multi-tenants avec tableau de bord analytics.",
+    "Transformer mon idée en produit SaaS commercialisable.",
+  ],
+  'E-Commerce': [
+    "Boutique en ligne pour vendre mes produits ou services.",
+    "Intégration d'un système de paiement en ligne sur mon site.",
+    "Marketplace multi-vendeurs avec gestion des commandes.",
+    "Refonte ou migration de ma boutique e-commerce existante.",
+  ],
+  'DevOps & CI/CD': [
+    "Pipeline CI/CD automatisé pour mes déploiements (GitHub Actions…).",
+    "Conteneurisation de mon application avec Docker / Kubernetes.",
+    "Infrastructure cloud scalable sur AWS, GCP ou Azure.",
+    "Améliorer la fiabilité et la vitesse de mes mises en production.",
+  ],
+  'Système de Monitoring': [
+    "Monitoring de mes serveurs avec alertes en temps réel.",
+    "Dashboard Grafana / Prometheus pour surveiller mon infrastructure.",
+    "Analyse des logs et détection d'anomalies applicatives.",
+    "Surveillance des performances de mon API et détection des goulots.",
+  ],
+  'UI/UX Design': [
+    "Maquettes Figma complètes avant de lancer le développement.",
+    "Refonte UX pour améliorer l'expérience sur mon application.",
+    "Design system et composants réutilisables pour mon projet.",
+    "Design moderne et épuré pour un site web ou une application.",
+  ],
+};
+
+const currentPresets = computed(() =>
+  descriptionPresets[modalService.value?.title] ?? []
+);
+
 const quoteForm = reactive({
   name: '',
   email: '',
   phone: '',
-  // company: '',
   description: '',
-  options: {},
-  deadline: 'flexible',
-  specificDate: '',
-  budget: 'unknown',
-  terms: false
 });
 
 // Pré-calcul des styles de particules
@@ -608,73 +702,6 @@ for (let i = 0; i < 10; i++) {
   });
 }
 
-// Fonction pour obtenir les options spécifiques à un service
-const serviceSpecificFields = computed(() => {
-  if (!modalService.value) return [];
-  
-  // Options spécifiques selon le type de service
-  switch(modalService.value.category) {
-    case 'web':
-      // Vérification du titre du service pour personnaliser les options
-      if (modalService.value.title === 'Site Web') { 
-    return [
-      { id: 'responsive', label: 'Design responsive', info: 'Adaptatif à tous les appareils' },
-      { id: 'seo', label: 'Optimisation SEO avancée', info: 'Référencement naturel et technique' },
-      { id: 'cms', label: 'Système de gestion de contenu', info: 'Pour mettre à jour votre site facilement' },
-      { id: 'social', label: 'Intégration réseaux sociaux', info: 'Partage et boutons sociaux' },
-      { id: 'analytics', label: 'Analytics et statistiques', info: 'Suivi des performances et visiteurs' },
-      { id: 'contact', label: 'Formulaires avancés', info: 'Formulaires de contact personnalisés' }
-    ];
-  } else if (modalService.value.title === 'Portfolio personnalisé') {
-        return [
-          { id: 'animations', label: 'Animations avancées', info: 'Effets visuels dynamiques' },
-          { id: 'projects', label: 'Section projets interactive', info: 'Présentation attractive de vos travaux' },
-          { id: 'contact', label: 'Formulaire de contact personnalisé', info: 'Pour que les recruteurs puissent vous joindre' },
-          { id: 'darkmode', label: 'Mode sombre/clair', info: 'Option de changement de thème' }
-        ];
-      } else if (modalService.value.title === 'Applications Web') {
-        return [
-          { id: 'responsive', label: 'Design responsive', info: 'Adaptatif à tous les appareils' },
-          { id: 'seo', label: 'Optimisation SEO', info: 'Référencement naturel' },
-          { id: 'analytics', label: 'Analytics et statistiques', info: 'Suivi des performances' },
-          { id: 'maintenance', label: 'Maintenance mensuelle', info: 'Mises à jour et corrections' }
-        ];
-      } else {
-        // Options par défaut pour les autres services web
-        return [
-          { id: 'responsive', label: 'Design responsive', info: 'Adaptatif à tous les appareils' },
-          { id: 'seo', label: 'Optimisation SEO', info: 'Référencement naturel' },
-          { id: 'analytics', label: 'Analytics et statistiques', info: 'Suivi des performances' },
-          { id: 'maintenance', label: 'Maintenance mensuelle', info: 'Mises à jour et corrections' }
-        ];
-      }
-    case 'mobile':
-      return [
-        { id: 'ios', label: 'Application iOS' },
-        { id: 'android', label: 'Application Android' },
-        { id: 'crossplatform', label: 'Application multiplateforme' },
-        { id: 'push', label: 'Notifications push' }
-      ];
-    case 'backend':
-      return [
-        { id: 'api', label: 'API REST' },
-        { id: 'graphql', label: 'API GraphQL' },
-        { id: 'authentication', label: 'Système d\'authentification' },
-        { id: 'databases', label: 'Optimisation des bases de données' }
-      ];
-    case 'ecommerce':
-      return [
-        { id: 'catalog', label: 'Catalogue produits' },
-        { id: 'payment', label: 'Intégration paiement' },
-        { id: 'stock', label: 'Gestion des stocks' },
-        { id: 'shipping', label: 'Calcul des frais de livraison' }
-      ];
-    default:
-      return [
-        { id: 'custom', label: 'Besoin sur mesure' }
-      ];
-  }
-});
 
 // Vérification si un service doit être visible selon le filtre
 const isVisible = (service) => {
@@ -760,150 +787,59 @@ const closeService = () => {
 // Fonction pour soumettre le formulaire de devis
 const submitQuoteRequest = async () => {
   isSubmitting.value = true;
-  
   try {
-    // Vérifier que le service est bien défini
-    if (!modalService.value || !modalService.value.title) {
-      throw new Error("Information de service manquante");
-    }
-
-    // ✅ AJOUT : Tracking du début de soumission (avec vérification)
-    if (isGtagEnabled()) {
-      trackEvent('quote_form_start', {
-        label: modalService.value.title,
-        section: 'services',
-        form_type: 'quote_request'
-      });
-    }
-
-    // Préparation des données du formulaire - conversion des options en format compatible Firestore
-    const options = {};
-    Object.keys(quoteForm.options).forEach(key => {
-      if (quoteForm.options[key]) {
-        options[key] = true;
-      }
-    });
-    
-    const quoteData = {
-      service: modalService.value.title,
+    const body = {
+      service: modalService.value?.title || '',
       name: quoteForm.name,
-      email: quoteForm.email,
-      phone: quoteForm.phone || "Non fourni",
-      // company: quoteForm.company || "Non fournie",
+      phone: `${selectedCountry.value.code} ${quoteForm.phone}`,
+      email: quoteForm.email || 'Non fourni',
       description: quoteForm.description,
-      options: options, // Objet simplifié
-      deadline: quoteForm.deadline,
-      specificDate: quoteForm.deadline === 'specific' ? quoteForm.specificDate : null,
-      budget: quoteForm.budget,
-      timestamp: new Date(),
     };
-    
-    console.log("Tentative d'enregistrement dans Firestore:", quoteData);
-    
-    // ✅ Firebase supprimé - Formulaire temporairement désactivé
-    // const docRef = await addDoc(collection(db, 'devis'), quoteData);
-    // console.log("Document enregistré avec l'ID:", docRef.id);
-    
-    console.log('⚠️ Formulaire de devis désactivé (Firebase supprimé). Contactez-moi via LinkedIn ou email.');
-    
-    // Affichage de l'animation de confettis
-    confetti({
-      particleCount: 100,
-      spread: 70,
-      origin: { y: 0.6 },
-      colors: ['#ff0000', '#ff7700', '#ffff00', '#00ff00', '#0099ff', '#8000ff', '#ff00ff'],
-      zIndex: 10000
+
+    const res = await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify({
+        access_key: web3formsKey,
+        subject: `Nouvelle demande · ${body.service}`,
+        from_name: body.name,
+        ...body,
+      }),
     });
-    
-    // Afficher le succès
+
+    const json = await res.json();
+    if (!res.ok || !json.success) throw new Error(json.message || 'Erreur réseau');
+
+    if (isGtagEnabled()) {
+      trackQuoteRequest(modalService.value?.title, '');
+    }
+
+    confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 }, zIndex: 10000 });
+    showSuccessModal.value = true;
     isSubmissionSuccessful.value = true;
-    
-    // Animation et message de succès
-    const formContainer = document.querySelector('.quote-form-container');
-    if (formContainer) {
-      gsap.to(formContainer, {
-        scale: 1.03,
-        duration: 0.2,
-        yoyo: true,
-        repeat: 1,
-        ease: 'power2.inOut',
-        onComplete: () => {
-          showSuccessModal.value = true;
-          
-          // Réinitialiser et fermer après un délai
-          setTimeout(() => {
-            resetQuoteForm();
-            showQuoteForm.value = false;
-            closeModal();
-            isSubmissionSuccessful.value = false;
-            showSuccessModal.value = false;
-          }, 8000);
-        }
-      });
-    }
-    
-    // ✅ AJOUT : Tracking de la soumission réussie (avec vérification)
-    if (isGtagEnabled()) {
-      trackQuoteRequest(modalService.value.title, quoteForm.budget);
-      
-      // ✅ AJOUT : Tracking des options sélectionnées
-      const selectedOptions = Object.keys(options).filter(key => options[key]);
-      if (selectedOptions.length > 0) {
-        trackEvent('quote_options_selected', {
-          label: modalService.value.title,
-          section: 'services',
-          options_count: selectedOptions.length,
-          selected_options: selectedOptions.join(',')
-        });
-      }
-    }
-    
+
+    setTimeout(() => {
+      resetQuoteForm();
+      showQuoteForm.value = false;
+      closeModal();
+      showSuccessModal.value = false;
+      isSubmissionSuccessful.value = false;
+    }, 6000);
+
   } catch (error) {
-    console.error('Erreur détaillée lors de l\'envoi du formulaire:', error);
-    
-    // ✅ AJOUT : Tracking des erreurs (avec vérification)
-    if (isGtagEnabled()) {
-      trackEvent('quote_form_error', {
-        label: modalService.value?.title || 'unknown_service',
-        section: 'services',
-        error_type: error.code || 'unknown_error',
-        error_message: error.message
-      });
-    }
-    
-    // Message d'erreur plus précis selon le type d'erreur
-    if (error.code === 'permission-denied') {
-      alert('Erreur d\'autorisation: Vous n\'avez pas les droits nécessaires pour effectuer cette action.');
-    } else if (error.code === 'unavailable') {
-      alert('Erreur de connexion: Vérifiez votre connexion internet et réessayez.');
-    } else {
-      alert(`Une erreur est survenue: ${error.message}. Veuillez réessayer ultérieurement.`);
-    }
+    console.error('Erreur envoi formulaire:', error);
+    alert('Une erreur est survenue. Contactez-moi directement sur WhatsApp.');
   } finally {
     isSubmitting.value = false;
   }
 };
 
-// Fonction pour afficher un message de succès
-const showSuccessMessage = () => {
-  // Vous pouvez implémenter ici votre propre logique d'affichage de message de succès
-  // Par exemple avec une notification ou un toast
-  alert('Votre demande de devis a bien été envoyée! Nous vous recontacterons dans les plus brefs délais.');
-};
-
-// Fonction pour réinitialiser le formulaire
 const resetQuoteForm = () => {
-  Object.keys(quoteForm).forEach(key => {
-    if (key === 'options') {
-      quoteForm.options = {};
-    } else if (key === 'terms') {
-      quoteForm.terms = false;
-    } else {
-      quoteForm[key] = '';
-    }
-  });
-  quoteForm.deadline = 'flexible';
-  quoteForm.budget = 'unknown';
+  quoteForm.name = '';
+  quoteForm.email = '';
+  quoteForm.phone = '';
+  quoteForm.description = '';
+  selectedCountry.value = countryCodes[0];
 };
 
 // Réinitialiser le formulaire à la fermeture du modal
@@ -1003,6 +939,7 @@ let eventListeners = [];
 let animations = [];
 
 onMounted(async () => {
+  document.addEventListener('click', closeCountryOnOutsideClick);
   await nextTick();
   
   // Utilisation d'IntersectionObserver pour les animations basées sur le scroll
@@ -1087,20 +1024,16 @@ onMounted(async () => {
   }
 });
 
+const closeCountryOnOutsideClick = () => { showCountryDropdown.value = false; };
+
 // Nettoyage propre lors du démontage du composant
 onUnmounted(() => {
-  // Nettoyer les observateurs
+  document.removeEventListener('click', closeCountryOnOutsideClick);
   observers.forEach(observer => observer.disconnect());
-  
-  // Nettoyer les écouteurs d'événements
   eventListeners.forEach(({ element, event, handler }) => {
     element.removeEventListener(event, handler);
   });
-  
-  // Nettoyer les animations GSAP
   animations.forEach(anim => anim.kill());
-  
-  // Nettoyer les timelines et tweens GSAP
   gsap.killTweensOf('.services-section *');
 });
 </script>
@@ -3219,403 +3152,339 @@ onUnmounted(() => {
   }
 }
 
-/* Styles améliorés pour le formulaire de devis */
+/* ───────── Formulaire simplifié ───────── */
 .quote-form-container {
-  animation: fadeScale 0.5s ease-out forwards;
-  border-radius: 12px;
-  background: linear-gradient(145deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.8));
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  overflow: hidden;
+  animation: fadeScale 0.4s ease-out forwards;
+  border-radius: 16px;
+  background: linear-gradient(145deg, rgba(15, 23, 42, 0.95), rgba(30, 41, 59, 0.9));
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
 }
 
 @keyframes fadeScale {
-  from { opacity: 0; transform: scale(0.98); }
-  to { opacity: 1; transform: scale(1); }
+  from { opacity: 0; transform: scale(0.97); }
+  to   { opacity: 1; transform: scale(1); }
 }
 
-.form-header {
-  background: linear-gradient(90deg, rgba(29, 78, 216, 0.2), rgba(37, 99, 235, 0.1));
-  padding: 1.2rem 1.5rem;
-  border-bottom: 1px solid rgba(96, 165, 250, 0.2);
+/* Header */
+.qf-header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  margin-bottom: 1.5rem;
+  gap: 1rem;
 }
-
-.form-header h3 {
-  font-size: 1.5rem;
+.qf-back {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: white;
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.2s;
+}
+.qf-back:hover { background: rgba(255,255,255,0.15); }
+.qf-service-label {
+  font-size: 0.75rem;
   font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #60a5fa;
+  margin: 0 0 0.15rem;
+}
+.qf-title {
+  font-size: 1.25rem;
+  font-weight: 700;
   color: white;
   margin: 0;
+}
+
+/* WhatsApp CTA */
+.whatsapp-quick-btn {
   display: flex;
   align-items: center;
-  gap: 0.8rem;
+  gap: 0.9rem;
+  background: linear-gradient(135deg, rgba(37,211,102,0.15), rgba(18,140,126,0.1));
+  border: 1px solid rgba(37,211,102,0.35);
+  border-radius: 12px;
+  padding: 0.9rem 1.1rem;
+  text-decoration: none;
+  transition: all 0.25s;
 }
-
-.form-header h3 i {
-  color: #3b82f6;
-  font-size: 1.3rem;
-  filter: drop-shadow(0 0 5px rgba(59, 130, 246, 0.5));
+.whatsapp-quick-btn:hover {
+  background: linear-gradient(135deg, rgba(37,211,102,0.25), rgba(18,140,126,0.18));
+  transform: translateY(-1px);
 }
-
-.back-to-details {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+.whatsapp-quick-btn .fab {
+  font-size: 1.8rem;
+  color: #25d366;
+  flex-shrink: 0;
+}
+.whatsapp-quick-btn span {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+.whatsapp-quick-btn strong {
   color: white;
-  padding: 0.5rem 1rem;
-  border-radius: 20px;
+  font-size: 0.95rem;
+}
+.whatsapp-quick-btn small {
+  color: #25d366;
+  font-size: 0.8rem;
+}
+.qf-ext {
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.4);
+}
+
+/* Divider */
+.qf-divider {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: rgba(255,255,255,0.35);
+  font-size: 0.82rem;
+}
+.qf-divider::before, .qf-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(255,255,255,0.1);
+}
+
+/* Formulaire */
+.quote-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+.qf-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.qf-group label {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   font-weight: 500;
-  transition: all 0.3s ease;
-  cursor: pointer;
+  color: rgba(255,255,255,0.85);
 }
-
-.back-to-details:hover {
-  background: rgba(255, 255, 255, 0.2);
-  transform: translateX(-3px);
+.qf-hint {
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: rgba(255,255,255,0.4);
 }
-
-.quote-form {
-  padding: 0 1.5rem 1.5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1.8rem;
-}
-
-.form-row {
-  display: flex;
-  gap: 1.5rem;
-}
-
-.form-group {
-  flex: 1;
-  position: relative;
-}
-
-label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-size: 0.9rem;
+.optional-tag {
+  font-size: 0.7rem;
+  background: rgba(255,255,255,0.08);
+  color: rgba(255,255,255,0.45);
+  padding: 0.1rem 0.45rem;
+  border-radius: 20px;
   font-weight: 500;
-  color: rgba(255, 255, 255, 0.9);
-  letter-spacing: 0.3px;
 }
-
-input[type="text"],
-input[type="email"],
-input[type="tel"],
-textarea,
-select {
-  width: 100%;
-  background: rgba(255, 255, 255, 0.07);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 8px;
-  padding: 0.9rem 1.1rem;
+.qf-group input,
+.qf-group textarea {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
   color: white;
-  font-size: 1rem;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1) inset;
-  appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 1rem center;
-  background-size: 1em;
-  padding-right: 2.5rem;
-  cursor: pointer;
+  font-size: 0.95rem;
+  transition: border-color 0.2s, background 0.2s;
+  width: 100%;
+  box-sizing: border-box;
 }
-
-input[type="text"]:hover,
-input[type="email"]:hover,
-input[type="tel"]:hover,
-textarea:hover,
-select:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.25);
-}
-
-input[type="text"]:focus,
-input[type="email"]:focus,
-input[type="tel"]:focus,
-textarea:focus,
-select:focus {
+.qf-group input::placeholder,
+.qf-group textarea::placeholder { color: rgba(255,255,255,0.3); }
+.qf-group input:focus,
+.qf-group textarea:focus {
   outline: none;
   border-color: #3b82f6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
-  background-color: rgba(255, 255, 255, 0.12);
+  background: rgba(255,255,255,0.09);
 }
-
-textarea {
-  min-height: 120px;
+.qf-group textarea {
   resize: vertical;
-  line-height: 1.6;
+  min-height: 90px;
+  line-height: 1.55;
 }
 
-select {
-  appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 1rem center;
-  background-size: 1em;
-  padding-right: 2.5rem;
+/* Phone row */
+.phone-row {
+  display: flex;
+  gap: 0.5rem;
 }
-
-.date-input {
-  margin-top: 0.8rem;
-  background: rgba(255, 255, 255, 0.07);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 8px;
-  padding: 0.8rem 1rem;
-  color: white;
-  width: 100%;
-}
-
-.service-options {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1rem;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 10px;
-  padding: 1rem;
-  margin-top: 0.5rem;
-}
-
-.option-checkbox {
+.country-trigger {
   position: relative;
-  padding-left: 2.5rem;
-  cursor: pointer;
-  user-select: none;
   display: flex;
   align-items: center;
-}
-
-.option-checkbox input[type="checkbox"] {
-  position: absolute;
-  opacity: 0;
+  gap: 0.35rem;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 10px;
+  padding: 0.75rem 0.8rem;
   cursor: pointer;
-  height: 0;
-  width: 0;
+  user-select: none;
+  flex-shrink: 0;
+  transition: border-color 0.2s;
+  font-size: 0.9rem;
+  color: white;
 }
-
-.option-checkbox label {
-  cursor: pointer;
-  font-weight: 400;
-  margin: 0;
-  padding: 0.3rem 0;
+.country-trigger:hover { border-color: rgba(255,255,255,0.25); }
+.dial-code { font-weight: 600; font-size: 0.85rem; }
+.country-trigger .fa-chevron-down {
+  font-size: 0.65rem;
+  color: rgba(255,255,255,0.5);
+  transition: transform 0.2s;
 }
+.country-trigger .fa-chevron-down.rotated { transform: rotate(180deg); }
+.phone-number { flex: 1; }
 
-.option-checkbox label:before {
-  content: '';
+/* Country dropdown */
+.country-dropdown {
   position: absolute;
+  top: calc(100% + 6px);
   left: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 1.2rem;
-  height: 1.2rem;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: 4px;
-  transition: all 0.3s ease;
+  z-index: 1000;
+  background: #0f172a;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 10px;
+  overflow-y: auto;
+  max-height: 240px;
+  min-width: 210px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.6);
+  padding: 0.3rem;
 }
-
-.option-checkbox input:checked + label:before {
-  background: #3b82f6;
-  border-color: #3b82f6;
-}
-
-.option-checkbox input:checked + label:after {
-  content: '';
-  position: absolute;
-  left: 0.4rem;
-  top: calc(50% - 0.4rem);
-  width: 0.4rem;
-  height: 0.8rem;
-  border: solid white;
-  border-width: 0 2px 2px 0;
-  transform: rotate(45deg);
-}
-
-.option-info {
-  margin-left: 0.5rem;
-  color: #60a5fa;
-  cursor: help;
-}
-
-.checkbox-group {
+.country-opt {
   display: flex;
-  align-items: flex-start;
-  margin-top: 1rem;
-  background: rgba(59, 130, 246, 0.1);
-  padding: 1rem;
-  border-radius: 8px;
-  border: 1px solid rgba(59, 130, 246, 0.3);
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.55rem 0.8rem;
+  border-radius: 7px;
+  cursor: pointer;
+  transition: background 0.15s;
+  font-size: 0.88rem;
+  color: rgba(255,255,255,0.85);
 }
+.country-opt:hover, .country-opt.active { background: rgba(59,130,246,0.2); color: white; }
+.opt-name { flex: 1; }
+.opt-code { color: rgba(255,255,255,0.45); font-size: 0.8rem; }
 
-.checkbox-group input[type="checkbox"] {
-  margin-top: 0.2rem;
-  margin-right: 0.8rem;
-  width: 1.2rem;
-  height: 1.2rem;
-  accent-color: #3b82f6;
-}
-
-.form-actions {
-  margin-top: 1rem;
-  display: flex;
-  justify-content: center;
-}
-
-.submit-quote-btn {
+/* Submit */
+.qf-submit {
   background: linear-gradient(135deg, #3b82f6, #1d4ed8);
   color: white;
   font-weight: 600;
-  padding: 1rem 2rem;
+  font-size: 1rem;
+  padding: 0.9rem 1.5rem;
   border: none;
-  border-radius: 50px;
-  font-size: 1.1rem;
-  display: flex;
-  align-items: center;
-  gap: 0.8rem;
+  border-radius: 12px;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 8px 25px rgba(29, 78, 216, 0.4);
-  position: relative;
-  overflow: hidden;
-}
-
-.submit-quote-btn:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 30px rgba(29, 78, 216, 0.6);
-}
-
-.submit-quote-btn:active {
-  transform: translateY(-1px);
-}
-
-.submit-quote-btn:before {
-  content: '';
-  position: absolute;
-   width: 20px;
-  height: 20px;
-  border: 3px solid rgba(255, 255, 255, 0.3);
-  border-top-color: white;
-  border-radius: 50%;
-  animation: rotate 1s infinite linear;
-}
-
-@keyframes rotate {
-  to { transform: rotate(360deg); }
-}
-
-.submit-quote-btn.submitting {
-  background: linear-gradient(135deg, #2563eb, #1d4ed8);
-  position: relative;
-  color: transparent;
-}
-
-.submit-quote-btn.submitting::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 24px;
-  height: 24px;
-  border: 3px solid rgba(255, 255, 255, 0.3);
-  border-top-color: white;
-  border-radius: 50%;
-  animation: spin 0.8s infinite linear;
-}
-
-@keyframes spin {
-  0% {
-    transform: translate(-50%, -50%) rotate(0deg);
-  }
-  100% {
-    transform: translate(-50%, -50%) rotate(360deg);
-  }
-}
-
-.form-notice {
-  text-align: center;
-  font-size: 0.85rem;
-  color: rgba(255, 255, 255, 0.6);
-  margin-top: 1.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
+  gap: 0.6rem;
+  transition: all 0.25s;
+  box-shadow: 0 6px 20px rgba(29,78,216,0.4);
+  margin-top: 0.3rem;
 }
-
-.form-notice i {
-  color: #22c55e;
-  font-size: 1rem;
+.qf-submit:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(29,78,216,0.55);
 }
-
-/* Responsive design pour le formulaire */
-@media (max-width: 768px) {
-  .form-row {
-    flex-direction: column;
-    gap: 1.5rem;
-  }
-  
-  .service-options {
-    grid-template-columns: 1fr;
-  }
-  
-  .form-header {
-    flex-direction: column;
-    gap: 1rem;
-    align-items: flex-start;
-  }
-  
-  .back-to-details {
-    width: 100%;
-    justify-content: center;
-  }
-}
-
-/* Style pour les options des sélecteurs */
-select option {
-  background-color: #1e293b;
-  color: white;
-  padding: 10px;
-  font-size: 1rem;
-}
-
-/* Améliorations spécifiques pour les select de délai et budget */
-#deadline, #budget {
-  font-weight: 500;
-  position: relative;
-  z-index: 2;
-}
-
-/* Message de sélection par défaut avec couleur distinctive */
-select:required:invalid {
-  color: rgba(255, 255, 255, 0.6);
-}
-
-/* Style spécifique pour les groupes de ces éléments */
-.form-group.full-width {
-  margin-bottom: 0.5rem;
-}
-
-
-/* Ajout d'un indicateur visuel pour les sélecteurs */
-.form-group.full-width label::after {
-  content: "";
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  background-color: rgba(59, 130, 246, 0.5);
+.qf-submit:disabled { opacity: 0.65; cursor: not-allowed; }
+.qf-spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: white;
   border-radius: 50%;
-  margin-left: 8px;
-  vertical-align: middle;
+  animation: qf-spin 0.7s linear infinite;
+  display: inline-block;
 }
+@keyframes qf-spin { to { transform: rotate(360deg); } }
+
+/* Privacy */
+.qf-privacy {
+  text-align: center;
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+}
+.qf-privacy .fas { color: #22c55e; }
+
+/* Success */
+.qf-success {
+  background: rgba(34,197,94,0.1);
+  border: 1px solid rgba(34,197,94,0.3);
+  border-radius: 12px;
+  padding: 2rem 1.5rem;
+  text-align: center;
+}
+.qf-success-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: rgba(34,197,94,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: #22c55e;
+  margin: 0 auto 1rem;
+}
+.qf-success h3 { color: white; margin: 0 0 0.5rem; font-size: 1.2rem; }
+.qf-success p  { color: rgba(255,255,255,0.7); font-size: 0.9rem; margin: 0; }
+
+/* Preset chips */
+.desc-presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-bottom: 0.6rem;
+}
+.preset-chip {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: rgba(255,255,255,0.65);
+  font-size: 0.78rem;
+  line-height: 1.4;
+  padding: 0.35rem 0.65rem;
+  border-radius: 6px;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.18s;
+  max-width: 100%;
+}
+.preset-chip:hover {
+  background: rgba(59,130,246,0.12);
+  border-color: rgba(59,130,246,0.4);
+  color: #93c5fd;
+}
+.preset-chip--active {
+  background: rgba(59,130,246,0.18);
+  border-color: #3b82f6;
+  color: #bfdbfe;
+}
+
+/* Transitions */
+.qf-fade-enter-active, .qf-fade-leave-active { transition: opacity 0.3s; }
+.qf-fade-enter-from, .qf-fade-leave-to { opacity: 0; }
+
 
 /* Styles pour les éléments sur la même ligne pour le délai spécifique */
 .date-input-container {

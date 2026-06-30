@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(node --version)",
+      "PowerShell(npm --version)",
+      "Read(//c/Users/1/AppData/Roaming/Code/User/**)"
+    ],
+    "additionalDirectories": [
+      "C:\\Users\\1\\AppData\\Roaming\\Code\\User"
+    ]
+  }
+}
