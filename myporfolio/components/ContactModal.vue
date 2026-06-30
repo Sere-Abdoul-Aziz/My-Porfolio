@@ -180,13 +180,13 @@
         <div class="form-footer">
           <p>Ou contactez-moi directement via :</p>
           <div class="social-links">
-            <a href="mailto:votre@email.com" class="social-link">
+            <a href="mailto:abdoulazizsere0@gmail.com" class="social-link">
               <i class="fas fa-envelope"></i>
             </a>
-            <a href="https://linkedin.com/in/votreprofil" target="_blank" class="social-link">
+            <a href="https://www.linkedin.com/in/aziz-sere/" target="_blank" rel="noopener" class="social-link">
               <i class="fab fa-linkedin"></i>
             </a>
-            <a href="https://github.com/votreprofil" target="_blank" class="social-link">
+            <a href="https://github.com/Sere-Abdoul-Aziz/" target="_blank" rel="noopener" class="social-link">
               <i class="fab fa-github"></i>
             </a>
           </div>
@@ -231,10 +231,9 @@
 
 <script setup>
 import { ref, watch, computed, onMounted, nextTick, onUnmounted } from 'vue';
-// ✅ Firebase supprimé - formulaires désactivés temporairement
 import confetti from 'canvas-confetti';
-// ✅ AJOUT : Import du composable analytics
 import { useAnalytics } from '~/composables/useAnalytics';
+const { public: { web3formsKey } } = useRuntimeConfig();
 
 const props = defineProps({
   isOpen: Boolean,
@@ -569,11 +568,21 @@ const submitForm = async () => {
   };
 
   try {
-    // ✅ Firebase supprimé - Formulaire temporairement désactivé
-    // await addDoc(collection(db, 'messages'), formData);
-    
-    console.log('⚠️ Formulaire de contact désactivé (Firebase supprimé). Contactez-moi via LinkedIn ou email.');
-    console.log('Données du formulaire:', formData);
+    const res = await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify({
+        access_key: web3formsKey,
+        subject: `Nouveau message de ${firstName.value} ${lastName.value}`,
+        from_name: `${firstName.value} ${lastName.value}`,
+        email: email.value,
+        phone: phone.value || 'Non fourni',
+        contact_preference: contactPreference.value,
+        message: message.value,
+      }),
+    });
+    const json = await res.json();
+    if (!res.ok || !json.success) throw new Error(json.message || 'Erreur réseau');
     
     // ✅ AJOUT : Tracking de succès
     if (isGtagEnabled()) {
